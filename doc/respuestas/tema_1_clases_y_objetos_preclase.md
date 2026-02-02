@@ -38,7 +38,7 @@ A partir de aquí, estas tres características "ayudan para olvidarse de los det
 > - **C++** es un lenguaje compilado que añade orientación a objetos a C, permitiendo tanto programación procedural como orientada a objetos con control manual de memoria. No tiene Garbage Collector (recolección de basura) automática.
 
 
-## 3. Los paradigmas anteriores a la POO, ¿Qué es la **programación estructurada**? y, todavía mejor, ¿Qué es la **programación modular**?
+## 3. Los paradigmas anteriores a la POO, ¿Qué es la programación estructurada? y, todavía mejor, ¿Qué es la programación modular?
 
 1. Con __ensamblador__, secuencias de instrucciones y saltos arbitrarios (`goto`), conocido como "código spaghetti", difícil mantenerlo a largo plazo y en proyectos grandes.
 <br>
@@ -63,7 +63,7 @@ Una **instancia** son objetos particulares construido a partir de una clase, con
 No todos los lenguajes orientados a objetos exigen clases como mecanismo central. Java y C# se apoyan en clases, mientras que lenguajes como JavaScript usan un modelo basado en prototipos donde los objetos se enlazan directamente entre sí para heredar comportamiento, permitiendo orientación a objetos sin la declaración formal de clases tradicionales.
 
 
-## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
+## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la recolección de basura? 
 
 En muchos lenguajes orientados a objetos los objetos se alojan en el heap, una región de memoria dinámica gestionada durante la ejecución. Las variables que apuntan a esos objetos suelen vivir en la pila de llamadas o en campos de otras estructuras, almacenando referencias o punteros a las ubicaciones reales del heap.
 
@@ -72,9 +72,13 @@ No todos los lenguajes manejan la memoria igual. Java y C# usan recolección de 
 La recolección de basura es un mecanismo automático que identifica objetos inaccesibles y reclama su memoria, evitando fugas y simplificando la gestión manual. Opera con estrategias como conteo de referencias, marcaje y barrido, o colecciones generacionales, y se ejecuta de forma transparente al desarrollador, aunque puede introducir pausas o consumo adicional de recursos.
 
 
-## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
+## 7. ¿Qué es un método? ¿Qué es la sobrecarga de métodos? 
+
+> - Un método son las funciones que un método puede hacer.
 
 Un método es una operación asociada a una clase u objeto que define comportamiento: recibe parámetros, puede acceder al estado del objeto y devuelve un resultado o produce efectos. Actúa como la interfaz para interactuar con el objeto, encapsulando la lógica necesaria para consultar o modificar sus atributos de manera controlada.
+
+> - La sobrecarga de métodos es la posibilidad de crear métodos dentro de una clase con el mismo nombre, pero cambiando el tipo y/o número de parámetros.
 
 La sobrecarga de métodos consiste en definir varios métodos con el mismo nombre en una clase, diferenciados por su lista de parámetros (cantidad o tipos). El compilador selecciona la versión apropiada según los argumentos usados en la llamada, permitiendo ofrecer una misma operación con variantes adaptadas a distintos datos sin cambiar el nombre conceptual de la acción.
 
@@ -86,9 +90,17 @@ Una clase `Punto` puede declararse con atributos de visibilidad por defecto (sin
 
 ```java
 class Punto {
+	// Estado (atributos)
 	int x;
 	int y;
 
+	// Constructor
+	public Punto(int x, int y)	{
+		this.x = x;
+		this.y = y;
+	}
+
+	// Comportamiento (métodos)
 	double calculaDistanciaAOrigen() {
 		return Math.sqrt((x * x) + (y * y));
 	}
@@ -100,10 +112,7 @@ Un uso básico consiste en crear una instancia con `new`, asignar valores a sus 
 ```java
 public class EjemploUso {
 	public static void main(String[] args) {
-		Punto p = new Punto();
-		p.x = 3;
-		p.y = 4;
-
+		Punto p = new Punto(3,4);
 		double distancia = p.calculaDistanciaAOrigen();
 		System.out.println("Distancia al origen: " + distancia); // Imprime 5.0
 	}
@@ -117,7 +126,7 @@ El punto de entrada de un programa Java es el método `main` con firma `public s
 
 La palabra clave `static` indica que un miembro pertenece a la clase y no a las instancias, compartiendo una única copia entre todos los objetos. Se usa en métodos utilitarios, constantes o fábricas estáticas, no sólo en `main`. Combinado con `final`, produce miembros de clase inmutables: por ejemplo, `static final` se emplea para constantes (valores compartidos que no cambian) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
 
-## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la **máquina virtual**? ¿Qué es el *byte-code* y los ficheros `.class`?
+## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la máquina virtual? ¿Qué es el *byte-code* y los ficheros `.class`?
 
 Para compilar un archivo fuente, se usa `javac NombreArchivo.java`, lo que genera un `.class` con bytecode. La ejecución se hace con `java NombreDeClase`, sin la extensión, y la JVM busca el método `main` correspondiente. Si hay varios archivos o paquetes, se incluye el classpath apropiado al compilar y ejecutar.
 
@@ -126,7 +135,7 @@ Java se considera compilado e interpretado: el código fuente se compila a bytec
 El bytecode es un conjunto de instrucciones compactas e independientes de la plataforma que la JVM entiende. Los ficheros `.class` contienen ese bytecode; la JVM puede interpretarlo directamente o aplicar compilación JIT (just-in-time) para traducir partes a código nativo y mejorar el rendimiento mientras el programa se ejecuta.
 
 
-## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
+## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un constructor? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
 
 `new` es el operador que reserva memoria en el heap y crea una nueva instancia de una clase, devolviendo una referencia a ese objeto. Durante este proceso se invoca un constructor, que es un método especial responsable de inicializar el estado del objeto al momento de su creación.
 
@@ -184,7 +193,7 @@ class Punto {
 ```
 
 
-## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
+## 14. El paso del `Punto` como parámetro a un método, es por copia o por referencia, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
 En Java los parámetros se pasan por valor, pero cuando se trata de objetos, lo que se copia es la referencia. Si un método recibe un `Punto` y modifica sus atributos mediante esa referencia, el objeto subyacente cambia y los efectos son visibles fuera del método. Sin embargo, re-asignar la referencia dentro del método no altera la variable original del llamador.
 
