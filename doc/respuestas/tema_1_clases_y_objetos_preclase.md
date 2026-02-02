@@ -15,43 +15,35 @@ Por favor, escribe en impersonal las respuestas.
 
 # TEMA 1. Clases y objetos
 
-## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una
+## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una.
 
-### Respuesta
+La **encapsulación** agrupa datos y operaciones relacionadas dentro de una unidad, normalmente una clase, y controla su visibilidad. Con ello se limita el acceso directo al estado interno y se obligan las interacciones a pasar por métodos públicos, reduciendo acoplamientos y errores por modificaciones no controladas.
 
-La encapsulación agrupa datos y operaciones relacionadas dentro de una unidad, normalmente una clase, y controla su visibilidad. Con ello se limita el acceso directo al estado interno y se obligan las interacciones a pasar por métodos públicos, reduciendo acoplamientos y errores por modificaciones no controladas.
+La **abstracción** permite centrarse en lo esencial ocultando detalles de implementación. Se define qué hace un objeto mediante interfaces o métodos visibles y se dejan ocultas las decisiones de cómo lo hace, lo que simplifica el uso y facilita cambiar la implementación sin romper a quien lo consume.
 
-La abstracción permite centrarse en lo esencial ocultando detalles de implementación. Se define qué hace un objeto mediante interfaces o métodos visibles y se dejan ocultas las decisiones de cómo lo hace, lo que simplifica el uso y facilita cambiar la implementación sin romper a quien lo consume.
+La **herencia** permite crear nuevas clases que reutilizan y extienden el comportamiento de otras, formando jerarquías. Una subclase hereda atributos y métodos de su superclase y puede añadir o modificar funcionalidades, evitando duplicación de código y modelando relaciones “es-un”.
 
-La herencia permite crear nuevas clases que reutilizan y extienden el comportamiento de otras, formando jerarquías. Una subclase hereda atributos y métodos de su superclase y puede añadir o modificar funcionalidades, evitando duplicación de código y modelando relaciones “es-un”.
-
-El polimorfismo posibilita que una misma operación se comporte de manera distinta según el objeto concreto que la ejecuta. A través de interfaces comunes o clases base, se pueden invocar métodos sin conocer el tipo exacto del objeto en tiempo de compilación, y el método específico se resuelve en tiempo de ejecución.
+El **polimorfismo** posibilita que una misma operación se comporte de manera distinta según el objeto concreto que la ejecuta. A través de interfaces comunes o clases base, se pueden invocar métodos sin conocer el tipo exacto del objeto en tiempo de compilación, y el método específico se resuelve en tiempo de ejecución.
 
 
-## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos
+## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos.
 
-### Respuesta
+> - **Java** se diseñó desde el inicio con orientación a objetos como pilar central, aplicando clases, herencia y polimorfismo de forma estricta y ofreciendo una amplia biblioteca estándar. 
 
-Java se diseñó desde el inicio con orientación a objetos como pilar central, aplicando clases, herencia y polimorfismo de forma estricta y ofreciendo una amplia biblioteca estándar. 
+> - **C#** sigue un enfoque similar en el ecosistema .NET, incorporando además características modernas como genéricos, LINQ y manejo integrado de memoria mediante recolección de basura.
 
-C# sigue un enfoque similar en el ecosistema .NET, incorporando además características modernas como genéricos, LINQ y manejo integrado de memoria mediante recolección de basura.
+> - **Python** permite orientación a objetos de forma flexible, combinando clases con tipado dinámico y soporte múltiple de paradigmas, lo que facilita prototipado rápido y legibilidad.
 
-Python permite orientación a objetos de forma flexible, combinando clases con tipado dinámico y soporte múltiple de paradigmas, lo que facilita prototipado rápido y legibilidad. 
-
-C++ ofrece un modelo de objetos potente con herencia, polimorfismo y plantillas, pero combina tanto paradigmas estructurados como genéricos y requiere gestión manual de recursos si no se usan utilidades como RAII y smart pointers.
+> - **C++** ofrece un modelo de objetos potente con herencia, polimorfismo y plantillas, pero combina tanto paradigmas estructurados como genéricos y requiere gestión manual de recursos si no se usan utilidades como RAII y smart pointers.
 
 
 ## 3. Los paradigmas anteriores a la POO, ¿Qué es la **programación estructurada**? y, todavía mejor, ¿Qué es la **programación modular**?
-
-### Respuesta
 
 La programación estructurada propone organizar el código en bloques claros y sin saltos arbitrarios, usando secuencia, selección y bucles como constructores básicos. Su objetivo es mejorar la legibilidad y la trazabilidad lógica eliminando el uso de `goto` y favoreciendo que cada bloque tenga una única entrada y salida, facilitando así el razonamiento sobre el flujo de control.
 
 La programación modular da un paso más al dividir el programa en unidades cohesivas con responsabilidad bien delimitada, normalmente funciones o archivos separados. Cada módulo ofrece una interfaz y oculta detalles internos, lo que reduce el acoplamiento y permite desarrollar, probar y mantener partes del sistema de manera relativamente independiente. Este enfoque prepara el terreno conceptual para la orientación a objetos, donde la modularidad se refina mediante clases y objetos que combinan datos y comportamiento.
 
 ## 4. ¿Qué tres elementos definen a un objeto en programación orientada a objetos?
-
-### Respuesta
 
 Un objeto se define por su estado, compuesto por los valores actuales de sus atributos o propiedades. Ese estado refleja la información que el objeto encapsula en un momento dado y puede cambiar a lo largo del tiempo a través de las operaciones permitidas.
 
@@ -60,8 +52,6 @@ También se define por su comportamiento, representado por los métodos que ofre
 Finalmente, cada objeto posee identidad, que lo distingue de otros objetos aunque compartan mismo estado y comportamiento. Esa identidad permite referirse a instancias concretas, mantener referencias y comparar si dos variables apuntan al mismo objeto en memoria.
 
 ## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase?
-
-### Respuesta
 
 Una clase es una plantilla que describe la estructura y el comportamiento que compartirán los objetos creados a partir de ella: define atributos y métodos comunes. No es lo mismo que un objeto; la clase es el plano y el objeto es la entidad concreta creada siguiendo ese plano.
 
@@ -72,8 +62,6 @@ No todos los lenguajes orientados a objetos exigen clases como mecanismo central
 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la **recolección de basura**? 
 
-### Respuesta
-
 En muchos lenguajes orientados a objetos los objetos se alojan en el heap, una región de memoria dinámica gestionada durante la ejecución. Las variables que apuntan a esos objetos suelen vivir en la pila de llamadas o en campos de otras estructuras, almacenando referencias o punteros a las ubicaciones reales del heap.
 
 No todos los lenguajes manejan la memoria igual. Java y C# usan recolección de basura para liberar automáticamente objetos que ya no están referenciados, mientras que en C++ la gestión es manual o se delega a técnicas como RAII y smart pointers. Lenguajes con modelo de prototipos como JavaScript también emplean heap y recolectores, aunque con particularidades de su motor de ejecución.
@@ -83,16 +71,12 @@ La recolección de basura es un mecanismo automático que identifica objetos ina
 
 ## 7. ¿Qué es un método? ¿Qué es la **sobrecarga de métodos**? 
 
-### Respuesta
-
 Un método es una operación asociada a una clase u objeto que define comportamiento: recibe parámetros, puede acceder al estado del objeto y devuelve un resultado o produce efectos. Actúa como la interfaz para interactuar con el objeto, encapsulando la lógica necesaria para consultar o modificar sus atributos de manera controlada.
 
 La sobrecarga de métodos consiste en definir varios métodos con el mismo nombre en una clase, diferenciados por su lista de parámetros (cantidad o tipos). El compilador selecciona la versión apropiada según los argumentos usados en la llamada, permitiendo ofrecer una misma operación con variantes adaptadas a distintos datos sin cambiar el nombre conceptual de la acción.
 
 
-## 8. Ejemplo mínimo de clase en Java, que se llame Punto, con dos atributos, x e y, con un método que se llame `calculaDistanciaAOrigen`, que calcule la distancia a la posición 0,0. Por sencillez, los atributos deben tener visibilidad por defecto. Crea además un ejemplo de uso con una instancia y uso del método
-
-### Respuesta
+## 8. Ejemplo mínimo de clase en Java, que se llame Punto, con dos atributos, x e y, con un método que se llame `calculaDistanciaAOrigen`, que calcule la distancia a la posición 0,0. Por sencillez, los atributos deben tener visibilidad por defecto. Crea además un ejemplo de uso con una instancia y uso del método.
 
 Una clase `Punto` puede declararse con atributos de visibilidad por defecto (sin modificador) y un método que compute la distancia al origen aplicando la fórmula $
 \sqrt{x^2 + y^2}$. El método devuelve un `double` y utiliza `Math.sqrt` para obtener la raíz cuadrada.
@@ -126,15 +110,11 @@ public class EjemploUso {
 
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
 
-### Respuesta
-
 El punto de entrada de un programa Java es el método `main` con firma `public static void main(String[] args)`, que la JVM invoca al iniciar la aplicación. Este método debe ser `static` porque se ejecuta sin necesidad de crear una instancia de la clase contenedora, permitiendo que la JVM lo llame directamente.
 
 La palabra clave `static` indica que un miembro pertenece a la clase y no a las instancias, compartiendo una única copia entre todos los objetos. Se usa en métodos utilitarios, constantes o fábricas estáticas, no sólo en `main`. Combinado con `final`, produce miembros de clase inmutables: por ejemplo, `static final` se emplea para constantes (valores compartidos que no cambian) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
 
 ## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la **máquina virtual**? ¿Qué es el *byte-code* y los ficheros `.class`?
-
-### Respuesta
 
 Para compilar un archivo fuente, se usa `javac NombreArchivo.java`, lo que genera un `.class` con bytecode. La ejecución se hace con `java NombreDeClase`, sin la extensión, y la JVM busca el método `main` correspondiente. Si hay varios archivos o paquetes, se incluye el classpath apropiado al compilar y ejecutar.
 
@@ -143,9 +123,7 @@ Java se considera compilado e interpretado: el código fuente se compila a bytec
 El bytecode es un conjunto de instrucciones compactas e independientes de la plataforma que la JVM entiende. Los ficheros `.class` contienen ese bytecode; la JVM puede interpretarlo directamente o aplicar compilación JIT (just-in-time) para traducir partes a código nativo y mejorar el rendimiento mientras el programa se ejecuta.
 
 
-## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos
-
-### Respuesta
+## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un **constructor**? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
 
 `new` es el operador que reserva memoria en el heap y crea una nueva instancia de una clase, devolviendo una referencia a ese objeto. Durante este proceso se invoca un constructor, que es un método especial responsable de inicializar el estado del objeto al momento de su creación.
 
@@ -166,9 +144,7 @@ class Empleado {
 ```
 
 
-## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
-
-### Respuesta
+## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`.
 
 La referencia `this` identifica al objeto actual dentro de sus propios métodos, permitiendo acceder a sus atributos o invocar otros métodos sin ambigüedad. Resulta útil cuando nombres de parámetros o variables locales coinciden con los de los campos, o cuando se quieren encadenar llamadas al propio objeto.
 
@@ -187,9 +163,7 @@ class Punto {
 ```
 
 
-## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado
-
-### Respuesta
+## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado.
 
 El método `distanciaA` puede calcular la distancia euclídea entre el punto actual y otro punto recibido como parámetro, restando coordenadas y aplicando la fórmula de distancia. Se apoya en `this` para referirse a los atributos del objeto que invoca el método.
 
@@ -209,16 +183,12 @@ class Punto {
 
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
-### Respuesta
-
 En Java los parámetros se pasan por valor, pero cuando se trata de objetos, lo que se copia es la referencia. Si un método recibe un `Punto` y modifica sus atributos mediante esa referencia, el objeto subyacente cambia y los efectos son visibles fuera del método. Sin embargo, re-asignar la referencia dentro del método no altera la variable original del llamador.
 
 Para tipos primitivos como `int`, el valor mismo se copia, de modo que modificar el parámetro dentro del método no afecta a la variable original. Se puede cambiar el contenido del parámetro local, pero el entero externo permanece igual tras la llamada, ya que no existe una referencia compartida al valor primitivo.
 
 
-## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java
-
-### Respuesta
+## 15. ¿Qué es el método `toString()` en Java? ¿Existe en otros lenguajes? Pon un ejemplo de `toString()` en la clase `Punto` en Java.
 
 `toString()` es un método heredado de `Object` que devuelve una representación textual del objeto, pensada para depuración o salida legible. Sobrescribirlo permite describir el estado relevante en una cadena clara en lugar del formato por defecto que muestra la clase y un identificador hash.
 
@@ -239,17 +209,12 @@ class Punto {
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
 
-
-### Respuesta
-
 Un `struct` en C agrupa datos bajo un mismo tipo, de forma similar a cómo una clase reúne atributos, pero carece de la asociación directa de comportamiento. No dispone de métodos, control de acceso, constructores ni mecanismos de encapsulación propios del modelo orientado a objetos.
 
 Para asemejarse a una clase, al `struct` le faltarían funciones miembro con acceso implícito a su estado, inicialización controlada al crear objetos y visibilidad que oculte detalles internos. Las variables de un `struct` son simplemente bloques de datos sin identidad diferenciada más allá de su dirección, mientras que las instancias de una clase combinan estado, comportamiento y reglas de acceso en una unidad cohesiva.
 
 
 ## 17. Quitemos un poco de magia a todo esto: ¿Como se podría “emular”, con `struct` en C, la clase `Punto`, con su función para calcular la distancia al origen? ¿Qué ha pasado con `this`?
-
-### Respuesta
 
 En C se puede emular una clase `Punto` definiendo un `struct` con los campos `x` e `y` y una función que reciba un puntero a ese `struct` para operar sobre sus datos. La función actúa como método libre y el puntero juega el papel de la referencia al objeto.
 
