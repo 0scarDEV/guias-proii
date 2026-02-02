@@ -17,14 +17,13 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. ¿Cuáles son las cuatro características básicas de la programación orientada a objetos? Describe brevemente cada una.
 
-La **encapsulación** agrupa datos y operaciones relacionadas dentro de una unidad, normalmente una clase, y controla su visibilidad. Con ello se limita el acceso directo al estado interno y se obligan las interacciones a pasar por métodos públicos, reduciendo acoplamientos y errores por modificaciones no controladas.
+- La **encapsulación** agrupa datos y operaciones relacionadas dentro de una unidad, normalmente una clase, y controla su visibilidad. Con ello se limita el acceso directo al estado interno y se obligan las interacciones a pasar por métodos públicos, reduciendo acoplamientos y errores por modificaciones no controladas.<br><br>
 
-La **abstracción** permite centrarse en lo esencial ocultando detalles de implementación. Se define qué hace un objeto mediante interfaces o métodos visibles y se dejan ocultas las decisiones de cómo lo hace, lo que simplifica el uso y facilita cambiar la implementación sin romper a quien lo consume.
+- La **abstracción** permite centrarse en lo esencial ocultando detalles de implementación. Se define qué hace un objeto mediante interfaces o métodos visibles y se dejan ocultas las decisiones de cómo lo hace, lo que simplifica el uso y facilita cambiar la implementación sin romper a quien lo consume.<br><br>
 
-La **herencia** permite crear nuevas clases que reutilizan y extienden el comportamiento de otras, formando jerarquías. Una subclase hereda atributos y métodos de su superclase y puede añadir o modificar funcionalidades, evitando duplicación de código y modelando relaciones “es-un”.
+- La **herencia** permite crear nuevas clases que reutilizan y extienden el comportamiento de otras, formando jerarquías. Una subclase hereda atributos y métodos de su superclase y puede añadir o modificar funcionalidades, evitando duplicación de código y modelando relaciones “es-un”.<br><br>
 
-El **polimorfismo** posibilita que una misma operación se comporte de manera distinta según el objeto concreto que la ejecuta. A través de interfaces comunes o clases base, se pueden invocar métodos sin conocer el tipo exacto del objeto en tiempo de compilación, y el método específico se resuelve en tiempo de ejecución.
-
+- El **polimorfismo** posibilita que una misma operación se comporte de manera distinta según el objeto concreto que la ejecuta. A través de interfaces comunes o clases base, se pueden invocar métodos sin conocer el tipo exacto del objeto en tiempo de compilación, y el método específico se resuelve en tiempo de ejecución.
 
 ## 2. Cita cuatro lenguajes populares que permitan la programación orientada a objetos.
 
