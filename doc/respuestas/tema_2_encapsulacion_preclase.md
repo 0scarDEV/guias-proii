@@ -222,6 +222,18 @@ En este ejemplo, `maxX` y `maxY` son atributos estáticos privados que se compar
 
 ## 14. Como sería un método factoría dentro de la clase `Punto` para construir un `Punto` a partir de dos coordenadas, pero que las redondee al entero más cercano. Escribe sólo el código del método, no toda la clase ¿Has usado `static`?
 
+```java
+public static Punto crearPuntoRedondeado(double x, double y) {
+    double xRedondeada = Math.round(x);
+    double yRedondeada = Math.round(y);
+    return new Punto(xRedondeada, yRedondeada);
+}
+```
+
+Sí, se ha usado **`static`** porque un método factoría debe ser un método de clase, no de instancia. Esto es necesario porque el objetivo del método factoría es precisamente crear y devolver una nueva instancia de `Punto`, y para llamarlo no debe ser necesario tener ya un objeto `Punto` existente. Se invoca directamente sobre la clase: `Punto p = Punto.crearPuntoRedondeado(3.7, 5.2);`.
+
+El método factoría es una alternativa a los constructores que ofrece varias ventajas: puede tener un nombre descriptivo que indique qué tipo de objeto crea (en este caso, que redondea las coordenadas), puede incluir lógica de procesamiento antes de la construcción, y puede decidir qué constructor llamar o incluso reutilizar instancias existentes. En este ejemplo, el método recibe coordenadas con decimales, las redondea usando `Math.round()`, y luego invoca el constructor normal de `Punto` con los valores redondeados. Esta aproximación mantiene la responsabilidad del redondeo encapsulada dentro del método factoría, separada de la lógica del constructor básico.
+
 
 ## 15. Cambia la implementación de `Punto`. En vez de dos `double`, emplea un array interno de dos posiciones, intentando no modificar la interfaz pública de la clase.
 
