@@ -375,3 +375,81 @@ Las ventajas en términos de encapsulación son significativas. Los enumerados d
 
 
 ## 23. Crea un tipo enumerado en Java que se llame `Mes`, con doce posibles instancias y que además proporcione métodos para obtener cuántos días tiene ese mes, el ordinal de ese mes en el año (1-12), empleando atributos privados y constructores del tipo enumerado. Añade además cuatro métodos para devolver si ese mes tiene algunos días de invierno, primavera, verano u otoño, indicando con un booleano el hemisferio (norte o sur, parámetro `enHemisferioNorte`). Es decir: `esDePrimavera(boolean esHemisferioNorte)`, `esDeVerano(boolean esHemisferioNorte)`, `esDeOtoño(boolean esHemisferioNorte)`, `esDeInvierno(boolean esHemisferioNorte)`
+
+```java
+public enum Mes {
+    // Instancias del enumerado con sus valores
+    ENERO(31, 1),
+    FEBRERO(28, 2),
+    MARZO(31, 3),
+    ABRIL(30, 4),
+    MAYO(31, 5),
+    JUNIO(30, 6),
+    JULIO(31, 7),
+    AGOSTO(31, 8),
+    SEPTIEMBRE(30, 9),
+    OCTUBRE(31, 10),
+    NOVIEMBRE(30, 11),
+    DICIEMBRE(31, 12);
+    
+    // Atributos privados
+    private final int dias;
+    private final int ordinal;
+    
+    // Constructor privado (implícito en enums)
+    Mes(int dias, int ordinal) {
+        this.dias = dias;
+        this.ordinal = ordinal;
+    }
+    
+    // Método para obtener los días del mes
+    public int getDias() {
+        return dias;
+    }
+    
+    // Método para obtener el ordinal del mes (1-12)
+    public int getOrdinal() {
+        return ordinal;
+    }
+    
+    // Método para determinar si es un mes de primavera
+    public boolean esDePrimavera(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return ordinal >= 3 && ordinal <= 5; // marzo, abril, mayo
+        } else {
+            return ordinal >= 9 && ordinal <= 11; // septiembre, octubre, noviembre
+        }
+    }
+    
+    // Método para determinar si es un mes de verano
+    public boolean esDeVerano(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return ordinal >= 6 && ordinal <= 8; // junio, julio, agosto
+        } else {
+            return ordinal == 12 || ordinal <= 2; // diciembre, enero, febrero
+        }
+    }
+    
+    // Método para determinar si es un mes de otoño
+    public boolean esDeOtoño(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return ordinal >= 9 && ordinal <= 11; // septiembre, octubre, noviembre
+        } else {
+            return ordinal >= 3 && ordinal <= 5; // marzo, abril, mayo
+        }
+    }
+    
+    // Método para determinar si es un mes de invierno
+    public boolean esDeInvierno(boolean enHemisferioNorte) {
+        if (enHemisferioNorte) {
+            return ordinal == 12 || ordinal <= 2; // diciembre, enero, febrero
+        } else {
+            return ordinal >= 6 && ordinal <= 8; // junio, julio, agosto
+        }
+    }
+}
+```
+
+Este enumerado demuestra varias características importantes de la encapsulación en Java. Los atributos `dias` y `ordinal` son privados y finales (inmutables), garantizando que no puedan ser modificados después de la construcción. El constructor es privado (aunque en los enums esto es implícito y no se puede hacer público), asegurando que solo existan las doce instancias declaradas.
+
+Cada instancia del enumerado (ENERO, FEBRERO, etc.) tiene sus propios valores para días y ordinal, encapsulados dentro de ella. Los métodos públicos proporcionan acceso controlado a esta información y permiten realizar operaciones relacionadas con los meses, como determinar la estación según el hemisferio. El código que usa este enum puede invocar, por ejemplo, `Mes.JULIO.esDeVerano(true)` que devolverá `true` para el hemisferio norte. La encapsulación garantiza que es imposible crear un "mes inválido" o modificar las propiedades de los meses existentes.
