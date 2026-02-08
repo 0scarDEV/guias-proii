@@ -296,6 +296,12 @@ Los métodos `getX()` y `getY()` ahora devuelven `coordenadas[0]` y `coordenadas
 
 ## 16. Si un atributo va a tener un método "getter" y "setter" públicos, ¿no es mejor declararlo público? ¿Cuál es la convención más habitual sobre los atributos, que sean públicos o privados? ¿Tiene esto algo que ver con las "invariantes de clase"?
 
+No, no es mejor declararlo público, aunque pueda parecer equivalente a primera vista. Usar getters y setters en lugar de atributos públicos ofrece varias ventajas importantes: permite añadir validación en el setter para garantizar que solo se asignen valores válidos, permite cambiar la representación interna sin afectar al código que usa la clase (como se vio en el ejercicio anterior), permite realizar cálculos o transformaciones antes de devolver o establecer el valor, y permite convertir un atributo de lectura-escritura a solo lectura simplemente eliminando el setter, sin romper el código que lo lee.
+
+La **convención más habitual** en programación orientada a objetos es que **los atributos sean privados**. Esta es una práctica fuertemente recomendada en Java y la mayoría de lenguajes orientados a objetos. Solo se proporcionan getters y setters públicos cuando realmente se necesita acceso externo a esos valores. Muchas veces, los atributos privados solo son accedidos y modificados internamente por los métodos de la clase, sin necesidad de exponerlos.
+
+Sí, esto tiene mucho que ver con las **invariantes de clase**. Un setter puede validar que el nuevo valor no viole las invariantes antes de asignarlo. Por ejemplo, en una clase `CuentaBancaria`, el setter del saldo puede verificar que no se establezca un valor negativo si no se permite descubierto. Con un atributo público, es imposible prevenir asignaciones inválidas. Además, en el futuro se podría necesitar añadir validación o lógica adicional, y tener getters/setters desde el principio lo permite sin cambiar la interfaz pública. Los atributos públicos no ofrecen esta flexibilidad y rompen la encapsulación.
+
 
 ## 17. ¿Qué significa que una clase sea **inmutable**? ¿qué es un método modificador? ¿Un método modificador es siempre un "setter"? ¿Tiene ventajas que una clase sea inmutable?
 
