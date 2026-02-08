@@ -50,6 +50,38 @@ Por ejemplo, si una clase `Fecha` tiene atributos privados para día, mes y año
 
 ## 5. Pon un ejemplo de una clase `Punto` en `Java`, con dos coordenadas, `x` e `y`, de tipo `double`, con un método `calcularDistanciaAOrigen`, y que haga uso de la ocultación de información. ¿Cuál es la interfaz pública de la clase `Punto`? ¿Qué significa `public` y `private`?
 
+```java
+public class Punto {
+    // Atributos privados (ocultos)
+    private double x;
+    private double y;
+    
+    // Constructor público
+    public Punto(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    // Método público para calcular distancia al origen
+    public double calcularDistanciaAOrigen() {
+        return Math.sqrt(x * x + y * y);
+    }
+    
+    // Métodos públicos para acceder a las coordenadas
+    public double getX() {
+        return x;
+    }
+    
+    public double getY() {
+        return y;
+    }
+}
+```
+
+La **interfaz pública** de la clase `Punto` está formada por el constructor `Punto(double x, double y)` y los métodos `calcularDistanciaAOrigen()`, `getX()` y `getY()`. Estos son los elementos marcados con `public` y representan todo lo que el código exterior puede usar para interactuar con objetos de tipo `Punto`.
+
+El modificador **`public`** indica que un elemento (atributo, método o constructor) es accesible desde cualquier parte del programa, desde otras clases y paquetes. Es parte de la interfaz visible de la clase. Por el contrario, **`private`** indica que un elemento solo es accesible dentro de la propia clase, permaneciendo oculto para el resto del código. En el ejemplo, los atributos `x` e `y` son privados, lo que significa que no pueden ser accedidos ni modificados directamente desde fuera de la clase `Punto`. Solo pueden ser leídos mediante los métodos públicos `getX()` y `getY()`, y se establecen únicamente a través del constructor. Esta ocultación protege la integridad de los datos y permite cambiar la representación interna sin afectar al código que usa la clase.
+
 
 ## 6. En Java, ¿A quiénes se pueden aplicar los modificadores `public` o `private`?
 
