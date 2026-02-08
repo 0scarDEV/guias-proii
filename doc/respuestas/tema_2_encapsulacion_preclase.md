@@ -142,6 +142,12 @@ Por ejemplo, en la clase `Punto`, los métodos `getX()` y `getY()` son getters q
 
 ## 10. Cuando nos referimos a que la ocultación de información mejora la "seguridad" del programa, ¿nos referimos a que no pueda ser "hackeado"?
 
+No, en este contexto "seguridad" no se refiere a seguridad informática frente a ataques externos o hackers. Se refiere a la **seguridad o robustez del código**: la capacidad de garantizar que el programa funcione correctamente y que los objetos mantengan estados válidos y coherentes. Es una seguridad en el sentido de que el programa esté protegido contra errores de programación, usos incorrectos accidentales, y estados inconsistentes.
+
+La ocultación de información mejora esta seguridad porque previene que el código externo modifique los datos de formas no previstas que podrían romper las invariantes de clase o causar comportamientos incorrectos. Por ejemplo, si un atributo `edad` fuera público, cualquier código podría asignarle un valor negativo, causando un estado inválido. Con encapsulación, el setter puede validar que la edad sea positiva, garantizando la consistencia. Esta "seguridad" se traduce en programas más confiables, con menos errores difíciles de detectar, y más fáciles de mantener.
+
+Aunque la encapsulación no es una medida de seguridad criptográfica, sí contribuye indirectamente a la seguridad general del software al reducir la superficie de posibles errores y hacer el código más predecible y controlable. Un programa bien encapsulado es más resistente a errores, tanto accidentales como intencionales por parte de otros desarrolladores que usen nuestro código.
+
 
 ## 11. ¿Qué diferencia hay entre **miembro de instancia** y **miembro de clase**? ¿Los miembros de clase también se pueden ocultar?
 
