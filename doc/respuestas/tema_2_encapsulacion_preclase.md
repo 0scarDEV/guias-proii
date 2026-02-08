@@ -237,6 +237,62 @@ El método factoría es una alternativa a los constructores que ofrece varias ve
 
 ## 15. Cambia la implementación de `Punto`. En vez de dos `double`, emplea un array interno de dos posiciones, intentando no modificar la interfaz pública de la clase.
 
+```java
+public class Punto {
+    // Cambio en la implementación: ahora usa un array
+    private double[] coordenadas;
+    
+    private static double maxX = Double.NEGATIVE_INFINITY;
+    private static double maxY = Double.NEGATIVE_INFINITY;
+    
+    // La interfaz pública del constructor permanece igual
+    public Punto(double x, double y) {
+        coordenadas = new double[2];
+        coordenadas[0] = x;
+        coordenadas[1] = y;
+        
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+    }
+    
+    // Los métodos públicos mantienen la misma firma
+    public double calcularDistanciaAOrigen() {
+        return Math.sqrt(coordenadas[0] * coordenadas[0] + 
+                        coordenadas[1] * coordenadas[1]);
+    }
+    
+    public double getX() {
+        return coordenadas[0];
+    }
+    
+    public double getY() {
+        return coordenadas[1];
+    }
+    
+    public double calcularDistanciaAPunto(Punto otro) {
+        double deltaX = this.coordenadas[0] - otro.coordenadas[0];
+        double deltaY = this.coordenadas[1] - otro.coordenadas[1];
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+    
+    public static double getMaxX() {
+        return maxX;
+    }
+    
+    public static double getMaxY() {
+        return maxY;
+    }
+    
+    public static Punto crearPuntoRedondeado(double x, double y) {
+        return new Punto(Math.round(x), Math.round(y));
+    }
+}
+```
+
+Este ejemplo demuestra perfectamente el valor de la encapsulación. Al haber mantenido privados los atributos `x` e `y` originales y haber proporcionado acceso solo a través de métodos públicos, se ha podido cambiar completamente la representación interna (de dos variables separadas a un array) sin modificar la interfaz pública. Todo el código que usaba la clase `Punto` seguirá funcionando exactamente igual, sin necesidad de ningún cambio.
+
+Los métodos `getX()` y `getY()` ahora devuelven `coordenadas[0]` y `coordenadas[1]` respectivamente, y el constructor almacena los valores en el array en lugar de en variables separadas. El cambio es completamente transparente para los usuarios de la clase. Este es uno de los beneficios más importantes de la ocultación de información: permite evolucionar y mejorar la implementación interna sin romper el código que depende de la clase, siempre que se mantenga la misma interfaz pública.
+
 
 ## 16. Si un atributo va a tener un método "getter" y "setter" públicos, ¿no es mejor declararlo público? ¿Cuál es la convención más habitual sobre los atributos, que sean públicos o privados? ¿Tiene esto algo que ver con las "invariantes de clase"?
 
