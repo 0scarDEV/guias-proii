@@ -160,6 +160,12 @@ Sí, los miembros de clase también se pueden ocultar usando los mismos modifica
 
 ## 12. Brevemente: ¿Tiene sentido que los constructores sean privados?
 
+Sí, tiene sentido en ciertos casos específicos. Un constructor privado impide que se creen instancias de la clase desde fuera de ella misma, lo que puede parecer contradictorio, pero resulta útil en varios patrones de diseño. El uso más común es en el **patrón Singleton**, que garantiza que solo exista una única instancia de una clase en todo el programa. El constructor privado evita que se creen múltiples instancias, y se proporciona un método estático público que devuelve la única instancia existente.
+
+Otro uso es en clases que solo contienen métodos y constantes estáticas (como la clase `Math` de Java), donde no tiene sentido crear instancias porque toda la funcionalidad es estática. También se usan en el **patrón Factory**, donde los constructores son privados y se proporcionan métodos factoría estáticos públicos que controlan cómo y cuándo se crean los objetos, permitiendo lógica adicional como reutilizar instancias existentes, validar parámetros antes de la construcción, o devolver subtipos específicos según los parámetros.
+
+En definitiva, los constructores privados son una herramienta de encapsulación que permite controlar completamente cómo se crean las instancias de una clase, delegando esa responsabilidad a métodos estáticos que pueden aplicar reglas o restricciones específicas.
+
 
 ## 13. ¿Cómo se indican los **miembros de clase** en Java? Pon un ejemplo, en la clase `Punto` definida anteriormente, para que incluya miembros de clase que permitan saber cuáles son los valores `x` e `y` máximos que se han establecido en todos los puntos que se hayan creado hasta el momento.
 
