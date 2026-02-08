@@ -34,6 +34,10 @@ En resumen, la interfaz pública define el "qué" (qué servicios ofrece la clas
 
 ## 3. Brevemente: ¿Por qué hay que ser conscientes y diseñar con cuidado la **interfaz pública** de una clase? ¿Es fácil cambiarla?
 
+Hay que diseñar con cuidado la interfaz pública porque una vez que otros programadores o partes del código comienzan a usar una clase, cualquier cambio en su interfaz pública puede romper ese código existente. Si se añaden restricciones a un método, se elimina un método público, se cambian sus parámetros o su tipo de retorno, todo el código que dependía de esa interfaz dejará de funcionar y necesitará ser modificado. Es similar a cuando en C se cambia la firma de una función en un archivo de cabecera: todos los archivos que la usan necesitan adaptarse.
+
+No, cambiar la interfaz pública no es fácil. Cuanto más se use una clase en diferentes partes de un programa (o peor aún, en programas de otros desarrolladores), más costoso resulta modificar su interfaz. Por eso es fundamental invertir tiempo en diseñar una interfaz bien pensada desde el principio: debe ser lo suficientemente completa para cubrir las necesidades esperadas, pero lo suficientemente simple para no exponer detalles innecesarios. En contraste, los detalles privados de implementación sí pueden cambiarse libremente sin afectar a nadie, razón adicional para mantener privado todo lo que no necesite ser público.
+
 
 ## 4. ¿Qué son las **invariantes de clase** y por qué la ocultación de información nos ayuda?
 
