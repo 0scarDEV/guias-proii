@@ -169,6 +169,56 @@ En definitiva, los constructores privados son una herramienta de encapsulación 
 
 ## 13. ¿Cómo se indican los **miembros de clase** en Java? Pon un ejemplo, en la clase `Punto` definida anteriormente, para que incluya miembros de clase que permitan saber cuáles son los valores `x` e `y` máximos que se han establecido en todos los puntos que se hayan creado hasta el momento.
 
+En Java, los miembros de clase se indican con la palabra clave **`static`**. Este modificador se coloca antes del tipo del atributo o del tipo de retorno del método, y puede combinarse con los modificadores de acceso como `private` o `public`. Un miembro declarado como `static` pertenece a la clase en lugar de a las instancias individuales, existiendo una única copia compartida por todos los objetos.
+
+```java
+public class Punto {
+    // Atributos de instancia (privados)
+    private double x;
+    private double y;
+    
+    // Atributos de clase (estáticos) para rastrear máximos
+    private static double maxX = Double.NEGATIVE_INFINITY;
+    private static double maxY = Double.NEGATIVE_INFINITY;
+    
+    public Punto(double x, double y) {
+        this.x = x;
+        this.y = y;
+        
+        // Actualizar los máximos si es necesario
+        if (x > maxX) {
+            maxX = x;
+        }
+        if (y > maxY) {
+            maxY = y;
+        }
+    }
+    
+    public double calcularDistanciaAOrigen() {
+        return Math.sqrt(x * x + y * y);
+    }
+    
+    public double getX() {
+        return x;
+    }
+    
+    public double getY() {
+        return y;
+    }
+    
+    // Métodos de clase (estáticos) para acceder a los máximos
+    public static double getMaxX() {
+        return maxX;
+    }
+    
+    public static double getMaxY() {
+        return maxY;
+    }
+}
+```
+
+En este ejemplo, `maxX` y `maxY` son atributos estáticos privados que se comparten entre todas las instancias de `Punto`. Cada vez que se crea un nuevo punto, el constructor actualiza estos valores si las coordenadas superan los máximos actuales. Los métodos estáticos `getMaxX()` y `getMaxY()` permiten consultar estos valores sin necesidad de tener un objeto `Punto` específico, invocándolos como `Punto.getMaxX()`. Como los atributos estáticos son privados, se mantiene la encapsulación y solo pueden ser modificados de forma controlada dentro de la clase.
+
 
 ## 14. Como sería un método factoría dentro de la clase `Punto` para construir un `Punto` a partir de dos coordenadas, pero que las redondee al entero más cercano. Escribe sólo el código del método, no toda la clase ¿Has usado `static`?
 
