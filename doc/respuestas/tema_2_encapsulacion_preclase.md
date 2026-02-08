@@ -94,6 +94,12 @@ En resumen, dentro de una clase se puede marcar como `public` o `private` casi c
 
 ## 7. En POO, la visibilidad puede ser pública o privada, pero ¿existen más tipos de visibilidad? ¿Qué ocurre en Java? ¿Y en otros lenguajes?
 
+Sí, existen más niveles de visibilidad además de pública y privada. En Java hay cuatro niveles: **`private`** (accesible solo dentro de la misma clase), **visibilidad de paquete** o por defecto (sin modificador, accesible desde cualquier clase del mismo paquete), **`protected`** (accesible desde la misma clase, clases del mismo paquete, y subclases incluso si están en otros paquetes), y **`public`** (accesible desde cualquier parte del programa). Esta graduación permite un control más fino sobre qué partes del código pueden acceder a cada elemento.
+
+El modificador `protected` es especialmente útil para la herencia, un concepto de POO que permite crear nuevas clases basadas en clases existentes. Con `protected` se pueden compartir ciertos detalles de implementación con las subclases sin exponerlos completamente al público. La visibilidad de paquete es útil cuando varias clases relacionadas dentro del mismo paquete necesitan colaborar estrechamente.
+
+Otros lenguajes orientados a objetos tienen sistemas similares pero con variaciones. Por ejemplo, C++ tiene `private`, `protected` y `public`, pero no tiene el concepto de visibilidad de paquete. Python es más flexible y usa convenciones: un guion bajo al inicio del nombre (como `_atributo`) sugiere que es privado por convención, aunque técnicamente sigue siendo accesible. C# tiene `private`, `protected`, `internal` (similar a la visibilidad de paquete, pero a nivel de ensamblado), `public`, y combinaciones como `protected internal`. La filosofía varía: algunos lenguajes son más estrictos en el control de acceso, mientras que otros confían más en las convenciones y la responsabilidad del programador.
+
 
 ## 8. Responde: Los miembros de instancia privados de un objeto están ocultos para (a) otras clases o (b) otras instancias, aunque sean de la misma clase. Pon un ejemplo añadiendo un método `calcularDistanciaAPunto(Punto otro)` y explica la respuesta.
 
