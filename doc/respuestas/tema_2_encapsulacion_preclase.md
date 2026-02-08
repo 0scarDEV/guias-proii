@@ -85,6 +85,12 @@ El modificador **`public`** indica que un elemento (atributo, método o construc
 
 ## 6. En Java, ¿A quiénes se pueden aplicar los modificadores `public` o `private`?
 
+En Java, los modificadores `public` y `private` se pueden aplicar a varios elementos de una clase. Se pueden usar en **atributos** (variables de instancia o de clase), **métodos** (tanto de instancia como de clase/static), **constructores**, y **clases internas** (clases definidas dentro de otra clase). Estos modificadores controlan la visibilidad y accesibilidad de estos elementos desde otras partes del código.
+
+Sin embargo, hay una restricción importante: las **clases de nivel superior** (las que se definen directamente en un archivo, no dentro de otra clase) solo pueden ser `public` o tener visibilidad de paquete (sin modificador explícito), pero **no pueden ser `private`**. Esto tiene sentido porque si una clase de nivel superior fuera privada, no sería accesible desde ningún lugar y no tendría utilidad. Solo las clases internas (anidadas) pueden ser privadas, ya que en ese caso serían visibles únicamente dentro de la clase que las contiene.
+
+En resumen, dentro de una clase se puede marcar como `public` o `private` casi cualquier miembro: atributos, métodos, constructores y clases internas. La elección depende de si se quiere que ese elemento forme parte de la interfaz pública (accesible desde fuera) o se mantenga como detalle de implementación privado.
+
 
 ## 7. En POO, la visibilidad puede ser pública o privada, pero ¿existen más tipos de visibilidad? ¿Qué ocurre en Java? ¿Y en otros lenguajes?
 
