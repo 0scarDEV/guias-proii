@@ -342,6 +342,19 @@ Este enfoque es mucho más eficiente que concatenar con `+` en un bucle, evitand
 
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
+En POO, los objetos se pueden comparar de dos formas: por **identidad** (si son el mismo objeto en memoria) o por **contenido** (si tienen los mismos valores en sus atributos, aunque sean objetos diferentes). En Java, el operador `==` compara por **identidad**: devuelve `true` solo si ambas referencias apuntan exactamente al mismo objeto en memoria. Para comparar por **contenido**, se usa el método `equals()`.
+
+El método **`equals()`** es un método definido en la clase `Object` (la clase base de todas las clases en Java) que puede ser sobrescrito para definir qué significa que dos objetos sean "iguales" en términos de contenido. **Por defecto**, si no se sobrescribe, `equals()` se comporta igual que `==`: compara identidades, no contenido. Por eso, si se quiere comparar objetos por su contenido, es necesario sobrescribir el método `equals()` en la clase para que compare los atributos relevantes. Por ejemplo, en la clase `Punto`, se podría sobrescribir `equals()` para que dos puntos sean considerados iguales si tienen las mismas coordenadas `x` e `y`, aunque sean objetos diferentes.
+
+Para comparar dos cadenas en Java, se debe usar **`equals()`**, nunca `==`. Aunque `==` pueda funcionar en algunos casos debido a optimizaciones internas de Java con cadenas literales, no es confiable. El uso correcto es `if (cadena1.equals(cadena2))`. La clase `String` sobrescribe `equals()` para comparar el contenido de las cadenas carácter por carácter. Por ejemplo:
+
+```java
+String s1 = new String("Hola");
+String s2 = new String("Hola");
+System.out.println(s1 == s2);        // false (diferentes objetos en memoria)
+System.out.println(s1.equals(s2));   // true (mismo contenido)
+```
+
 
 ## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers?
 
