@@ -323,6 +323,22 @@ En resumen, se deben incluir setters solo cuando el diseño de la clase requiera
 
 ## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 
+La clase `String` en Java es **inmutable**. Una vez creado un objeto `String`, su contenido no puede modificarse. Todos los métodos que parecen "modificar" una cadena (como `toUpperCase()`, `substring()`, `replace()`, etc.) en realidad devuelven un **nuevo objeto** `String` con el resultado, dejando el original sin cambios. Esta inmutabilidad proporciona las ventajas mencionadas anteriormente: seguridad en concurrencia, posibilidad de compartir cadenas sin riesgo, y comportamiento predecible.
+
+Al concatenar dos cadenas con el operador `+` o el método `concat()`, se crea un **nuevo objeto** `String` que contiene el resultado de la concatenación. Las cadenas originales permanecen inalteradas. Por ejemplo, en `String s1 = "Hola"; String s2 = s1 + " Mundo";`, se crea un nuevo objeto para `s2`, y `s1` sigue conteniendo solo "Hola". Esto significa que cada concatenación implica crear un nuevo objeto y copiar todo el contenido, lo cual es ineficiente cuando se hacen muchas concatenaciones.
+
+Si se necesita concatenar repetidamente para construir una cadena larga, se debe usar la clase **`StringBuilder`** (o `StringBuffer` si se requiere sincronización para múltiples hilos). `StringBuilder` es una clase **mutable** diseñada específicamente para construir cadenas de forma eficiente. Permite añadir texto con el método `append()` sin crear nuevos objetos en cada operación, modificando un buffer interno. Al finalizar, se llama a `toString()` para obtener el `String` inmutable resultante. Por ejemplo:
+
+```java
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) {
+    sb.append("texto ").append(i).append(" ");
+}
+String resultado = sb.toString();
+```
+
+Este enfoque es mucho más eficiente que concatenar con `+` en un bucle, evitando la creación de miles de objetos temporales.
+
 
 ## 20. En POO ¿Cómo se comparan objetos de una misma clase? ¿Por su contenido o por su identidad? ¿Qué es el método equals en Java? ¿Qué hace por defecto? ¿Cómo se deben comparar dos cadenas en Java? 
 
