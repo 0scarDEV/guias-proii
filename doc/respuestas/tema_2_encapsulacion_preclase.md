@@ -16,8 +16,20 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. En Programación Orientada a Objetos (POO), ¿Qué buscan la **encapsulación** y **la ocultación** de información? Enumera brevemente algunas ventajas de la ocultación de información.
 
+La **encapsulación** es un principio fundamental de la POO que consiste en agrupar datos (atributos) y comportamientos (métodos) relacionados dentro de una única unidad llamada clase. La **ocultación de información** es un concepto complementario que busca restringir el acceso directo a los datos internos de un objeto, permitiendo que solo puedan ser manipulados a través de métodos públicos controlados. De manera similar a como en C se pueden usar funciones y estructuras en archivos separados con encabezados que exponen solo ciertas funciones, en POO se controla qué partes de una clase son accesibles desde el exterior.
+
+El objetivo principal de la ocultación es proteger la integridad de los datos y facilitar el mantenimiento del código. Al ocultar los detalles de implementación, se crea una barrera entre el "qué hace" un objeto (su interfaz) y el "cómo lo hace" (su implementación interna).
+
+Entre las ventajas de la ocultación de información se encuentran: (1) **Mayor robustez**, ya que se pueden validar los datos antes de modificarlos, evitando estados inconsistentes; (2) **Facilidad de mantenimiento**, porque los cambios en la implementación interna no afectan al código que usa la clase; (3) **Reducción de la complejidad**, al exponer solo lo necesario y esconder detalles irrelevantes; (4) **Prevención de errores**, pues se evita que otros programadores accedan o modifiquen datos de forma incorrecta; y (5) **Mejor modularidad**, permitiendo desarrollar y probar componentes de forma independiente.
+
 
 ## 2. ¿Qué se entiende por la **interfaz pública** de un objeto o clase en POO? Describe brevemente cómo se relaciona con la ocultación de información.
+
+La **interfaz pública** de una clase es el conjunto de métodos y atributos que están accesibles desde fuera de la clase, es decir, desde otras partes del programa. Es la "cara visible" de la clase: define qué operaciones se pueden realizar con los objetos de esa clase, pero sin revelar cómo se implementan internamente. Se puede comparar con la firma de las funciones en un archivo de cabecera `.h` en C, donde se declara qué funciones están disponibles sin mostrar su implementación.
+
+La interfaz pública se relaciona estrechamente con la ocultación de información porque actúa como un contrato entre la clase y el resto del programa. Al diseñar una clase, se decide conscientemente qué exponer (la interfaz pública) y qué mantener oculto (la implementación privada). Los detalles internos, como la estructura de datos elegida para almacenar información o los algoritmos específicos utilizados, permanecen privados y pueden cambiarse sin afectar al código que usa la clase, siempre que la interfaz pública se mantenga igual.
+
+En resumen, la interfaz pública define el "qué" (qué servicios ofrece la clase), mientras que la ocultación de información protege el "cómo" (cómo se implementan esos servicios internamente). Esta separación permite modificar la implementación sin romper el código existente que depende de la clase.
 
 
 ## 3. Brevemente: ¿Por qué hay que ser conscientes y diseñar con cuidado la **interfaz pública** de una clase? ¿Es fácil cambiarla?
