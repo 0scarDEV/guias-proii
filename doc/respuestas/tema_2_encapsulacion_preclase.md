@@ -151,6 +151,12 @@ Aunque la encapsulación no es una medida de seguridad criptográfica, sí contr
 
 ## 11. ¿Qué diferencia hay entre **miembro de instancia** y **miembro de clase**? ¿Los miembros de clase también se pueden ocultar?
 
+Los **miembros de instancia** son atributos o métodos que pertenecen a cada objeto individual creado a partir de una clase. Cada instancia tiene su propia copia de estos atributos con valores potencialmente diferentes. Por ejemplo, en la clase `Punto`, cada objeto tiene sus propios valores de `x` e `y`. En contraste, los **miembros de clase** (también llamados miembros estáticos) pertenecen a la clase misma, no a las instancias individuales. Existe una única copia compartida por todos los objetos de esa clase. Es similar al concepto de variables globales en C, pero con el alcance limitado a la clase.
+
+Los miembros de clase son útiles para almacenar información compartida por todas las instancias o para proporcionar funcionalidad que no depende de ningún objeto específico. Por ejemplo, se podría tener un contador estático que lleve la cuenta de cuántos objetos `Punto` se han creado, o constantes compartidas como `Math.PI` en Java. Los métodos de clase (estáticos) pueden ser invocados sin necesidad de crear un objeto, como `Math.sqrt()`.
+
+Sí, los miembros de clase también se pueden ocultar usando los mismos modificadores de acceso (`private`, `public`, etc.). Un atributo o método estático puede ser privado si solo debe ser usado internamente por la clase, o público si forma parte de la interfaz pública. Por ejemplo, un contador privado de instancias creadas podría ser `private static int contadorInstancias`, accesible solo dentro de la clase, mientras que un método factoría estático sería `public static` para poder ser invocado desde el exterior sin crear antes un objeto.
+
 
 ## 12. Brevemente: ¿Tiene sentido que los constructores sean privados?
 
