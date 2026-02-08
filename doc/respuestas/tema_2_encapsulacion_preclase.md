@@ -314,6 +314,12 @@ Sí, la inmutabilidad tiene ventajas significativas. Los objetos inmutables son 
 
 ## 18. ¿Es recomendable incluir métodos "setter" siempre y como convención?
 
+No, no es recomendable incluir setters automáticamente para todos los atributos como convención. Los setters deben incluirse solo cuando realmente tenga sentido que ese atributo pueda modificarse después de la construcción del objeto. Añadir setters innecesariamente hace que los objetos sean mutables cuando podrían ser inmutables, lo cual reduce las ventajas de seguridad, simplicidad y predictibilidad que ofrece la inmutabilidad. Cada setter que se añade es una puerta que se abre en la interfaz pública de la clase, y como se vio anteriormente, cambiar la interfaz pública es costoso.
+
+El enfoque recomendado es diseñar primero qué operaciones tienen sentido en el dominio del problema. Por ejemplo, en una clase `Fecha` que representa una fecha de nacimiento, probablemente no tenga sentido modificar la fecha después de creada, así que no debería tener setters. En una clase `Termostato`, tiene sentido modificar la temperatura deseada, por lo que un método como `setTemperaturaDeseada(double temp)` es apropiado. Muchas veces es mejor proporcionar métodos con nombres más específicos y semánticos que simples setters genéricos: en vez de `setX(double x)`, quizá tenga más sentido `moverA(double x, double y)` o `desplazar(double deltaX, double deltaY)`.
+
+En resumen, se deben incluir setters solo cuando el diseño de la clase requiera que ese atributo sea modificable, no por convención automática. Favorecer la inmutabilidad cuando sea posible y pensar cuidadosamente qué métodos modificadores se exponen son prácticas de buen diseño orientado a objetos. Los getters, en cambio, son más comunes porque leer valores suele ser menos problemático que modificarlos, aunque tampoco deben crearse indiscriminadamente si no son necesarios.
+
 
 ## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 
