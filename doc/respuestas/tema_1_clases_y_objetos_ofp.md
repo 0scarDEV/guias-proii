@@ -141,7 +141,7 @@ El punto de entrada de un programa Java es el método `main` con firma `public s
 `static final` se emplea para constantes (valores compartidos que no cambian, p.e: PI=3.1416) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
 
 ## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. 
-![Resumen de la pregunta](https://i.imgur.com/HxBoXni.jpeg)
+![Esquema de la máquina virtual](https://i.imgur.com/HxBoXni.jpeg)
 
 #### ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? 
 
@@ -220,10 +220,12 @@ class Punto {
 }
 ```
 
-## 14. El paso del `Punto` como parámetro a un método, es por copia o por referencia, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
+## 14. El paso del `Punto` como parámetro a un método, 
+#### ¿es por copia o por referencia, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método?
+En Java los parámetros se pasan por **valor**, pero en objetos, lo que se **copia es la referencia**.
+Si un método recibe un `Punto` y modifica sus atributos mediante esa referencia, el objeto subyacente cambia y los efectos son visibles fuera del método. Sin embargo, re-asignar la referencia dentro del método no altera la variable original del llamador.
 
-En Java los parámetros se pasan por valor, pero cuando se trata de objetos, lo que se copia es la referencia. Si un método recibe un `Punto` y modifica sus atributos mediante esa referencia, el objeto subyacente cambia y los efectos son visibles fuera del método. Sin embargo, re-asignar la referencia dentro del método no altera la variable original del llamador.
-
+#### ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 Para tipos primitivos como `int`, el valor mismo se copia, de modo que modificar el parámetro dentro del método no afecta a la variable original. Se puede cambiar el contenido del parámetro local, pero el entero externo permanece igual tras la llamada, ya que no existe una referencia compartida al valor primitivo.
 
 
