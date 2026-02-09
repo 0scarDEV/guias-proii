@@ -131,8 +131,14 @@ public class EjemploUso {
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
 
 El punto de entrada de un programa Java es el método `main` con firma `public static void main(String[] args)`, que la JVM invoca al iniciar la aplicación. Este método debe ser `static` porque se ejecuta sin necesidad de crear una instancia de la clase contenedora, permitiendo que la JVM lo llame directamente.
+- La palabra clave `static` permite usar un método o atributo sin necesidad de instancia de la clase (crear un objeto).
+  - Se antepone el nombre de la clase al nombre del objeto.
+  - Existen otros métodos además de `main`, como `Math.sqrt()`.
+  - En estos métodos nunca existe `this`. 
+  - En atributos, solo se guardan en un único lugar de memoria.
 
-La palabra clave `static` indica que un miembro pertenece a la clase y no a las instancias, compartiendo una única copia entre todos los objetos. Se usa en métodos utilitarios, constantes o fábricas estáticas, no sólo en `main`. Combinado con `final`, produce miembros de clase inmutables: por ejemplo, `static final` se emplea para constantes (valores compartidos que no cambian) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
+- Combinado con `final`, que produce miembros inmutables, "constantes". 
+`static final` se emplea para constantes (valores compartidos que no cambian, p.e: PI=3.1416) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
 
 ## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la máquina virtual? ¿Qué es el *byte-code* y los ficheros `.class`?
 
