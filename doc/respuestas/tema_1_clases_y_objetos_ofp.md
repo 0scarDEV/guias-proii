@@ -65,11 +65,19 @@ No todos los lenguajes orientados a objetos exigen clases como mecanismo central
 
 ## 6. ¿Dónde se almacenan en memoria los objetos? ¿Es igual en todos los lenguajes? ¿Qué es la recolección de basura? 
 
-En muchos lenguajes orientados a objetos los objetos se alojan en el heap, una región de memoria dinámica gestionada durante la ejecución. Las variables que apuntan a esos objetos suelen vivir en la pila de llamadas o en campos de otras estructuras, almacenando referencias o punteros a las ubicaciones reales del heap.
+- En muchos lenguajes orientados a objetos los objetos se alojan en el __heap__ (montón).
 
-No todos los lenguajes manejan la memoria igual. Java y C# usan recolección de basura para liberar automáticamente objetos que ya no están referenciados, mientras que en C++ la gestión es manual o se delega a técnicas como RAII y smart pointers. Lenguajes con modelo de prototipos como JavaScript también emplean heap y recolectores, aunque con particularidades de su motor de ejecución.
-
-La recolección de basura es un mecanismo automático que identifica objetos inaccesibles y reclama su memoria, evitando fugas y simplificando la gestión manual. Opera con estrategias como conteo de referencias, marcaje y barrido, o colecciones generacionales, y se ejecuta de forma transparente al desarrollador, aunque puede introducir pausas o consumo adicional de recursos.
+  - Presenta ventajas generales:
+    - Memoria dinámica, se decide lo que se ocupa en tiempo de ejecución.
+    - La vida de los objetos no depende de la vida de la función que los creó.
+  - También presenta desventajas:
+    - Hay que encargarse de liberar memoria no usada del heap, hay dos maneras:
+	  - Manual: Difícil y propenso a bugs (memory leaks).
+	  - Con recolector de basura. 
+<br>
+- No es así en todos los lenguajes. Hay otros que permiten también el almacenamiento en el stack.
+<br>
+- La recolección de basura (Garbage Collector) es un proceso automático que identifica objetos inaccesibles y reclama su memoria. Presenta como "desventaja" su rendimiento, siempre busca si hay algo que liberar, y si no hay nada que liberar, malgasta recursos.
 
 
 ## 7. ¿Qué es un método? ¿Qué es la sobrecarga de métodos? 
