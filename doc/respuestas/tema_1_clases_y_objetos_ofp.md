@@ -140,14 +140,18 @@ El punto de entrada de un programa Java es el método `main` con firma `public s
 - Combinado con `final`, que produce miembros inmutables, "constantes". 
 `static final` se emplea para constantes (valores compartidos que no cambian, p.e: PI=3.1416) y puede aplicarse también a métodos para impedir que una subclase los sobreescriba.
 
-## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? ¿Java es compilado? ¿Qué es la máquina virtual? ¿Qué es el *byte-code* y los ficheros `.class`?
+## 10. Intenta ejecutar un poco de Java de forma básica, con los comandos `javac` y `java`. 
+![Resumen de la pregunta](https://i.imgur.com/HxBoXni.jpeg)
 
-Para compilar un archivo fuente, se usa `javac NombreArchivo.java`, lo que genera un `.class` con bytecode. La ejecución se hace con `java NombreDeClase`, sin la extensión, y la JVM busca el método `main` correspondiente. Si hay varios archivos o paquetes, se incluye el classpath apropiado al compilar y ejecutar.
+#### ¿Cómo podemos compilar el programa y ejecutarlo desde linea de comandos? 
 
+Para compilar un archivo fuente, se usa `javac NombreArchivo.java`, lo que genera un `.class` con bytecode (en binario). La ejecución se hace con `java NombreDeClase`, sin la extensión, y la JVM busca el método `main` correspondiente. Si hay varios archivos o paquetes, se incluye el classpath apropiado al compilar y ejecutar.
+
+#### ¿Java es compilado? ¿Qué es la máquina virtual? 
 Java se considera compilado e interpretado: el código fuente se compila a bytecode intermedio almacenado en ficheros `.class`. Ese bytecode lo interpreta o compila en tiempo de ejecución la Máquina Virtual de Java (JVM), que actúa como capa de abstracción sobre el sistema operativo y hardware, permitiendo la portabilidad del lema “escribe una vez, ejecuta en cualquier lugar”.
 
+#### ¿Qué es el *byte-code* y los ficheros `.class`?
 El bytecode es un conjunto de instrucciones compactas e independientes de la plataforma que la JVM entiende. Los ficheros `.class` contienen ese bytecode; la JVM puede interpretarlo directamente o aplicar compilación JIT (just-in-time) para traducir partes a código nativo y mejorar el rendimiento mientras el programa se ejecuta.
-
 
 ## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un constructor? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
 
