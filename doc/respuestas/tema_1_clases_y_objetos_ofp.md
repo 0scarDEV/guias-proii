@@ -153,12 +153,15 @@ Java se considera compilado e interpretado: el código fuente se compila a bytec
 #### ¿Qué es el *byte-code* y los ficheros `.class`?
 El bytecode es un conjunto de instrucciones compactas e independientes de la plataforma que la JVM entiende. Los ficheros `.class` contienen ese bytecode; la JVM puede interpretarlo directamente o aplicar compilación JIT (just-in-time) para traducir partes a código nativo y mejorar el rendimiento mientras el programa se ejecuta.
 
-## 11. En el código anterior de la clase `Punto` ¿Qué es `new`? ¿Qué es un constructor? Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
-
-`new` es el operador que reserva memoria en el heap y crea una nueva instancia de una clase, devolviendo una referencia a ese objeto. Durante este proceso se invoca un constructor, que es un método especial responsable de inicializar el estado del objeto al momento de su creación.
-
+## 11. En el código anterior de la clase `Punto`.
+#### ¿Qué es `new`?
+Ocurren tres cosas al usar el operador `new`;
+1. Reserva memoria en el heap y crea una nueva instancia de una clase (objeto)
+2. Ejecuta un constructor con ese objeto como objeto actual (this).
+3. Devuelve ese nuevo objeto, el NEW, __no__ el constructor.
+#### ¿Qué es un constructor?
 Un constructor tiene el mismo nombre que la clase y no devuelve valor. Puede recibir parámetros para establecer valores iniciales y garantizar que el objeto nace en un estado consistente. Si no se define, el lenguaje puede proporcionar un constructor por defecto sin parámetros.
-
+#### Pon un ejemplo de constructor en una clase `Empleado` que tenga DNI, nombre y apellidos.
 ```java
 class Empleado {
 	private String dni;
@@ -172,7 +175,6 @@ class Empleado {
 	}
 }
 ```
-
 
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`.
 
