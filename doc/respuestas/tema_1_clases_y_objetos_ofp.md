@@ -180,26 +180,34 @@ class Empleado {
 
 La referencia `this` identifica al objeto actual dentro de sus propios métodos, permitiendo acceder a sus atributos o invocar otros métodos sin ambigüedad. Resulta útil cuando nombres de parámetros o variables locales coinciden con los de los campos, o cuando se quieren encadenar llamadas al propio objeto.
 
-No todos los lenguajes usan exactamente el mismo nombre, pero el concepto es equivalente: `this` en Java y C#, `self` en Python y Ruby, o `this` en C++ y JavaScript, todos apuntan a la instancia receptora de la llamada.
+No todos los lenguajes usan exactamente el mismo nombre, pero el concepto es equivalente: `this` en Java y C# o `self` en Python y Ruby, todos apuntan a la instancia receptora de la llamada.
 
 ```java
 class Punto {
 	int x;
 	int y;
 
-	void asignar(int x, int y) {
+	public Punto(int x, int y) {
 		this.x = x; // distingue campos del objeto de parámetros
 		this.y = y;
 	}
 }
 ```
 
-
 ## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado.
 
 El método `distanciaA` puede calcular la distancia euclídea entre el punto actual y otro punto recibido como parámetro, restando coordenadas y aplicando la fórmula de distancia. Se apoya en `this` para referirse a los atributos del objeto que invoca el método.
 
 ```java
+class Main {
+	public static void main(String[] args) {
+		Punto p1 = new Punto(3, 4);
+		Punto p2 = new Punto(6, 8);
+		double distancia = p1.distanciaA(p2); // Es p1.distanciaA(p2), no distanciaEntre(p1, p2)
+		System.out.println("Distancia entre puntos: " + distancia);
+	}
+}
+
 class Punto {
 	int x;
 	int y;
@@ -211,7 +219,6 @@ class Punto {
 	}
 }
 ```
-
 
 ## 14. El paso del `Punto` como parámetro a un método, es por copia o por referencia, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
 
