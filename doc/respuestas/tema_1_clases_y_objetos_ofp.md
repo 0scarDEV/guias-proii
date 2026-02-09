@@ -46,7 +46,7 @@ A partir de aquí, estas tres características "ayudan para olvidarse de los det
 <br>
 3. La __programación modular__ da un paso más, y se añaden conceptos como "librería", "paquete", "interfaz" que sirven para encapsular y reutilizar código.
 
-## 4. ¿Qué tres elementos definen a un objeto en programación orientada a objetos?
+## ❗❗ 4. ¿Qué tres elementos definen a un objeto en programación orientada a objetos?
 
 Un **objeto** se define por:
 1. **Identidad**, su instancia. Permite mantener referencias y comparar si dos variables apuntan al mismo objeto en memoria.
@@ -56,9 +56,9 @@ Un **objeto** se define por:
 
 ## 5. ¿Qué es una clase? ¿Es lo mismo que un objeto? ¿Qué es una instancia? ¿Todos los lenguajes orientados a objetos manejan el concepto de clase?
 
-Una **clase** es un molde o "plantilla" que describe el estado y el comportamiento que compartirán los objetos creados a partir de ella: define atributos y métodos comunes. No es lo mismo que un objeto; la clase es el plano y el objeto es la entidad concreta creada siguiendo ese plano.
+❗ Una **clase** es un molde o "plantilla" que describe el estado y el comportamiento que compartirán los objetos creados a partir de ella: define atributos y métodos comunes. No es lo mismo que un objeto; la clase es el plano y el **objeto** es la entidad concreta creada siguiendo ese plano.
 
-Una **instancia** son objetos particulares construido a partir de una clase, con su propio estado en memoria. Varias instancias de la misma clase comparten el mismo conjunto de métodos pero mantienen valores de atributos independientes, lo que permite representar entidades similares con datos distintos.
+❗ Una **instancia** son objetos particulares construido a partir de una clase, con su propio estado en memoria. Varias instancias de la misma clase comparten el mismo conjunto de métodos pero mantienen valores de atributos independientes, lo que permite representar entidades similares con datos distintos.
 
 No todos los lenguajes orientados a objetos exigen clases como mecanismo central. Java y C# se apoyan en clases, mientras que lenguajes como JavaScript usan un modelo basado en prototipos donde los objetos se enlazan directamente entre sí para heredar comportamiento, permitiendo orientación a objetos sin la declaración formal de clases tradicionales.
 
