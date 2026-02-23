@@ -22,12 +22,9 @@ La **ocultación de información** es un concepto complementario que busca restr
 El objetivo principal de la ocultación es proteger la integridad de los datos y facilitar el mantenimiento del código. Al ocultar los detalles de implementación, se crea una barrera entre el "qué hace" un objeto (su interfaz) y el "cómo lo hace" (su implementación interna).
 
 Entre las ventajas de la ocultación de información se encuentran:
-> - (1) **Mayor robustez**, ya que se pueden validar los datos antes de modificarlos, evitando estados inconsistentes; 
-> - (2) **Facilidad de mantenimiento**, porque los cambios en la implementación interna no afectan al código que usa la clase; 
-> - (3) **Reducción de la complejidad**, al exponer solo lo necesario y esconder detalles irrelevantes; 
-> - (4) **Prevención de errores**, pues se evita que otros programadores accedan o modifiquen datos de forma incorrecta;
-> - (5) **Mejor modularidad**, permitiendo desarrollar y probar componentes de forma independiente.
-
+> - (1) **Garantizar** que el estado interno es siempre válido.
+> - (2) **Evitar** que otro código pueda acceder a partes de mi código que no quiero.
+> - (3) **Facilitar** poder cambiar partes sin afectar a otros.
 
 ## 2. ¿Qué se entiende por la **interfaz pública** de un objeto o clase en POO? Describe brevemente cómo se relaciona con la ocultación de información.
 
