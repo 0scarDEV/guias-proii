@@ -116,10 +116,8 @@ public class Punto {
 }
 ```
 
-La respuesta correcta es **(a) otras clases**. Los miembros privados están ocultos para otras clases, pero **no** para otras instancias de la misma clase. Como se observa en el ejemplo, el método `calcularDistanciaAPunto` puede acceder directamente a `otro.x` y `otro.y`, aunque `otro` sea un objeto diferente y esos atributos sean privados. Esto es posible porque el código está dentro de la clase `Punto`, y el modificador `private` otorga acceso a nivel de clase, no a nivel de instancia individual.
-
-Esta característica es útil porque permite que los objetos de una misma clase colaboren entre sí de forma eficiente. Si la privacidad fuera a nivel de instancia, sería muy complicado implementar métodos como el de comparación o cálculo de distancias entre objetos del mismo tipo. En definitiva, `private` protege la implementación interna de una clase del acceso externo, pero permite que todas las instancias de esa clase accedan a los detalles privados de las demás instancias de su mismo tipo.
-
+La respuesta correcta es **(a) otras clases**. Los miembros privados están ocultos para otras clases, pero **no** para otras instancias de la misma clase. 
+Como se observa en el ejemplo, el método `calcularDistanciaAPunto` puede acceder directamente a `otro.x` y `otro.y`, aunque `otro` sea un objeto diferente y esos atributos sean privados. Esto es posible porque el código está dentro de la clase `Punto`, y el modificador `private` otorga acceso a nivel de clase, no a nivel de instancia individual, en otras palabras, <u>es para protegernos entre programadores, no entre instancias.</u>
 
 ## 9. ¿Qué son los métodos "getter" y "setter" en los lenguajes orientados a objetos?
 
