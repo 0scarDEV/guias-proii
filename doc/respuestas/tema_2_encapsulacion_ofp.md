@@ -28,29 +28,19 @@ Entre las ventajas de la ocultación de información se encuentran:
 
 ## 2. ¿Qué se entiende por la **interfaz pública** de un objeto o clase en POO? Describe brevemente cómo se relaciona con la ocultación de información.
 
-La **interfaz pública** de una clase es el conjunto de métodos y atributos que están accesibles desde fuera de la clase, es decir, desde otras partes del programa. Es la "cara visible" de la clase: define qué operaciones se pueden realizar con los objetos de esa clase, pero sin revelar cómo se implementan internamente. Se puede comparar con la firma de las funciones en un archivo de cabecera `.h` en C, donde se declara qué funciones están disponibles sin mostrar su implementación.
-
-La interfaz pública se relaciona estrechamente con la ocultación de información porque actúa como un contrato entre la clase y el resto del programa. Al diseñar una clase, se decide conscientemente qué exponer (la interfaz pública) y qué mantener oculto (la implementación privada). Los detalles internos, como la estructura de datos elegida para almacenar información o los algoritmos específicos utilizados, permanecen privados y pueden cambiarse sin afectar al código que usa la clase, siempre que la interfaz pública se mantenga igual.
-
-En resumen, la interfaz pública define el "qué" (qué servicios ofrece la clase), mientras que la ocultación de información protege el "cómo" (cómo se implementan esos servicios internamente). Esta separación permite modificar la implementación sin romper el código existente que depende de la clase.
-
+La **interfaz pública** de una clase es el conjunto de métodos y atributos (<u>los miembros</u>) que están accesibles desde fuera de la clase, es decir, desde otras partes del programa.
 
 ## 3. Brevemente: ¿Por qué hay que ser conscientes y diseñar con cuidado la **interfaz pública** de una clase? ¿Es fácil cambiarla?
 
-Hay que diseñar con cuidado la interfaz pública porque una vez que otros programadores o partes del código comienzan a usar una clase, cualquier cambio en su interfaz pública puede romper ese código existente. Si se añaden restricciones a un método, se elimina un método público, se cambian sus parámetros o su tipo de retorno, todo el código que dependía de esa interfaz dejará de funcionar y necesitará ser modificado. Es similar a cuando en C se cambia la firma de una función en un archivo de cabecera: todos los archivos que la usan necesitan adaptarse.
-
-No, cambiar la interfaz pública no es fácil. Cuanto más se use una clase en diferentes partes de un programa (o peor aún, en programas de otros desarrolladores), más costoso resulta modificar su interfaz. Por eso es fundamental invertir tiempo en diseñar una interfaz bien pensada desde el principio: debe ser lo suficientemente completa para cubrir las necesidades esperadas, pero lo suficientemente simple para no exponer detalles innecesarios. En contraste, los detalles privados de implementación sí pueden cambiarse libremente sin afectar a nadie, razón adicional para mantener privado todo lo que no necesite ser público.
-
+Cambiar la interfaz pública no es fácil, si se cambia tiene más consecuencias que si se cambian partes ocultas, ya que otros códigos pueden depender de esa interfaz.
 
 ## 4. ¿Qué son las **invariantes de clase** y por qué la ocultación de información nos ayuda?
 
-Las **invariantes de clase** son condiciones o propiedades que deben cumplirse siempre para los atributos de un objeto, garantizando que el objeto se mantenga en un estado válido y coherente. Por ejemplo, en una clase `Rectangulo`, una invariante podría ser que el ancho y el alto sean siempre valores positivos; en una clase `CuentaBancaria`, el saldo no debería poder ser negativo si no se permite el descubierto. Son restricciones lógicas que definen qué estados son válidos para un objeto.
+Las **invariantes de clase** son condiciones o propiedades que deben cumplirse <u>siempre</u> para los atributos de un objeto, garantizando que el objeto se mantenga en un estado válido y coherente. Por ejemplo, que la edad de una persona no sea negativa. Son restricciones lógicas que definen qué estados son válidos para un objeto.
 
-La ocultación de información es crucial para mantener las invariantes de clase porque, al hacer privados los atributos, se obliga a que cualquier modificación pase por métodos públicos controlados. Si los atributos fueran públicos y accesibles directamente desde cualquier parte del código, sería imposible garantizar que las invariantes se respeten, ya que cualquier código externo podría modificar los valores de forma arbitraria. Al forzar el acceso a través de métodos, se puede incluir lógica de validación que rechace cambios que violarían las invariantes.
+La ocultación de información es importante porque, al hacer privados los atributos, se obliga a que cualquier modificación pase por métodos públicos controlados. Si los atributos fueran públicos y accesibles directamente desde cualquier parte del código, sería imposible garantizar que las invariantes se respeten, ya que cualquier código externo podría modificar los valores de forma arbitraria. Al forzar el acceso a través de métodos, se puede incluir lógica de validación que rechace cambios que violarían las invariantes.
 
-Por ejemplo, si una clase `Fecha` tiene atributos privados para día, mes y año, el método que modifica el día puede verificar que el valor esté entre 1 y el número de días válido para ese mes y año. Sin ocultación de información, cualquier código podría establecer el día a 35, creando un estado inválido imposible de detectar o prevenir.
-
-## 5. Pon un ejemplo de una clase `Punto` en `Java`, con dos coordenadas, `x` e `y`, de tipo `double`, con un método `calcularDistanciaAOrigen`, y que haga uso de la ocultación de información. ¿Cuál es la interfaz pública de la clase `Punto`? ¿Qué significa `public` y `private`?
+## 5. Pon un ejemplo de una clase `Punto` en `Java`, con dos coordenadas, `x` e `y`, de tipo `double`, con un método `calcularDistanciaAOrigen`, y que haga uso de la ocultación de información.
 
 ```java
 public class Punto {
@@ -70,19 +60,17 @@ public class Punto {
     }
     
     // Métodos públicos para acceder a las coordenadas
-    public double getX() {
-        return x;
-    }
-    
-    public double getY() {
-        return y;
-    }
+    public double getX() { return x; }
+    public double getY() { return y; }
 }
 ```
 
+### ¿Cuál es la interfaz pública de la clase `Punto`?
 La **interfaz pública** de la clase `Punto` está formada por el constructor `Punto(double x, double y)` y los métodos `calcularDistanciaAOrigen()`, `getX()` y `getY()`. Estos son los elementos marcados con `public` y representan todo lo que el código exterior puede usar para interactuar con objetos de tipo `Punto`.
 
-El modificador **`public`** indica que un elemento (atributo, método o constructor) es accesible desde cualquier parte del programa, desde otras clases y paquetes. Es parte de la interfaz visible de la clase. Por el contrario, **`private`** indica que un elemento solo es accesible dentro de la propia clase, permaneciendo oculto para el resto del código. En el ejemplo, los atributos `x` e `y` son privados, lo que significa que no pueden ser accedidos ni modificados directamente desde fuera de la clase `Punto`. Solo pueden ser leídos mediante los métodos públicos `getX()` y `getY()`, y se establecen únicamente a través del constructor. Esta ocultación protege la integridad de los datos y permite cambiar la representación interna sin afectar al código que usa la clase.
+### ¿Qué significa `public` y `private`?
+El modificador **`public`** indica que un elemento (atributo, método o constructor) es accesible desde cualquier parte del programa, desde otras clases y paquetes. Es parte de la interfaz visible de la clase. 
+Por el contrario, **`private`** indica que un elemento solo es accesible dentro de la propia clase, permaneciendo oculto para el resto del código.
 
 
 ## 6. En Java, ¿A quiénes se pueden aplicar los modificadores `public` o `private`?
