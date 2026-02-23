@@ -220,7 +220,8 @@ class Punto {
 }
 ```
 
-## 14. El paso del `Punto` como parámetro a un método, 
+## 14. El paso del `Punto` como parámetro a un método,
+![](https://i.imgur.com/Sutr8Zb.jpeg)
 #### ¿es por copia o por referencia, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método?
 En Java los parámetros se pasan por **valor**, pero en objetos, lo que se **copia es la referencia**.
 Si un método recibe un `Punto` y modifica sus atributos mediante esa referencia, el objeto subyacente cambia y los efectos son visibles fuera del método. Sin embargo, re-asignar la referencia dentro del método no altera la variable original del llamador.
