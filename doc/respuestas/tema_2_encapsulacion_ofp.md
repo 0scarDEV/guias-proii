@@ -225,13 +225,8 @@ public class Punto {
                         coordenadas[1] * coordenadas[1]);
     }
     
-    public double getX() {
-        return coordenadas[0];
-    }
-    
-    public double getY() {
-        return coordenadas[1];
-    }
+    public double getX() {return coordenadas[0];}
+    public double getY() {return coordenadas[1];}
     
     public double calcularDistanciaAPunto(Punto otro) {
         double deltaX = this.coordenadas[0] - otro.coordenadas[0];
@@ -239,24 +234,18 @@ public class Punto {
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
     
-    public static double getMaxX() {
-        return maxX;
-    }
+    public static double getMaxX() {return maxX;}
+    public static double getMaxY() {return maxY;}
     
-    public static double getMaxY() {
-        return maxY;
-    }
-    
-    public static Punto crearPuntoRedondeado(double x, double y) {
+    public static Punto newPuntoRedondeado(double x, double y) {
         return new Punto(Math.round(x), Math.round(y));
     }
 }
 ```
+Este ejemplo demuestra perfectamente el valor de la encapsulación. 
+Al haber mantenido privados los atributos `x` e `y` originales y haber proporcionado acceso solo a través de métodos públicos, se ha podido cambiar completamente la representación interna (de dos variables separadas a un array) sin modificar la interfaz pública.
 
-Este ejemplo demuestra perfectamente el valor de la encapsulación. Al haber mantenido privados los atributos `x` e `y` originales y haber proporcionado acceso solo a través de métodos públicos, se ha podido cambiar completamente la representación interna (de dos variables separadas a un array) sin modificar la interfaz pública. Todo el código que usaba la clase `Punto` seguirá funcionando exactamente igual, sin necesidad de ningún cambio.
-
-Los métodos `getX()` y `getY()` ahora devuelven `coordenadas[0]` y `coordenadas[1]` respectivamente, y el constructor almacena los valores en el array en lugar de en variables separadas. El cambio es completamente transparente para los usuarios de la clase. Este es uno de los beneficios más importantes de la ocultación de información: permite evolucionar y mejorar la implementación interna sin romper el código que depende de la clase, siempre que se mantenga la misma interfaz pública.
-
+Todo el código que usaba la clase `Punto` seguirá funcionando exactamente igual, sin necesidad de ningún cambio.
 
 ## 16. Si un atributo va a tener un método "getter" y "setter" públicos, ¿no es mejor declararlo público? ¿Cuál es la convención más habitual sobre los atributos, que sean públicos o privados? ¿Tiene esto algo que ver con las "invariantes de clase"?
 
