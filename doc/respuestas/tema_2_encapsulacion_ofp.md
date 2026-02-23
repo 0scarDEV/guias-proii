@@ -36,9 +36,9 @@ Cambiar la interfaz pública no es fácil, si se cambia tiene más consecuencias
 
 ## 4. ¿Qué son las **invariantes de clase** y por qué la ocultación de información nos ayuda?
 
-Las **invariantes de clase** son condiciones o propiedades que deben cumplirse <u>siempre</u> para los atributos de un objeto, garantizando que el objeto se mantenga en un estado válido y coherente. Por ejemplo, que la edad de una persona no sea negativa. Son restricciones lógicas que definen qué estados son válidos para un objeto.
+Las **invariantes de clase** son condiciones o propiedades que deben cumplirse <u>siempre</u> para los atributos de un objeto, garantizando que el objeto se mantenga en un estado válido y coherente. Son restricciones lógicas que definen qué estados son válidos para un objeto. Por ejemplo, que la edad de una persona no sea negativa.
 
-La ocultación de información es importante porque, al hacer privados los atributos, se obliga a que cualquier modificación pase por métodos públicos controlados. Si los atributos fueran públicos y accesibles directamente desde cualquier parte del código, sería imposible garantizar que las invariantes se respeten, ya que cualquier código externo podría modificar los valores de forma arbitraria. Al forzar el acceso a través de métodos, se puede incluir lógica de validación que rechace cambios que violarían las invariantes.
+La <u>ocultación de información</u> es importante porque, al hacer privados los atributos, se obliga a que cualquier modificación pase por métodos públicos controlados, garantizando que desde el exterior no se modifique a valores fuera de las invariantes de clase.
 
 ## 5. Pon un ejemplo de una clase `Punto` en `Java`, con dos coordenadas, `x` e `y`, de tipo `double`, con un método `calcularDistanciaAOrigen`, y que haga uso de la ocultación de información.
 
