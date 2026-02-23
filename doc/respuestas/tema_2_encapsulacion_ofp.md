@@ -121,12 +121,12 @@ Como se observa en el ejemplo, el método `calcularDistanciaAPunto` puede accede
 
 ## 9. ¿Qué son los métodos "getter" y "setter" en los lenguajes orientados a objetos?
 
-Los métodos **"getter"** y **"setter"** son métodos públicos que proporcionan acceso controlado a los atributos privados de una clase. Un **getter** (también llamado "accessor" o método de acceso) es un método que devuelve el valor de un atributo privado, permitiendo leer su contenido sin acceder directamente al atributo. Un **setter** (también llamado "mutator" o método modificador) es un método que permite modificar el valor de un atributo privado, recibiendo el nuevo valor como parámetro. En Java, la convención de nombres es usar `get` o `set` seguido del nombre del atributo con la primera letra en mayúscula, como `getX()` o `setNombre(String nombre)`.
+- Un **getter** es un método que devuelve el valor de un atributo privado, permitiendo leer su contenido sin acceder directamente al atributo. 
+- Un **setter** es un método que permite modificar el valor de un atributo privado, recibiendo el nuevo valor como parámetro. 
 
-La utilidad de estos métodos radica en que mantienen la encapsulación incluso cuando se necesita acceder o modificar atributos. A diferencia de hacer los atributos públicos, los getters y setters permiten incluir lógica adicional: validación de datos en los setters (por ejemplo, verificar que un valor no sea negativo), cálculos o transformaciones en los getters (como redondear un valor antes de devolverlo), o incluso cambiar la implementación interna sin afectar al código que usa la clase. También permiten crear atributos de solo lectura (proporcionando solo el getter) o de solo escritura (solo el setter).
+En Java, la convención de nombres es usar `get` o `set` seguido del nombre del atributo con la primera letra en mayúscula, como `getX()` o `setNombre(String nombre)`.
 
-Por ejemplo, en la clase `Punto`, los métodos `getX()` y `getY()` son getters que permiten leer las coordenadas. Si se quisiera permitir modificar las coordenadas, se añadirían setters como `setX(double x)` y `setY(double y)`, que podrían incluir validaciones si fuera necesario.
-
+Los getters y setters permiten incluir lógica adicional: validación de datos en los setters (por ejemplo, verificar que un valor no sea negativo), cálculos o transformaciones en los getters (como redondear un valor antes de devolverlo), o incluso cambiar la implementación interna sin afectar al código que usa la clase.
 
 ## 10. Cuando nos referimos a que la ocultación de información mejora la "seguridad" del programa, ¿nos referimos a que no pueda ser "hackeado"?
 
