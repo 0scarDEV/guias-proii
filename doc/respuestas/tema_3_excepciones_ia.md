@@ -94,8 +94,11 @@ El código que llama la función utiliza la estructura `try-catch` para capturar
 
 ## 5. ¿Qué ventajas tiene frente a C, la **"propagación natural"** de las excepciones a través de la pila (*stack*) de llamadas?
 
-### Respuesta
+En C, cuando una función en medio de la cadena de llamadas (por ejemplo, `funcionA()` llamada desde `funcionB()` llamada desde `main()`) detecta un error, debe devolver un código de error explícitamente. Este código debe ser comprobado en cada nivel de la cadena de llamadas, lo que obliga a escribir verificaciones de errores tedioso y repetitivo en cada función. Si se olvida verificar algún código de retorno, el error pasará desapercibido, potencialmente causando comportamientos inesperados más adelante.
 
+En Java, la propagación natural de excepciones permite que una excepción "salte" automáticamente sobre todos los niveles intermedios sin necesidad de manejarla explícitamente en cada uno. Si `funcionA()` lanza una excepción y ninguna función intermedia la captura, se propagará directamente al nivel superior o al contexto donde se desee manejarla. Esto significa que el manejador del error puede estar en el nivel más apropiado documentalmente, sin contaminar el código intermedio con lógica de control de errores. Además, si posteriormente se añade un nuevo nivel de función en medio de dos existentes, no es necesario modificar las verificaciones de códigos de retorno, ya que la excepción se propagará automáticamente a través del nuevo nivel.
+
+La ventaja fundamental es la **claridad** y **mantenibilidad** del código: la lógica normal se separa claramente de la lógica de manejo de errores, y no existe riesgo de que se ignore accidentalmente un error por falta de verificación.
 
 ## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? ¿Qué ventajas tiene esto en términos de encapsulación? ¿Podemos entonces crear excepciones personalizadas?
 
