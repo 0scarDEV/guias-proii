@@ -314,8 +314,59 @@ Se recomienda usar **excepciones no controladas** cuando la situación represent
 
 ## 16. ¿Tiene sentido lanzar excepciones dentro del `catch`? ¿Se puede relanzar la misma excepción capturada? ¿Cuándo tendría sentido hacer esto último? Pon ejemplos de ambos casos.
 
-### Respuesta
+**Lanzar excepciones nuevas dentro del `catch`** tiene sentido cuando se desea transformar o envolver una excepción capturada en una excepción de más alto nivel. Por ejemplo, si se captura una `IOException` al leer un fichero, podría ser útil lanzar una excepción de negocio personalizada como `DatosInvalidosException` para que el código llamador no tenga que conocer detalles de entrada/salida. Esto permite mantener la abstracción y proporciona errores significativos en el contexto de la aplicación.
 
+**Relanzar la misma excepción capturada** también es posible y tiene sentido cuando se necesita ejecutar código de limpieza antes de permitir que la excepción continúe propagándose. Por ejemplo, se podría capturar una excepción para registrar el error, ejecutar limpieza, y luego relanzarla con `throw e;` o simplemente `throw;` sin argumentos.
+
+**Ejemplo 1: Lanzar una excepción nueva dentro del `catch`**
+
+```java
+public class ProcesadorDatos {
+    public void procesarArchivo(String ruta) throws DatosInvalidosException {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(ruta));
+            String linea = reader.readLine();
+            int numero = Integer.parseInt(linea);
+            reader.close();
+        } catch (IOException e) {
+            // Se transforma IOException en una excepción de negocio
+            throw new DatosInvalidosException("No se pudo leer el archivo: " + ruta, e);
+        }
+    }
+}
+
+public class DatosInvalidosException extends Exception {
+    public DatosInvalidosException(String mensaje, Throwable causa) {
+        super(mensaje, causa);
+    }
+}
+```
+
+**Ejemplo 2: Relanzar la misma excepción capturada**
+
+```java
+public class GestorTransacciones {
+    public void procesarTransaccion() throws SQLException {
+        Connection conexion = null;
+        try {
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost/bd");
+            // operaciones de base de datos
+        } catch (SQLException e) {
+            System.out.println("Error registrado: " + e.getMessage());
+            if (conexion != null) {
+                try {
+                    conexion.rollback();
+                } catch (SQLException ex) {
+                    // ignorar
+                }
+            }
+            throw e;  // Se relanza la misma excepción original
+        }
+    }
+}
+```
+
+En ambos casos, la idea es que el `catch` realice tareas necesarias (limpieza, logging, transformación) pero luego permita que la excepción continúe su camino hacia niveles superiores, garantizando que el error no se pierda o se oculte silenciosamente.
 
 ## 17. ¿En qué consiste que una excepción sea la **"causa"** de otra excepción? Pon un ejemplo en Java, donde capturemos una excepción de bajo nivel y la encapsulemos en otra personalizada de alto nivel. Cuando una excepción sale por pantalla y tiene una causa, ¿se ve?
 
