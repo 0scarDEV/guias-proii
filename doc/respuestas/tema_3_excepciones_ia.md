@@ -289,8 +289,20 @@ En `main`, el código que llama a `leerPrimeraLinea()` es el responsable de capt
 
 ## 14. ¿Podemos poner en `throws` excepciones no controladas, como `RuntimeException`? ¿Debería el método llamador entonces poner `try-catch` en ese caso? ¿Qué sentido tendría?
 
-### Respuesta
+Técnicamente **sí es posible** poner excepciones no controladas en `throws`. Java permite declarar `throws RuntimeException` en una firma de método. Sin embargo, esto es **innecesario y generalmente no recomendado**, porque el compilador de Java no obliga a capturar excepciones no controladas de todas formas. La declaración `throws` es principalmente para excepciones controladas, donde el compilador rechaza el código si no se trata de alguna manera.
 
+```java
+public void metodoQuePuedeFallar(int valor) throws IllegalArgumentException {
+    if (valor < 0) {
+        throw new IllegalArgumentException("Valor no puede ser negativo");
+    }
+}
+
+// El código llamador NO está obligado a poner try-catch
+int resultado = metodoQuePuedeFallar(-5);  // Esto compila sin error, aunque podría lanzar excepción
+```
+
+El método llamador **no debería** poner `try-catch` solo porque haya `throws` con excepciones no controladas, a menos que realmente desee capturar ese error específico. El compilador no lo obliga. Poner `try-catch` tendría sentido **únicamente** si el código llamador tiene una estrategia de recuperación inteligente ante ese error específico. Por ejemplo, si una función valida parámetros y lanza `IllegalArgumentException`, el llamador podría capturarla, registrar el error, e intentar con parámetros diferentes. Pero en la mayoría de casos, las excepciones no controladas representan bugs del programador que no debería haber permitido llegar a ese punto, por lo que capturarlas es enmascarar el problema.
 
 ## 15. ¿Cuándo se recomienda usar excepciones controladas, como `IOException`, y cuándo no controladas como `IllegalArgumentException`? ¿Existen en todos los lenguajes ambas opciones? En los que sólo existe una opción, ¿cuál es la más habitual?
 
