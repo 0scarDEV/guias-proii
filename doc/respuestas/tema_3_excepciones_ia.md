@@ -1,9 +1,6 @@
 # TEMA 3. Excepciones
 
 ## 1. Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo. Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
-
-### Respuesta
-
 **Opción 1: Usar un código de retorno especial**
 
 En C, una estrategia común es devolver un valor especial que indique un error. Por ejemplo, se puede devolver -1 o NaN (Not a Number) para señalar un fallo. El código llamador debe verificar este valor especial después de cada llamada. Esta aproximación es simple pero poco elegante, ya que el valor especial más significativo (el resultado) se mezcla con la información del estado (éxito o error).
@@ -53,7 +50,9 @@ int main() {
 
 ## 2. Brevemente ¿Qué es una **"excepción"**? ¿Con qué objetivo las usa un programador cuando implementa funciones o cuando las llama?
 
-### Respuesta
+Una excepción es un evento extraordinario que representa una situación anómala durante la ejecución de un programa, como intentar acceder a un archivo inexistente, dividir por cero o asignar memoria inválida. A diferencia de C, donde es necesario revisar manualmente códigos de retorno, Java proporciona un mecanismo automático y estructurado para tratar estos casos excepcionales.
+
+Al implementar funciones, se utiliza `throw` para señalar que ha ocurrido una condición de error, permitiendo que el código llamador maneje la situación de forma explícita mediante `try-catch`. Esto facilita la separación entre la lógica normal de la función y el manejo de errores, haciendo el código más legible y menos propenso a que se ignore un error. El programador que llama la función puede entonces decidir cómo reaccionar ante la excepción: captarla y recuperarse, registrar el error, o permitir que se propague a niveles superiores.
 
 
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
