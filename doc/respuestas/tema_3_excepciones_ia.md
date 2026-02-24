@@ -370,5 +370,61 @@ En ambos casos, la idea es que el `catch` realice tareas necesarias (limpieza, l
 
 ## 17. ¿En qué consiste que una excepción sea la **"causa"** de otra excepción? Pon un ejemplo en Java, donde capturemos una excepción de bajo nivel y la encapsulemos en otra personalizada de alto nivel. Cuando una excepción sale por pantalla y tiene una causa, ¿se ve?
 
-### Respuesta
+Una excepción es la **"causa"** de otra cuando la segunda fue lanzada como consecuencia directa de la primera. En Java, esto se implementa a través de la **exception chaining** (encadenamiento de excepciones): se captura una excepción de bajo nivel y se lanza una excepción de más alto nivel, pasando la original como parámetro `Throwable` al constructor. Esto preserva la información del error original manteniendo una referencia a través de `getCause()`, permitiendo rastrear toda la cadena de errores desde la causa raíz hasta el error de negocio visible al usuario.
+
+La ventaja de esto es que se documenta la secuencia completa de eventos que llevó al error. Por ejemplo, si una operación de base de datos falla porque el servidor no responde, la causa inmediata es una `SQLException`, pero la causa raíz podría ser una `SocketTimeoutException`. Con exception chaining, se puede preservar toda esta información mientras se presenta un mensaje de error comprensible al nivel de negocio.
+
+```java
+// Excepción personalizada de alto nivel
+public class ErrorOperacionBancaria extends Exception {
+    public ErrorOperacionBancaria(String mensaje, Throwable causa) {
+        super(mensaje, causa);
+    }
+}
+
+public class TransferenciaManager {
+    public void transferir(String origen, String destino, double cantidad) throws ErrorOperacionBancaria {
+        try {
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/banco");
+            // Lógica de transferencia que podría lanzar SQLException
+            String sql = "UPDATE cuentas SET saldo = saldo - ? WHERE numero = ?";
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setDouble(1, cantidad);
+            stmt.setString(2, origen);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            // Se encadena la excepción de bajo nivel como causa
+            throw new ErrorOperacionBancaria(
+                "No se pudo completar la transferencia de " + cantidad + " desde " + origen,
+                e
+            );
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TransferenciaManager mgr = new TransferenciaManager();
+        try {
+            mgr.transferir("1234", "5678", 100);
+        } catch (ErrorOperacionBancaria e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Cuando una excepción sale por pantalla y tiene una causa, ¡sí se ve!** Al ejecutar `e.printStackTrace()`, Java muestra tanto el error principal como la causa raíz. La salida tendría este aspecto:
+
+```
+ErrorOperacionBancaria: No se pudo completar la transferencia de 100.0 desde 1234
+    at TransferenciaManager.transferir(TransferenciaManager.java:15)
+    at Main.main(Main.java:22)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.SQLServerException: Connection timeout
+    at com.mysql.jdbc.Connection.createNewIO(Connection.java:2435)
+    at com.mysql.jdbc.Connection.<init>(Connection.java:1559)
+    ... (más líneas de traza)
+```
+
+La sección `Caused by:` muestra explícitamente la excepción original que provocó el error. Esto es extremadamente útil para debugging, ya que permite ver exactamente dónde ocurrió el error técnico (la conexión expiró) y cómo se relaciona con la operación lógica (transferencia bancaria). Sin exception chaining, esa información se perdería y solo se vería el error de negocio, sin saber realmente qué falló en el sistema.
 
