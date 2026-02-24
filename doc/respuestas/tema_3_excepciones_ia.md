@@ -136,8 +136,50 @@ try {
 
 ## 9. Si las excepciones producen rupturas en el código llamador, ¿cómo podemos garantizar que se ejecuta siempre finalmente un código necesario para cierre de ficheros, liberacion de recursos, antes de que continúe propagándose la excepción? Pon un ejemplo en Java con `finally`, tanto con `catch` como sin él.
 
-### Respuesta
+El bloque `finally` se ejecuta **siempre**, independientemente de si se lanzó una excepción o no. Es el mecanismo perfecto para colocar código de limpieza (cierre de ficheros, liberación de recursos, etc.) que debe ejecutarse en cualquier circunstancia. Incluso si se propaga una excepción, el bloque `finally` se ejecuta antes de que la excepción continúe subiendo por la pila de llamadas.
 
+**Ejemplo con `catch`:**
+
+```java
+BufferedReader reader = null;
+try {
+    reader = new BufferedReader(new FileReader("archivo.txt"));
+    String linea = reader.readLine();
+    System.out.println(linea);
+} catch (IOException e) {
+    System.out.println("Error de lectura: " + e.getMessage());
+} finally {
+    if (reader != null) {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Error cerrando fichero: " + e.getMessage());
+        }
+    }
+}
+```
+
+**Ejemplo sin `catch` (solo `try-finally`):**
+
+```java
+BufferedReader reader = null;
+try {
+    reader = new BufferedReader(new FileReader("archivo.txt"));
+    String linea = reader.readLine();
+    System.out.println(linea);
+    // Si ocurre una excepción, se propaga después de finally
+} finally {
+    if (reader != null) {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Error cerrando fichero: " + e.getMessage());
+        }
+    }
+}
+```
+
+En ambos casos, el bloque `finally` garantiza que el recurso se cierre correctamente. Sin `catch`, la excepción se propaga después de ejecutar `finally`, lo que permite usar `finally` como garantía de limpieza sin necesariamente manejar el error en ese nivel.
 
 ## 10. En Java, el bloque `finally` puede ir sin `catch`? ¿Se ejecuta siempre tanto si ocurre como si no ocurre una excepción? ¿Y si hay un `return` en medio del `try`?
 
