@@ -104,6 +104,11 @@ La ventaja fundamental es la **claridad** y **mantenibilidad** del código: la l
 
 ### Respuesta
 
+Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. Esto es fundamental para la orientación a objetos: cada excepción encapsula información relevante al error en sus atributos y métodos. Por ejemplo, cada objeto excepción incluye un mensaje descriptivo, la traza de la pila de llamadas, y puede llevar datos adicionales útiles para diagnosticar el problema. Esto contrasta con C, donde los errores se representaban como simples números o valores especiales.
+
+Desde la perspectiva de la encapsulación, esto es muy poderoso. En lugar de devolver un simple código de error numérico como en C, la excepción encapsula en un objeto toda la información contextual del error. Además, se puede capturar excepciones por tipo, aprovechando la herencia polimórfica: un `catch (Exception e)` captura cualquier excepción, mientras que `catch (IOException e)` solo captura excepciones de entrada/salida. Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
+
+También es posible crear excepciones personalizadas extendiendo las clases existentes. Por ejemplo, se puede definir una clase `ValorNegativoException` que herede de `Exception` o `RuntimeException`, permitiendo definir excepciones específicas del dominio de la aplicación. Estas excepciones personalizadas pueden encapsular campos adicionales, constructores personalizados, o métodos utilitarios relevantes para el negocio. Esto hace el código más semántico, fácil de mantener, y permite a quien llama la función ser muy específico sobre qué tipos de errores puede esperar.
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
