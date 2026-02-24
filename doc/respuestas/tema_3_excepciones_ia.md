@@ -1,22 +1,54 @@
-<!--
-Posible prompt:
-<prompt>
-Tengo un cuestionario con preguntas sobre "Excepciones". Debes tener en cuenta que los conocimientos previos que tengo (y por tanto tus respuestas deben ser adaptadas), son:
-- C/C++ sin orientación a objetos.
-- Temas de Java previos: Clases y Objetos, Encapsulación.
-
-Cada respuesta debe tener entre 2 - 4 párrafos de longitud (sin contar los trozos de código).
-
-Por favor, escribe en impersonal las respuestas.
-
-</prompt>
-----
--->
 # TEMA 3. Excepciones
 
 ## 1. Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo. Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
 
 ### Respuesta
+
+**Opción 1: Usar un código de retorno especial**
+
+En C, una estrategia común es devolver un valor especial que indique un error. Por ejemplo, se puede devolver -1 o NaN (Not a Number) para señalar un fallo. El código llamador debe verificar este valor especial después de cada llamada. Esta aproximación es simple pero poco elegante, ya que el valor especial más significativo (el resultado) se mezcla con la información del estado (éxito o error).
+
+```c
+#include <math.h>
+#include <stdio.h>
+
+float raiz(float numero) {
+    if (numero < 0) return -1.0;  // Indica error
+    return sqrt(numero);
+}
+
+int main() {
+    float resultado = raiz(-4);
+    if (resultado == -1.0) {
+        printf("Error: no se puede calcular raíz de número negativo\n");
+    }
+    return 0;
+}
+```
+
+**Opción 2: Usar un parámetro de salida y devolver un código de estado**
+
+Otra alternativa es pasar un puntero donde la función almacena el resultado, y devolver un código de error (0 para éxito, -1 para fallo). De esta forma se separa claramente el valor calculado del estado de la operación. Esta aproximación es más robusta porque el resultado y el estado viajan por caminos diferentes, pero requiere más verbosidad: se debe pasar una dirección de memoria y verificar después si la operación fue exitosa.
+
+```c
+#include <math.h>
+#include <stdio.h>
+
+int raiz(float numero, float *resultado) {
+    if (numero < 0) return -1;  // Error
+    *resultado = sqrt(numero);
+    return 0;  // Éxito
+}
+
+int main() {
+    float resultado;
+    int estado = raiz(-4, &resultado);
+    if (estado == -1) {
+        printf("Error: no se puede calcular raíz de número negativo\n");
+    }
+    return 0;
+}
+```
 
 
 ## 2. Brevemente ¿Qué es una **"excepción"**? ¿Con qué objetivo las usa un programador cuando implementa funciones o cuando las llama?
