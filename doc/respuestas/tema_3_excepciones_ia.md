@@ -102,8 +102,6 @@ La ventaja fundamental es la **claridad** y **mantenibilidad** del código: la l
 
 ## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? ¿Qué ventajas tiene esto en términos de encapsulación? ¿Podemos entonces crear excepciones personalizadas?
 
-### Respuesta
-
 Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. Esto es fundamental para la orientación a objetos: cada excepción encapsula información relevante al error en sus atributos y métodos. Por ejemplo, cada objeto excepción incluye un mensaje descriptivo, la traza de la pila de llamadas, y puede llevar datos adicionales útiles para diagnosticar el problema. Esto contrasta con C, donde los errores se representaban como simples números o valores especiales.
 
 Desde la perspectiva de la encapsulación, esto es muy poderoso. En lugar de devolver un simple código de error numérico como en C, la excepción encapsula en un objeto toda la información contextual del error. Además, se puede capturar excepciones por tipo, aprovechando la herencia polimórfica: un `catch (Exception e)` captura cualquier excepción, mientras que `catch (IOException e)` solo captura excepciones de entrada/salida. Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
@@ -112,8 +110,11 @@ También es posible crear excepciones personalizadas extendiendo las clases exis
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
-### Respuesta
+En el ejemplo en C, cuando se recibía un código de retorno -1, no había información adicional sobre qué salió mal, dónde ocurrió, o cómo se llegó a esa situación. El programador debía agregar manualmente logs o comentarios para rastrear el problema. En cambio, todo objeto excepción en Java encapsula información essential del error que viaja con la excepción.
 
+La información más importante que lleva una excepción es el **mensaje de error** (accesible mediante `getMessage()`), que describe qué salió mal de forma legible y contextualizada. Además, cada objeto excepción incluye la **traza de la pila** (accesible mediante `printStackTrace()` o `getStackTrace()`), que registra toda la cadena de métodos que se ejecutaron hasta el punto donde se lanzó la excepción, permitiendo identificar exactamente dónde ocurrió el error y cómo se llegó a él. El objeto también puede contener una **causa** (referencia a otra excepción que originó ésta, accesible mediante `getCause()`), útil para encadenar errores de bajo nivel a mensajes de error de alto nivel.
+
+Cuando se captura la excepción en el manejador, toda esta información está disponible encapsulada en el objeto, facilitando tremendamente el debugging, el logging estructurado, y la recuperación inteligente del error. A diferencia de C, donde el programador debe construir manualmente toda esta información contextual, Java proporciona un mecanismo automático que preserva el contexto del error a lo largo de toda la propagación.
 
 ## 8. En Java, sobre el bloque **"try-catch"**, ¿se pueden tener más de un bloque `catch`? ¿cuántos bloques `catch` se ejecutan?
 
