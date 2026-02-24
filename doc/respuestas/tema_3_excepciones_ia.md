@@ -183,8 +183,22 @@ En ambos casos, el bloque `finally` garantiza que el recurso se cierre correctam
 
 ## 10. En Java, el bloque `finally` puede ir sin `catch`? ¿Se ejecuta siempre tanto si ocurre como si no ocurre una excepción? ¿Y si hay un `return` en medio del `try`?
 
-### Respuesta
+Sí, el bloque `finally` puede ir sin `catch`. La estructura válida es `try-finally`, lo que resulta útil cuando no se desea manejar la excepción en ese nivel pero sí garantizar la limpieza de recursos. La excepción se propagará después de ejecutar el bloque `finally`, permitiendo que un nivel superior maneje el error. También es válida la estructura `try-catch-finally`, donde se maneja la excepción y luego se ejecuta la limpieza.
 
+El bloque `finally` se ejecuta **siempre**, sin excepciones (valga el juego de palabras). Tanto si el código del `try` se ejecuta correctamente como si lanza una excepción, el `finally` se ejecutará. Esto hace que sea el lugar perfecto para código de limpieza. Incluso si hay un `catch` que captura la excepción y el programa parece recuperarse normalmente, el `finally` igualmente se ejecuta después del `catch`.
+
+Ahora bien, si hay un `return` en medio del bloque `try`, el comportamiento puede parecer sorprendente: el `finally` **aún se ejecuta antes de que el método retorne**. Java garantiza que el bloque `finally` se ejecute incluso cuando hay un `return`, `break`, o `continue` dentro del `try` o del `catch`. El flujo es: se evalúa la instrucción `return`, se ejecuta el `finally`, y entonces se retorna el valor. Si el `finally` también contiene un `return`, este sobrescribe el return anterior.
+
+```java
+public static int ejemplo() {
+    try {
+        return 1;  // Se marcará para retornar 1
+    } finally {
+        System.out.println("Se ejecuta finally incluso con return");  // Esto se imprime
+        // Aquí podría haber return 2; que sobrescribiría el return 1
+    }
+}
+```
 
 ## 11. En Java, qué son las excepciones **"controladas"** y las **"no controladas"**? ¿Qué papel juega `RuntimeException`? Pon un ejemplo de excepciones típicas controladas y no controladas que incluso nosotros mismos podríamos usar. Haz dos listas con 3 o 4 ejemplos de situación donde se suele preferir una excepción controlada y donde se suele preferir una excepción no controlada.
 
