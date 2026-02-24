@@ -56,9 +56,33 @@ Al implementar funciones, se utiliza `throw` para señalar que ha ocurrido una c
 
 
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
+```java
+public class Calculadora {
+    public double raiz(double numero) {
+        if (numero < 0) {
+            throw new IllegalArgumentException("No se puede calcular raíz de número negativo");
+        }
+        return Math.sqrt(numero);
+    }
+}
 
-### Respuesta
+public class Main {
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        
+        try {
+            double resultado = calc.raiz(-4);
+            System.out.println("Raíz: " + resultado);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
 
+En Java, cuando el método `raiz()` detecta un número negativo, lanza una excepción usando `throw`. Esta excepción interrumpe inmediatamente la ejecución del método y salta al bloque `catch` en el código llamador. El manejo es mucho más elegante que en C: no requiere revisar valores de retorno especiales, el control fluye automáticamente al manejador, y el mensaje de error se encapsula en el objeto excepción.
+
+El código que llama la función utiliza la estructura `try-catch` para capturar y manejar la excepción de forma controlada. El bloque `try` contiene el código que podría lanzar una excepción, y el bloque `catch` especifica qué tipo de excepción se captura y cómo se maneja. En este caso, se imprime el mensaje de error encapsulado en la excepción, permitiendo que el programa continúe de forma controlada en lugar de terminar abruptamente.
 
 ## 4. ¿Qué es **"lanzar"** una excepción? ¿Qué es **"controlar"** o **"capturar"** una excepción? ¿Qué es que se **"propague"** una excepción? ¿Qué le va ocurriendo a las funciones en la pila de llamadas por donde se va propagando la excepción? ¿Las funciones que no la controlan se reanudan después de alguna forma? Explica con el mismo ejemplo anterior en Java de la raíz cuadrada.
 
