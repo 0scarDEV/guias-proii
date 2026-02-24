@@ -238,8 +238,18 @@ public class ValorNegativoException extends RuntimeException {
 
 ## 12. ¿Qué es y para qué se usa `throws`? ¿Por qué es alternativa a capturar una excepción controlada?
 
-### Respuesta
+`throws` es una palabra clave que se añade a la firma de un método para declarar que ese método puede lanzar una o más excepciones controladas, sin manejarlas internamente. En lugar de usar `try-catch` para capturar la excepción dentro del método, se declara en la firma que la excepción será propagada al código llamador, transfiriendo la responsabilidad del manejo a un nivel superior de la aplicación.
 
+```java
+public void abrirArchivo(String nombreArchivo) throws IOException {
+    FileInputStream fis = new FileInputStream(nombreArchivo);
+    // Si el archivo no existe, se lanza IOException sin capturarla
+}
+```
+
+`throws` es **alternativa a capturar** porque Java obliga a tratar las excepciones controladas de una u otra forma: bien capturándolas con `try-catch`, o bien declarándolas en `throws`. No se puede simplemente ignorar una excepción controlada; el compilador rechaza el código que no la trate de alguna manera. Al usar `throws`, se expresa que el método reconoce que puede haber un error, pero que es responsabilidad del llamador decidir cómo manejarlo. Esta es frecuentemente la mejor opción cuando el método no tiene contexto suficiente para recuperarse del error de forma inteligente, o cuando el error es más relevante en un nivel superior de abstracción.
+
+La ventaja de usar `throws` es que permite que el error "suba" naturalmente por la cadena de llamadas hasta encontrar código que sí tenga la capacidad y el contexto para manejar la situación adecuadamente. Por ejemplo, un método bajo nivel que accede a un fichero puede no saber qué hacer si el fichero no existe, pero el controlador web que lo llamó sí sabe que debe mostrar un error al usuario.
 
 ## 13. Pon un ejemplo en Java de firma de método que incluya `throws`, de una función que abre un fichero pero que declara que no le interesa menejar la excepción de si el fichero no existe, sino que se propague hacia arriba. Eso sí, acuérdate del `finally`.
 
