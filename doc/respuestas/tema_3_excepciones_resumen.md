@@ -1,6 +1,6 @@
 # TEMA 3. Excepciones
-
-## 1. Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo. Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
+Empecemos un tema sobre control de errores en lenguajes de programación, con algo básico. En C, donde no existen las excepciones, pongamos un ejemplo de una raíz que toma número flotante positivo.
+## 1.  Queremos controlar el error si la función recibe un número negativo. El usuario debe ser informado pero desde fuera de la función `raiz` ¿Cómo indicamos ese error?. Enumera dos opciones diferentes de diseñar, poniendo un ejemplo de código de cada una.
 **Opción 1: Usar un código de retorno especial**
 
 En C, una estrategia común es devolver un valor especial que indique un error. Por ejemplo, se puede devolver -1 o NaN (Not a Number) para señalar un fallo. El código llamador debe verificar este valor especial después de cada llamada. Esta aproximación es simple pero poco elegante, ya que el valor especial más significativo (el resultado) se mezcla con la información del estado (éxito o error).
@@ -60,7 +60,9 @@ Al implementar funciones, se utiliza `throw` para señalar que ha ocurrido una c
 public class Calculadora {
     public double raiz(double numero) {
         if (numero < 0) {
-            throw new IllegalArgumentException("No se puede calcular raíz de número negativo");
+            throw new IllegalArgumentException(
+                "No se puede calcular raíz de número negativo"
+            );
         }
         return Math.sqrt(numero);
     }
