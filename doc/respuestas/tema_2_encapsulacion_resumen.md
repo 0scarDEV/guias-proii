@@ -322,14 +322,29 @@ System.out.println(s1.equals(s2));   // true (mismo contenido)
 ```
 
 
-## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? ¿Cómo se hace? ¿Es un proceso automático? ¿Qué ventajas tienen? ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers?
+## 21. ¿Qué son las clases "wrapper" en un lenguaje de programación orientado a objetos? 
+Las clases **"wrapper"** (envoltorio) son clases que encapsulan tipos de datos primitivos para tratarlos como objetos. Java tiene tipos primitivos. Para cada tipo primitivo, Java proporciona una clase wrapper: 
+> - `Integer` para `int`, 
+> - `Double` para `double`, 
+> - `Boolean` para `boolean`, 
+> - `Character` para `char`, etc.
 
-Las clases **"wrapper"** (envoltorio) son clases que encapsulan tipos de datos primitivos para tratarlos como objetos. Java tiene tipos primitivos (`int`, `double`, `boolean`, `char`, etc.) que no son objetos por razones de eficiencia, pero a veces se necesita tratarlos como objetos (por ejemplo, para almacenarlos en colecciones como `ArrayList` que solo aceptan objetos). Para cada tipo primitivo, Java proporciona una clase wrapper: `Integer` para `int`, `Double` para `double`, `Boolean` para `boolean`, `Character` para `char`, etc.
+### ¿Cómo se hace? ¿Es un proceso automático?  
+En Java, el proceso de convertir entre primitivos y wrappers puede ser manual o automático. Desde Java 5 se puede: 
+```
+Integer i = 7; // Autoboxing
+Integer j = Integer.valueOf(7); // Manual
+int x = i; // Unboxing automático
+int y = i.intValue(); // Unboxing manual
+```
+❗ Hay que tener cuidado con el unboxing de referencias `null`, que causaría una excepción.
 
-En Java, el proceso de convertir entre primitivos y wrappers puede ser manual o automático. La conversión se puede hacer manualmente: `Integer obj = Integer.valueOf(5);` o `int num = obj.intValue();`. Sin embargo, desde Java 5 existe el **autoboxing** y **unboxing automático**: el compilador convierte automáticamente entre primitivos y sus wrappers cuando es necesario. Por ejemplo, `Integer obj = 5;` (autoboxing) y `int num = obj;` (unboxing) funcionan automáticamente. Aunque es conveniente, hay que tener cuidado con el unboxing de referencias `null`, que causaría una excepción.
+### ¿Qué ventajas tienen?
+- Métodos útiles, como Integer.parseInt("string");
+- Pueden usarse en contextos donde se necesitan objetos, como en colecciones genéricas (`List<Integer>`).
 
-Las ventajas de los wrappers incluyen: permitir usar primitivos en estructuras que requieren objetos (como colecciones genéricas), proporcionar métodos útiles para conversiones y operaciones (como `Integer.parseInt("123")` o `Double.toString(3.14)`), y permitir valores `null` para representar ausencia de valor (un `int` primitivo no puede ser `null`, pero un `Integer` sí). No todos los lenguajes orientados a objetos tienen tipos primitivos. Por ejemplo, en lenguajes como Python, Ruby o Smalltalk, todo es un objeto, incluyendo los números, por lo que no necesitan clases wrapper. Java y C# sí tienen primitivos por eficiencia y por tanto necesitan wrappers.
-
+### ¿Todos los lenguajes orientados a objetos tienen tipos primitivos y necesitan wrappers?
+No todos los lenguajes orientados a objetos tienen tipos primitivos. Por ejemplo, en lenguajes como Python todo es un objeto, incluyendo los números, por lo que no necesitan clases wrapper. Java y C# sí tienen primitivos por eficiencia y por tanto necesitan wrappers.
 
 ## 22. ¿En POO qué es un **tipo de dato enumerado**? ¿En Java, un tipo de dato enumerado es una clase? ¿Qué ventajas tienen en términos de encapsulación los enumerados en Java?
 
