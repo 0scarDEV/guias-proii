@@ -259,13 +259,21 @@ Un setter puede validar que el nuevo valor no viole las invariantes antes de asi
 
 Con un atributo público, es imposible prevenir asignaciones inválidas. Además, en el futuro se podría necesitar añadir validación o lógica adicional, y tener getters/setters desde el principio lo permite sin cambiar la interfaz pública.
 
-## 17. ¿Qué significa que una clase sea **inmutable**? ¿qué es un método modificador? ¿Un método modificador es siempre un "setter"? ¿Tiene ventajas que una clase sea inmutable?
+## 17. ¿Qué significa que una clase sea **inmutable**? 
 
-Una clase es **inmutable** cuando sus objetos no pueden cambiar de estado después de ser creados. Una vez construido el objeto, sus atributos permanecen constantes durante toda su vida. Para lograr la inmutabilidad, los atributos se declaran `private` y `final` (para que no puedan ser reasignados), no se proporcionan métodos setter, y se tiene cuidado de no exponer referencias a objetos mutables internos. La clase `String` de Java es un ejemplo clásico de clase inmutable.
+Una clase es **inmutable** cuando sus objetos no pueden cambiar de estado después de ser creados.
 
-Un **método modificador** es cualquier método que cambia el estado interno de un objeto, es decir, que modifica el valor de uno o más atributos. No, un método modificador no es siempre un setter. Los setters son el tipo más directo de método modificador (asignan un nuevo valor a un atributo), pero existen muchos otros. Por ejemplo, en una clase `CuentaBancaria`, los métodos `depositar(double cantidad)` o `retirar(double cantidad)` son modificadores porque cambian el saldo, aunque no sean setters tradicionales. Un método `incrementarEdad()` también sería modificador. En una clase inmutable, no existen métodos modificadores.
+### ¿Qué es un método modificador? ¿Un método modificador es siempre un "setter"?
+Un **método modificador** es cualquier método que cambia el estado interno de un objeto, es decir, que modifica el valor de uno o más atributos. No, un método modificador no es siempre un setter. Los setters son el tipo más directo de método modificador. En una clase inmutable, no existen métodos modificadores.
 
-Sí, la inmutabilidad tiene ventajas significativas. Los objetos inmutables son inherentemente **seguros en entornos concurrentes** (pueden ser compartidos entre múltiples hilos sin preocupación por sincronización), son más **simples de entender y usar** (su estado nunca cambia, eliminando efectos secundarios inesperados), facilitan el **razonamiento sobre el código** (si se pasa un objeto inmutable a un método, se sabe que no será modificado), y pueden ser **compartidos libremente** sin necesidad de hacer copias defensivas. Además, su comportamiento es más predecible y reducen la posibilidad de errores relacionados con cambios de estado inadvertidos. La desventaja es que operaciones que implican "modificar" un objeto requieren crear uno nuevo, lo que puede ser menos eficiente en ciertos casos.
+### ¿Tiene ventajas que una clase sea inmutable?
+Sí, la inmutabilidad tiene ventajas significativas:
+> - Son **seguros en entornos concurrentes**.
+> - Son más **simples de entender y usar** (su estado nunca cambia, eliminando efectos secundarios inesperados).
+> - Facilitan el **razonamiento sobre el código** (si se pasa un objeto inmutable a un método, se sabe que no será modificado).
+> - Su comportamiento es más predecible y **reducen la posibilidad de errores** relacionados con cambios de estado inadvertidos. 
+
+La desventaja es que operaciones que implican "modificar" un objeto requieren crear uno nuevo, lo que puede ser menos eficiente en ciertos casos.
 
 
 ## 18. ¿Es recomendable incluir métodos "setter" siempre y como convención?
