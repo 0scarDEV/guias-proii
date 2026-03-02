@@ -121,17 +121,16 @@ Además, se puede capturar excepciones por tipo:
 Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
 
 ### ¿Podemos entonces crear excepciones personalizadas?
-También es posible crear excepciones personalizadas extendiendo las clases existentes. Estas excepciones personalizadas pueden encapsular campos adicionales, constructores personalizados. 
+También es posible crear excepciones personalizadas, que pueden encapsular campos adicionales, constructores personalizados, etc. 
 
 Esto hace el código más semántico, fácil de mantener, y permite a quien llama la función ser muy específico sobre qué tipos de errores puede esperar.
 
-## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
+## 7.  ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
+- El **mensaje de error** (accesible mediante `getMessage()`), que describe qué salió mal de forma legible y contextualizada. 
+- La **traza de la pila** (accesible mediante `printStackTrace()` o `getStackTrace()`), que registra toda la cadena de métodos que se ejecutaron hasta el punto donde se lanzó la excepción. 
+- Puede tener una **causa** (referencia a otra excepción que originó ésta, accesible mediante `getCause()`).
 
-En el ejemplo en C, cuando se recibía un código de retorno -1, no había información adicional sobre qué salió mal, dónde ocurrió, o cómo se llegó a esa situación. El programador debía agregar manualmente logs o comentarios para rastrear el problema. En cambio, todo objeto excepción en Java encapsula información essential del error que viaja con la excepción.
-
-La información más importante que lleva una excepción es el **mensaje de error** (accesible mediante `getMessage()`), que describe qué salió mal de forma legible y contextualizada. Además, cada objeto excepción incluye la **traza de la pila** (accesible mediante `printStackTrace()` o `getStackTrace()`), que registra toda la cadena de métodos que se ejecutaron hasta el punto donde se lanzó la excepción, permitiendo identificar exactamente dónde ocurrió el error y cómo se llegó a él. El objeto también puede contener una **causa** (referencia a otra excepción que originó ésta, accesible mediante `getCause()`), útil para encadenar errores de bajo nivel a mensajes de error de alto nivel.
-
-Cuando se captura la excepción en el manejador, toda esta información está disponible encapsulada en el objeto, facilitando tremendamente el debugging, el logging estructurado, y la recuperación inteligente del error. A diferencia de C, donde el programador debe construir manualmente toda esta información contextual, Java proporciona un mecanismo automático que preserva el contexto del error a lo largo de toda la propagación.
+Cuando se captura la excepción en el manejador, toda esta información está disponible encapsulada en el objeto.
 
 ## 8. En Java, sobre el bloque **"try-catch"**, ¿se pueden tener más de un bloque `catch`? ¿cuántos bloques `catch` se ejecutan?
 
