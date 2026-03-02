@@ -83,7 +83,7 @@ public class Main {
 }
 ```
 
-En Java, cuando el método `raiz()` detecta un número negativo, lanza una excepción usando `throw`. Esta excepción interrumpe inmediatamente la ejecución del método y salta al bloque `catch` en el código llamador. El manejo es mucho más elegante que en C: no requiere revisar valores de retorno especiales, el control fluye automáticamente al manejador, y el mensaje de error se encapsula en el objeto excepción.
+En Java, cuando el método `raiz()` detecta un número negativo, lanza una excepción usando `throw`. Esta excepción interrumpe inmediatamente la ejecución del método y salta al bloque `catch` en el código llamador.
 
 El código que llama la función utiliza la estructura `try-catch` para capturar y manejar la excepción de forma controlada. El bloque `try` contiene el código que podría lanzar una excepción, y el bloque `catch` especifica qué tipo de excepción se captura y cómo se maneja. En este caso, se imprime el mensaje de error encapsulado en la excepción, permitiendo que el programa continúe de forma controlada en lugar de terminar abruptamente.
 
