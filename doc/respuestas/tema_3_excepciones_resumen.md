@@ -108,13 +108,22 @@ Las funciones intermedias que no capturan la excepción simplemente desaparecen 
 
 La ventaja fundamental es la **claridad** y **mantenibilidad** del código: la lógica normal se separa claramente de la lógica de manejo de errores, y no existe riesgo de que se ignore accidentalmente un error por falta de verificación.
 
-## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? ¿Qué ventajas tiene esto en términos de encapsulación? ¿Podemos entonces crear excepciones personalizadas?
+## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? 
 
-Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. Esto es fundamental para la orientación a objetos: cada excepción encapsula información relevante al error en sus atributos y métodos. Por ejemplo, cada objeto excepción incluye un mensaje descriptivo, la traza de la pila de llamadas, y puede llevar datos adicionales útiles para diagnosticar el problema. Esto contrasta con C, donde los errores se representaban como simples números o valores especiales.
+Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. 
+- Cada excepción encapsula información relevante al error en sus atributos y métodos. 
+Por ejemplo, cada objeto excepción incluye un mensaje descriptivo, la traza de la pila de llamadas, y puede llevar datos adicionales útiles para diagnosticar el problema.
 
-Desde la perspectiva de la encapsulación, esto es muy poderoso. En lugar de devolver un simple código de error numérico como en C, la excepción encapsula en un objeto toda la información contextual del error. Además, se puede capturar excepciones por tipo, aprovechando la herencia polimórfica: un `catch (Exception e)` captura cualquier excepción, mientras que `catch (IOException e)` solo captura excepciones de entrada/salida. Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
+### ¿Qué ventajas tiene esto en términos de encapsulación?
+La excepción encapsula en un objeto toda la información contextual del error. 
+Además, se puede capturar excepciones por tipo:
+- Un `catch (Exception e)` captura cualquier excepción, mientras que `catch (IOException e)` solo captura excepciones de entrada/salida. 
+Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
 
-También es posible crear excepciones personalizadas extendiendo las clases existentes. Por ejemplo, se puede definir una clase `ValorNegativoException` que herede de `Exception` o `RuntimeException`, permitiendo definir excepciones específicas del dominio de la aplicación. Estas excepciones personalizadas pueden encapsular campos adicionales, constructores personalizados, o métodos utilitarios relevantes para el negocio. Esto hace el código más semántico, fácil de mantener, y permite a quien llama la función ser muy específico sobre qué tipos de errores puede esperar.
+### ¿Podemos entonces crear excepciones personalizadas?
+También es posible crear excepciones personalizadas extendiendo las clases existentes. Estas excepciones personalizadas pueden encapsular campos adicionales, constructores personalizados. 
+
+Esto hace el código más semántico, fácil de mantener, y permite a quien llama la función ser muy específico sobre qué tipos de errores puede esperar.
 
 ## 7. En relación con las ventajas de la encapsulación, comparando el ejemplo en C con Java. ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 
