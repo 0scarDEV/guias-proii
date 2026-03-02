@@ -55,7 +55,6 @@ Una excepción es un evento extraordinario que representa una situación anómal
 Se utiliza `throw` para señalar que ha ocurrido una condición de error, permitiendo que el código llamador maneje la situación de forma explícita mediante `try-catch`.
 El programador que llama la función puede entonces decidir cómo reaccionar ante la excepción: captarla y recuperarse, registrar el error, o permitir que se propague a niveles superiores.
 
-
 ## 3. Reescribe el mismo ejemplo de raiz, pero en Java, metiendo ese método en una clase `Calculadora` y llama a dicho método desde el método `main`, mostrando cómo se puede controlar desde fuera.
 ```java
 public class Calculadora {
@@ -83,23 +82,26 @@ public class Main {
 }
 ```
 
-En Java, cuando el método `raiz()` detecta un número negativo, lanza una excepción usando `throw`. Esta excepción interrumpe inmediatamente la ejecución del método y salta al bloque `catch` en el código llamador.
+En Java, cuando el método `raiz()` detecta un número negativo, lanza una excepción usando `throw`. Esta excepción interrumpe la ejecución del método y salta al bloque `catch`.
 
-El código que llama la función utiliza la estructura `try-catch` para capturar y manejar la excepción de forma controlada. El bloque `try` contiene el código que podría lanzar una excepción, y el bloque `catch` especifica qué tipo de excepción se captura y cómo se maneja. En este caso, se imprime el mensaje de error encapsulado en la excepción, permitiendo que el programa continúe de forma controlada en lugar de terminar abruptamente.
+El código que llama la función utiliza la estructura `try-catch`:
+- El bloque `try` contiene el código que podría lanzar una excepción. 
+- El bloque `catch` especifica qué tipo de excepción se captura y cómo se maneja.
+En este caso, se imprime el mensaje de error encapsulado en la excepción, permitiendo que el programa continúe de forma controlada en lugar de terminar abruptamente.
 
 ## 4. Explica con el mismo ejemplo anterior en Java de la raíz cuadrada:
 ### a) ¿Qué es **"lanzar"** una excepción? 
 **Lanzar una excepción** significa ejecutar la instrucción `throw`, creando un objeto excepción y deteniendo inmediatamente la ejecución del método. 
 En el ejemplo anterior, cuando se invoca `calc.raiz(-4)` y la función detecta un número negativo, se ejecuta `throw new IllegalArgumentException(...)`, lo que crea el objeto excepción y abandona el método sin devolver ningún valor.
 
-### b) ¿Qué es **"controlar"** o **"capturar"** una excepción? 
+### b) ¿Qué es **"controlar"** o **"capturar"** una excepción?
 **Controlar o capturar una excepción** es el acto de interceptarla usando un bloque `catch`. En el `main`, el bloque `catch (IllegalArgumentException e)` captura la excepción que fue lanzada en `raiz()`, permitiendo ejecutar código alternativo como imprimir un mensaje de error. Sin este bloque, el programa finalizaría abruptamente con un error no controlado.
 
 ### c) ¿Qué es que se **"propague"** una excepción? 
 **Propagar una excepción** significa que, si no se captura en el método donde se lanzó, la excepción "viaja" hacia arriba por la pila de llamadas buscando un `catch` que pueda manejarla. 
 
 ### d) ¿Qué le va ocurriendo a las funciones en la pila de llamadas por donde se va propagando la excepción?
-Desde el punto de vista de la pila: cuando `raiz()` lanza la excepción, ese método desaparece de la pila inmediatamente; el control retrocede un nivel buscando un `catch` en `main()`, donde lo encuentra. 
+Desde el punto de vista de la pila: cuando `raiz()` lanza la excepción, ese método desaparece de la pila inmediatamente; el control retrocede un nivel buscando un `catch` en `main()`, donde lo encuentra.
 
 ## e) ¿Las funciones que no la controlan se reanudan después de alguna forma?
 Las funciones intermedias que no capturan la excepción simplemente desaparecen de la pila sin reanudarse; la ejecución no retorna a ellas ni se ejecuta el código que hubiera después de la llamada. Solo el código dentro del bloque `catch` correspondiente se ejecuta después de que la excepción es capturada.
@@ -110,19 +112,13 @@ La ventaja fundamental es la **claridad** y **mantenibilidad** del código: la l
 
 ## 6. En orientación a objetos, ¿las excepciones suelen ser objetos? 
 
-Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. 
-- Cada excepción encapsula información relevante al error en sus atributos y métodos. 
-Por ejemplo, cada objeto excepción incluye un mensaje descriptivo, la traza de la pila de llamadas, y puede llevar datos adicionales útiles para diagnosticar el problema.
+Sí, en Java las excepciones son objetos que heredan de la clase `Throwable`. Cada excepción encapsula información relevante al error en sus atributos y métodos.
 
 ### ¿Qué ventajas tiene esto en términos de encapsulación?
 La excepción encapsula en un objeto toda la información contextual del error. 
-Además, se puede capturar excepciones por tipo:
-- Un `catch (Exception e)` captura cualquier excepción, mientras que `catch (IOException e)` solo captura excepciones de entrada/salida. 
-Esto permite manejar diferentes tipos de errores de forma distinta según su naturaleza.
 
 ### ¿Podemos entonces crear excepciones personalizadas?
-También es posible crear excepciones personalizadas, que pueden encapsular campos adicionales, constructores personalizados, etc. 
-
+Si, y estas pueden encapsular campos adicionales, constructores personalizados, etc. 
 Esto hace el código más semántico, fácil de mantener, y permite a quien llama la función ser muy específico sobre qué tipos de errores puede esperar.
 
 ## 7.  ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
