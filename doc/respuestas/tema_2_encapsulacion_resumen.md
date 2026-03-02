@@ -281,10 +281,13 @@ La desventaja es que operaciones que implican "modificar" un objeto requieren cr
 No, no es recomendable incluir setters automáticamente para todos los atributos como convención. Los setters hacen la clase mutable.
 
 
-## 19. ¿La clase `String` en Java es mutable o inmutable? ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
+## 19. ¿La clase `String` en Java es mutable o inmutable?
 
-La clase `String` en Java es **inmutable**. Una vez creado un objeto `String`, su contenido no puede modificarse. Todos los métodos que parecen "modificar" una cadena (como `toUpperCase()`, `substring()`, `replace()`, etc.) en realidad devuelven un **nuevo objeto** `String` con el resultado, dejando el original sin cambios. Esta inmutabilidad proporciona las ventajas mencionadas anteriormente: seguridad en concurrencia, posibilidad de compartir cadenas sin riesgo, y comportamiento predecible.
+La clase `String` en Java es **inmutable**. Una vez creado un objeto `String`, su contenido no puede modificarse. 
 
+Todos los métodos que parecen "modificar" una cadena (como `toUpperCase()`, `substring()`, `replace()`, etc.) en realidad devuelven un **nuevo objeto** `String` con el resultado, dejando el original sin cambios. Esta inmutabilidad proporciona las ventajas mencionadas anteriormente: seguridad en concurrencia, posibilidad de compartir cadenas sin riesgo, y comportamiento predecible.
+
+### ¿Qué ocurre al concatenar dos cadenas? ¿Qué debemos hacer si vamos a hacer una operación que implique concatenar muchas veces para construir paso a paso una cadena muy larga?
 Al concatenar dos cadenas con el operador `+` o el método `concat()`, se crea un **nuevo objeto** `String` que contiene el resultado de la concatenación. Las cadenas originales permanecen inalteradas. Por ejemplo, en `String s1 = "Hola"; String s2 = s1 + " Mundo";`, se crea un nuevo objeto para `s2`, y `s1` sigue conteniendo solo "Hola". Esto significa que cada concatenación implica crear un nuevo objeto y copiar todo el contenido, lo cual es ineficiente cuando se hacen muchas concatenaciones.
 
 Si se necesita concatenar repetidamente para construir una cadena larga, se debe usar la clase **`StringBuilder`** (o `StringBuffer` si se requiere sincronización para múltiples hilos). `StringBuilder` es una clase **mutable** diseñada específicamente para construir cadenas de forma eficiente. Permite añadir texto con el método `append()` sin crear nuevos objetos en cada operación, modificando un buffer interno. Al finalizar, se llama a `toString()` para obtener el `String` inmutable resultante. Por ejemplo:
