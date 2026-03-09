@@ -204,29 +204,39 @@ public static int ejemplo() {
 }
 ```
 
-## 11. En Java, qué son las excepciones **"controladas"** y las **"no controladas"**? ¿Qué papel juega `RuntimeException`? Pon un ejemplo de excepciones típicas controladas y no controladas que incluso nosotros mismos podríamos usar. Haz dos listas con 3 o 4 ejemplos de situación donde se suele preferir una excepción controlada y donde se suele preferir una excepción no controlada.
+## 11. En Java, qué son las excepciones **"controladas"** y las **"no controladas"**?
 
-Las excepciones **controladas** (checked exceptions) son aquellas que el compilador de Java **obliga** a tratar explícitamente. Si un método lanza una excepción controlada, quien lo llama debe capturarla con `try-catch` o declararla en la firma usando `throws`. Son excepciones que representan condiciones anómalas pero potencialmente recuperables, como problemas al acceder a ficheros (`IOException`) o conexiones de red. Las excepciones **no controladas** (unchecked exceptions) heredan de `RuntimeException` y no requieren captura obligatoria; el compilador no las obliga a ser tratadas. Representan típicamente errores de programación o situaciones que difícilmente se pueden recuperar, como intentar acceder a un índice de array inválido (`ArrayIndexOutOfBoundsException`) o lanzar una excepción por parámetro ilegal (`IllegalArgumentException`).
+- Las excepciones **no controladas** (unchecked exceptions) heredan de `RuntimeException` y no requieren captura obligatoria. Representan típicamente errores de programación o situaciones que una vez solventados, no vuelven a ocurrir.
+> 
+- Las excepciones **controladas** (checked exceptions) son aquellas que el compilador de Java **obliga** a tratar explícitamente mediante `try-catch` o `throws`. Típicamente errores por causas externas y que siempre pueden llegar a ocurrir, como errores de E/S. 
 
-El papel de `RuntimeException` es ser la clase base de todas las excepciones no controladas. Cualquier excepción que herede de `RuntimeException` se considera "no controlada", mientras que las que heredan directamente de `Exception` se consideran "controladas". Esta distinción existe porque Java reconoce que hay errores del sistema (como los que podrían ocurrir en acceso a archivos) que deben ser tratados obligatoriamente, mientras que errores de lógica (como parámetros inválidos) pueden prevenirse en tiempo de desarrollo sin necesidad hacer verificaciones en tiempo de ejecución.
+### ¿Qué papel juega `RuntimeException`?
+El papel de `RuntimeException` es ser la clase base de todas las excepciones no controladas. Cualquier excepción que herede de `RuntimeException` se considera "no controlada", mientras que las que heredan directamente de `Exception` se consideran "controladas". 
 
-Ejemplos de excepciones controladas propias: `FileNotFoundException` (fichero no existe), `IOException` (error de lectura/escritura). Ejemplos de excepciones no controladas propias: `IllegalArgumentException` (parámetro inválido), `NullPointerException` (acceso a referencia nula). Se puede crear una excepción controlada heredando de `Exception` y una no controlada heredando de `RuntimeException`:
+###  Pon un ejemplo de excepciones típicas controladas y no controladas que incluso nosotros mismos podríamos usar.
+Ejemplos de excepciones controladas propias: 
+1. `FileNotFoundException` (fichero no existe)
+2. `IOException` (error de lectura/escritura). 
+
+Ejemplos de excepciones no controladas propias: 
+
+3. `IllegalArgumentException` (parámetro inválido), 
+4. `NullPointerException` (acceso a referencia nula). 
+
+Se puede crear una excepción controlada heredando de `Exception` y una no controlada heredando de `RuntimeException`:
 
 ```java
 // Excepción controlada personalizada
 public class UsuarioNoEncontradoException extends Exception {
-    public UsuarioNoEncontradoException(String mensaje) {
-        super(mensaje);
-    }
+    public UsuarioNoEncontradoException(String mensaje) {super(mensaje);}
 }
-
 // Excepción no controlada personalizada
 public class ValorNegativoException extends RuntimeException {
-    public ValorNegativoException(String mensaje) {
-        super(mensaje);
-    }
+    public ValorNegativoException(String mensaje) {super(mensaje);}
 }
 ```
+
+### Haz dos listas con 3 o 4 ejemplos de situación donde se suele preferir una excepción controlada y donde se suele preferir una excepción no controlada.
 
 **Situaciones donde se prefiere excepción controlada:**
 - Acceso a ficheros en disco (el fichero podría no existir)
