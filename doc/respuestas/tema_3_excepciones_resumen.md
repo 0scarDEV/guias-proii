@@ -147,10 +147,10 @@ try {
 ```
 ## 9. Si las excepciones producen rupturas en el código llamador, ¿cómo podemos garantizar que se ejecuta siempre finalmente un código necesario para cierre de ficheros, liberacion de recursos, antes de que continúe propagándose la excepción? Pon un ejemplo en Java con `finally`, tanto con `catch` como sin él.
 
-El bloque `finally` se ejecuta **siempre**, independientemente de si se lanzó una excepción o no. Es el mecanismo perfecto para colocar código de limpieza (cierre de ficheros, liberación de recursos, etc.) que debe ejecutarse en cualquier circunstancia. Incluso si se propaga una excepción, el bloque `finally` se ejecuta antes de que la excepción continúe subiendo por la pila de llamadas.
+El bloque `finally` se ejecuta **siempre**, independientemente de si se lanzó una excepción o no, o con un return o sin él. 
+Es el mecanismo perfecto para colocar código de limpieza (cierre de ficheros, liberación de recursos, etc.) que debe ejecutarse en cualquier circunstancia. Incluso si se propaga una excepción, el bloque `finally` se ejecuta antes de que la excepción continúe subiendo por la pila de llamadas.
 
 **Ejemplo con `catch`:**
-
 ```java
 BufferedReader reader = null;
 try {
@@ -169,9 +169,7 @@ try {
     }
 }
 ```
-
 **Ejemplo sin `catch` (solo `try-finally`):**
-
 ```java
 BufferedReader reader = null;
 try {
@@ -189,17 +187,12 @@ try {
     }
 }
 ```
-
 En ambos casos, el bloque `finally` garantiza que el recurso se cierre correctamente. Sin `catch`, la excepción se propaga después de ejecutar `finally`, lo que permite usar `finally` como garantía de limpieza sin necesariamente manejar el error en ese nivel.
 
 ## 10. En Java, el bloque `finally` puede ir sin `catch`? ¿Se ejecuta siempre tanto si ocurre como si no ocurre una excepción? ¿Y si hay un `return` en medio del `try`?
 
-Sí, el bloque `finally` puede ir sin `catch`. La estructura válida es `try-finally`, lo que resulta útil cuando no se desea manejar la excepción en ese nivel pero sí garantizar la limpieza de recursos. La excepción se propagará después de ejecutar el bloque `finally`, permitiendo que un nivel superior maneje el error. También es válida la estructura `try-catch-finally`, donde se maneja la excepción y luego se ejecuta la limpieza.
-
-El bloque `finally` se ejecuta **siempre**, sin excepciones (valga el juego de palabras). Tanto si el código del `try` se ejecuta correctamente como si lanza una excepción, el `finally` se ejecutará. Esto hace que sea el lugar perfecto para código de limpieza. Incluso si hay un `catch` que captura la excepción y el programa parece recuperarse normalmente, el `finally` igualmente se ejecuta después del `catch`.
-
-Ahora bien, si hay un `return` en medio del bloque `try`, el comportamiento puede parecer sorprendente: el `finally` **aún se ejecuta antes de que el método retorne**. Java garantiza que el bloque `finally` se ejecute incluso cuando hay un `return`, `break`, o `continue` dentro del `try` o del `catch`. El flujo es: se evalúa la instrucción `return`, se ejecuta el `finally`, y entonces se retorna el valor. Si el `finally` también contiene un `return`, este sobrescribe el return anterior.
-
+Sí, el bloque `finally` puede ir sin `catch`.
+El bloque `finally` se ejecuta **siempre**, sin excepciones (valga el juego de palabras). Tanto si el código del `try` se ejecuta correctamente como si lanza una excepción o si hay un `return`, `break` o `continue` en medio del bloque, el `finally` se ejecutará. Esto hace que sea el lugar perfecto para código de limpieza. Incluso si hay un `catch` que captura la excepción y el programa parece recuperarse normalmente, el `finally` igualmente se ejecuta después del `catch`.
 ```java
 public static int ejemplo() {
     try {
