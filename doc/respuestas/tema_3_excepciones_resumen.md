@@ -130,22 +130,21 @@ Cuando se captura la excepción en el manejador, toda esta información está di
 
 ## 8. En Java, sobre el bloque **"try-catch"**, ¿se pueden tener más de un bloque `catch`? ¿cuántos bloques `catch` se ejecutan?
 
-Sí, se pueden tener múltiples bloques `catch` después de un único bloque `try`. Esto permite diferenciar el manejo según el tipo específico de excepción que se lance. Cada bloque `catch` captura excepciones de un tipo determinado, y Java los evalúa en orden de arriba a abajo, ejecutando el primero cuyo tipo sea compatible (por igualdad o por herencia) con la excepción lanzada.
+**Sí, se pueden tener múltiples bloques `catch`** después de un único bloque `try`. Esto permite diferenciar el manejo según el tipo específico de excepción que se lance. 
+Cada bloque `catch` captura excepciones de un tipo determinado, y Java los evalúa en orden de arriba a abajo, ejecutando **solo el primer bloque `catch`** cuyo tipo sea compatible (por igualdad o por herencia) con la excepción lanzada.
+Por eso se recomienda colocar los tipos más específicos primero (como `IOException`) y los más generales al final (como `Exception`).
 
 ```java
 try {
     // código que puede lanzar excepciones
+} catch (AccessDeniedException e) {
+    System.out.println("Acceso denegado: " + e.getMessage());
 } catch (IOException e) {
     System.out.println("Error de entrada/salida: " + e.getMessage());
-} catch (NumberFormatException e) {
-    System.out.println("Número inválido: " + e.getMessage());
 } catch (Exception e) {
     System.out.println("Error general: " + e.getMessage());
 }
 ```
-
-**Solo se ejecuta un bloque `catch`**: el primero cuya excepción sea del tipo adecuado o un supertipo de la excepción lanzada. Una vez ejecutado un bloque `catch`, el control continúa después del último `catch` (o `finally` si existe), saltando los bloques `catch` restantes. Es importante notar que el **orden importa**: si se coloca `catch (Exception e)` al principio, capturará todas las excepciones y los bloques `catch` posteriores nunca se ejecutarán, quedando código inalcanzable. Por eso se recomienda colocar los tipos más específicos primero (como `IOException`) y los más generales al final (como `Exception`).
-
 ## 9. Si las excepciones producen rupturas en el código llamador, ¿cómo podemos garantizar que se ejecuta siempre finalmente un código necesario para cierre de ficheros, liberacion de recursos, antes de que continúe propagándose la excepción? Pon un ejemplo en Java con `finally`, tanto con `catch` como sin él.
 
 El bloque `finally` se ejecuta **siempre**, independientemente de si se lanzó una excepción o no. Es el mecanismo perfecto para colocar código de limpieza (cierre de ficheros, liberación de recursos, etc.) que debe ejecutarse en cualquier circunstancia. Incluso si se propaga una excepción, el bloque `finally` se ejecuta antes de que la excepción continúe subiendo por la pila de llamadas.
