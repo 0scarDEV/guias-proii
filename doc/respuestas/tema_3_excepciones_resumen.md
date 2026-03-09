@@ -287,28 +287,24 @@ public class LectorArchivos {
 
 ## 14. ¿Podemos poner en `throws` excepciones no controladas, como `RuntimeException`? ¿Debería el método llamador entonces poner `try-catch` en ese caso? ¿Qué sentido tendría?
 
-Técnicamente **sí es posible** poner excepciones no controladas en `throws`. Java permite declarar `throws RuntimeException` en una firma de método. Sin embargo, esto es **innecesario y generalmente no recomendado**, porque el compilador de Java no obliga a capturar excepciones no controladas de todas formas. La declaración `throws` es principalmente para excepciones controladas, donde el compilador rechaza el código si no se trata de alguna manera.
+Por poder se puede, en ese caso el compilador no obligar a usar `try-catch`en el código llamador.
 
-```java
-public void metodoQuePuedeFallar(int valor) throws IllegalArgumentException {
-    if (valor < 0) {
-        throw new IllegalArgumentException("Valor no puede ser negativo");
-    }
-}
+Tendría sentido exclusivamente por propósitos de documentación, aunque no es para nada lo habitual.
 
-// El código llamador NO está obligado a poner try-catch
-int resultado = metodoQuePuedeFallar(-5);  // Esto compila sin error, aunque podría lanzar excepción
-```
+## 15. ¿Cuándo se recomienda usar excepciones controladas, como `IOException`, y cuándo no controladas como `IllegalArgumentException`?
 
-El método llamador **no debería** poner `try-catch` solo porque haya `throws` con excepciones no controladas, a menos que realmente desee capturar ese error específico. El compilador no lo obliga. Poner `try-catch` tendría sentido **únicamente** si el código llamador tiene una estrategia de recuperación inteligente ante ese error específico. Por ejemplo, si una función valida parámetros y lanza `IllegalArgumentException`, el llamador podría capturarla, registrar el error, e intentar con parámetros diferentes. Pero en la mayoría de casos, las excepciones no controladas representan bugs del programador que no debería haber permitido llegar a ese punto, por lo que capturarlas es enmascarar el problema.
+Se recomienda usar **excepciones controladas** cuando la situación de error es algo externo al programa que **potencialmente se puede recuperar**. 
+- Típicamente, un fichero no existe en el disco (pero podría crearse después), una conexión de red falla (pero podría restablecerse), etc. 
+- El programador que llama la función debe ser **consciente** de que existe una posibilidad de fallo y debe **decidir cómo reaccionar**: reintentar la operación, usar un valor por defecto, logging, etc.
 
-## 15. ¿Cuándo se recomienda usar excepciones controladas, como `IOException`, y cuándo no controladas como `IllegalArgumentException`? ¿Existen en todos los lenguajes ambas opciones? En los que sólo existe una opción, ¿cuál es la más habitual?
+Se recomienda usar **excepciones no controladas** cuando la situación representa un **error de programación** que indica que algo salió mal de forma inesperada o que no debería haber sucedido.
+- Ejemplos: parámetro negativo cuando la función espera positivo (error en la validación del llamador), acceso a índice inválido en array (error lógico del programador), referencia nula cuando se esperaba un objeto válido. 
+- Estos errores generalmente no tienen recuperación posible en el punto donde ocurren; lo correcto es que el programador corrija su código. Por eso no tiene sentido obligar a capturarlas: hacerlo sería enmascarar bugs.
 
-Se recomienda usar **excepciones controladas** cuando la situación de error es algo externo al programa que **potencialmente se puede recuperar**. Típicamente, estas son situaciones causadas por el entorno o recursos externos: un fichero no existe en el disco (pero podría crearse después), una conexión de red falla (pero podría restablecerse), una base de datos no responde (pero podría volver a estar online). El programador que llama la función debe ser **consciente** de que existe una posibilidad de fallo y debe **decidir cómo reaccionar**: reintentar la operación, usar un valor por defecto, logging, etc.
+### ¿Existen en todos los lenguajes ambas opciones? En los que sólo existe una opción, ¿cuál es la más habitual?
 
-Se recomienda usar **excepciones no controladas** cuando la situación representa un **error de programación** que indica que algo salió mal de forma inesperada o que no debería haber sucedido. Ejemplos: parámetro negativo cuando la función espera positivo (error en la validación del llamador), acceso a índice inválido en array (error lógico del programador), referencia nula cuando se esperaba un objeto válido. Estos errores generalmente no tienen recuperación posible en el punto donde ocurren; lo correcto es que el programador corrija su código. Por eso no tiene sentido obligar a capturarlas: hacerlo sería enmascarar bugs.
-
-**En otros lenguajes de programación**, la situación varía significativamente. Java es **único** al tener esta distinción explícita entre excepciones controladas y no controladas. C++ tiene excepciones pero no distingue entre tipos; todas son opcionales de capturar. Python tampoco hace la distinción: todas las excepciones son técnicamente opcionales de capturar, aunque culturalmente se espera que se manejen correctamente. Go ni siquiera tiene excepciones; usa un modelo de retorno de errores donde cada función retorna un valor de error que el llamador debe evaluar. En lenguajes que **no tienen ambas opciones**, la más habitual es la **excepción no diferenciada/opcional**, similar a la de Python o C++. El razonamiento es que forzar el manejo de ciertos tipos de excepciones comparte los riesgos del modelo de C (mucho código verificando errores) con los beneficios de usar excepciones.
+**En otros lenguajes de programación**, la situación varía significativamente. Java es **único** al tener esta distinción explícita entre excepciones controladas y no controladas.
+En lenguajes que **no tienen ambas opciones**, la más habitual es la **excepción no diferenciada/opcional**, similar a la de Python o C++. El razonamiento es que forzar el manejo de ciertos tipos de excepciones comparte los riesgos del modelo de C (mucho código verificando errores) con los beneficios de usar excepciones.
 
 ## 16. ¿Tiene sentido lanzar excepciones dentro del `catch`? ¿Se puede relanzar la misma excepción capturada? ¿Cuándo tendría sentido hacer esto último? Pon ejemplos de ambos casos.
 
