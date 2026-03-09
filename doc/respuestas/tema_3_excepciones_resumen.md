@@ -306,14 +306,10 @@ Se recomienda usar **excepciones no controladas** cuando la situación represent
 **En otros lenguajes de programación**, la situación varía significativamente. Java es **único** al tener esta distinción explícita entre excepciones controladas y no controladas.
 En lenguajes que **no tienen ambas opciones**, la más habitual es la **excepción no diferenciada/opcional**, similar a la de Python o C++. El razonamiento es que forzar el manejo de ciertos tipos de excepciones comparte los riesgos del modelo de C (mucho código verificando errores) con los beneficios de usar excepciones.
 
-## 16. ¿Tiene sentido lanzar excepciones dentro del `catch`? ¿Se puede relanzar la misma excepción capturada? ¿Cuándo tendría sentido hacer esto último? Pon ejemplos de ambos casos.
+## 16. Pon ejemplos de ambos casos.
+### ¿Tiene sentido lanzar excepciones dentro del `catch`?
 
-**Lanzar excepciones nuevas dentro del `catch`** tiene sentido cuando se desea transformar o envolver una excepción capturada en una excepción de más alto nivel. Por ejemplo, si se captura una `IOException` al leer un fichero, podría ser útil lanzar una excepción de negocio personalizada como `DatosInvalidosException` para que el código llamador no tenga que conocer detalles de entrada/salida. Esto permite mantener la abstracción y proporciona errores significativos en el contexto de la aplicación.
-
-**Relanzar la misma excepción capturada** también es posible y tiene sentido cuando se necesita ejecutar código de limpieza antes de permitir que la excepción continúe propagándose. Por ejemplo, se podría capturar una excepción para registrar el error, ejecutar limpieza, y luego relanzarla con `throw e;` o simplemente `throw;` sin argumentos.
-
-**Ejemplo 1: Lanzar una excepción nueva dentro del `catch`**
-
+Sí, tiene sentido en ciertos casos.
 ```java
 public class ProcesadorDatos {
     public void procesarArchivo(String ruta) throws DatosInvalidosException {
@@ -336,8 +332,8 @@ public class DatosInvalidosException extends Exception {
 }
 ```
 
-**Ejemplo 2: Relanzar la misma excepción capturada**
-
+### ¿Se puede relanzar la misma excepción capturada? ¿Cuándo tendría sentido hacer esto? 
+Sí, se puede relanzar el mismo objeto excepción, tras, por ejemplo, haber ejecutado código en el catch.
 ```java
 public class GestorTransacciones {
     public void procesarTransaccion() throws SQLException {
@@ -348,25 +344,20 @@ public class GestorTransacciones {
         } catch (SQLException e) {
             System.out.println("Error registrado: " + e.getMessage());
             if (conexion != null) {
-                try {
-                    conexion.rollback();
-                } catch (SQLException ex) {
-                    // ignorar
-                }
+                try { conexion.rollback(); } 
+                catch (SQLException ex) { /* ignorar */}
             }
             throw e;  // Se relanza la misma excepción original
         }
     }
 }
 ```
-
 En ambos casos, la idea es que el `catch` realice tareas necesarias (limpieza, logging, transformación) pero luego permita que la excepción continúe su camino hacia niveles superiores, garantizando que el error no se pierda o se oculte silenciosamente.
 
 ## 17. ¿En qué consiste que una excepción sea la **"causa"** de otra excepción? Pon un ejemplo en Java, donde capturemos una excepción de bajo nivel y la encapsulemos en otra personalizada de alto nivel. Cuando una excepción sale por pantalla y tiene una causa, ¿se ve?
 
-Una excepción es la **"causa"** de otra cuando la segunda fue lanzada como consecuencia directa de la primera. En Java, esto se implementa a través de la **exception chaining** (encadenamiento de excepciones): se captura una excepción de bajo nivel y se lanza una excepción de más alto nivel, pasando la original como parámetro `Throwable` al constructor. Esto preserva la información del error original manteniendo una referencia a través de `getCause()`, permitiendo rastrear toda la cadena de errores desde la causa raíz hasta el error de negocio visible al usuario.
-
-La ventaja de esto es que se documenta la secuencia completa de eventos que llevó al error. Por ejemplo, si una operación de base de datos falla porque el servidor no responde, la causa inmediata es una `SQLException`, pero la causa raíz podría ser una `SocketTimeoutException`. Con exception chaining, se puede preservar toda esta información mientras se presenta un mensaje de error comprensible al nivel de negocio.
+Una excepción es la **"causa"** de otra cuando la segunda fue lanzada como consecuencia directa de la primera. En Java, esto se implementa a través de la **exception chaining** (encadenamiento de excepciones): se captura una excepción de bajo nivel y se lanza una excepción de más alto nivel, pasando la original como parámetro al constructor. 
+Esto preserva la información del error original manteniendo una referencia a través de `getCause()`, permitiendo rastrear toda la cadena de errores desde la causa raíz.
 
 ```java
 // Excepción personalizada de alto nivel
@@ -379,30 +370,12 @@ public class ErrorOperacionBancaria extends Exception {
 public class TransferenciaManager {
     public void transferir(String origen, String destino, double cantidad) throws ErrorOperacionBancaria {
         try {
-            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/banco");
-            // Lógica de transferencia que podría lanzar SQLException
-            String sql = "UPDATE cuentas SET saldo = saldo - ? WHERE numero = ?";
-            PreparedStatement stmt = conexion.prepareStatement(sql);
-            stmt.setDouble(1, cantidad);
-            stmt.setString(2, origen);
-            stmt.executeUpdate();
+            // código de conexión a base de datos...
         } catch (SQLException e) {
-            // Se encadena la excepción de bajo nivel como causa
             throw new ErrorOperacionBancaria(
                 "No se pudo completar la transferencia de " + cantidad + " desde " + origen,
-                e
+                e // Se encadena la excepción de bajo nivel como causa
             );
-        }
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        TransferenciaManager mgr = new TransferenciaManager();
-        try {
-            mgr.transferir("1234", "5678", 100);
-        } catch (ErrorOperacionBancaria e) {
-            e.printStackTrace();
         }
     }
 }
@@ -420,5 +393,5 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.SQLServerException: Connection timeou
     ... (más líneas de traza)
 ```
 
-La sección `Caused by:` muestra explícitamente la excepción original que provocó el error. Esto es extremadamente útil para debugging, ya que permite ver exactamente dónde ocurrió el error técnico (la conexión expiró) y cómo se relaciona con la operación lógica (transferencia bancaria). Sin exception chaining, esa información se perdería y solo se vería el error de negocio, sin saber realmente qué falló en el sistema.
+La sección `Caused by:` muestra explícitamente la excepción original que provocó el error. Esto es extremadamente útil para debugging.
 
