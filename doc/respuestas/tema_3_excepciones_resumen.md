@@ -123,8 +123,8 @@ Esto hace el código más semántico, fácil de mantener, y permite a quien llam
 
 ## 7.  ¿Qué **información esencial** lleva cualquier **objeto excepción** que es muy útil tener cuando se llega a un manejador?
 - El **mensaje de error** (accesible mediante `getMessage()`), que describe qué salió mal de forma legible y contextualizada. 
-- La **traza de la pila** (accesible mediante `printStackTrace()` o `getStackTrace()`), que registra toda la cadena de métodos que se ejecutaron hasta el punto donde se lanzó la excepción. 
-- Puede tener una **causa** (referencia a otra excepción que originó ésta, accesible mediante `getCause()`).
+- La **traza de la pila** (accesible mediante `printStackTrace()` o `getStackTrace()`), que registra toda la cadena de métodos que se ejecutaron hasta el punto donde se lanzó la excepción (útil para depuración). 
+- Opcionalmente, una **causa** (referencia a otra excepción que originó ésta, accesible mediante `getCause()`).
 
 Cuando se captura la excepción en el manejador, toda esta información está disponible encapsulada en el objeto.
 
