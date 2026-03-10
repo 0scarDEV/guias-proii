@@ -150,7 +150,11 @@ En terminologia habitual de modelado, la relacion debil suele llamarse **asociac
 
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
 
-### Respuesta
+En esos casos se habla, en general, de **dependencia** y no de composicion. La razon es que la clase solo "usa" temporalmente a otra para realizar una operacion, pero no la mantiene necesariamente como parte estable de su estado interno. Es una relacion de uso, no una relacion estructural de "tiene-un" persistente.
+
+Por ejemplo, si una clase recibe un objeto por parametro, lo usa dentro del metodo y termina la llamada, existe dependencia porque el metodo depende de ese tipo para funcionar. Lo mismo ocurre si crea un objeto local con `new` o si devuelve un objeto de otro tipo: hay acoplamiento entre clases, pero no implica que una contenga a la otra como atributo propio.
+
+Se consideraria composicion cuando una clase guarda referencias a otra como atributos que forman parte de su identidad o estructura (por ejemplo, `private final Punto inicio;`). Si solo aparece en firmas de metodos, variables locales o uso puntual, el termino correcto es dependencia.
 
 
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
