@@ -61,7 +61,73 @@ En el ejemplo, se observa una composicion simple y comun en C: estructuras peque
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
 
-### Respuesta
+En Java, la misma idea "Linea tiene dos Punto" se modela con composicion entre clases. La diferencia respecto a C es que se puede proteger mejor el estado interno con encapsulacion: los atributos se declaran `private` y se exponen solo operaciones controladas. De ese modo, no se permite modificar libremente las coordenadas ni los extremos de la linea.
+
+Para asegurar inmutabilidad, `Punto` y `Linea` pueden declararse como clases `final`, con atributos `private final`, sin setters. Asi, tras construir un objeto, su estado no cambia. El metodo `distanciaA` queda dentro de `Punto`, porque es una operacion natural del propio objeto, y `longitud` en `Linea` reutiliza `distanciaA` para evitar duplicacion.
+
+```java
+public final class Punto {
+	private final double x;
+	private final double y;
+
+	public Punto(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double distanciaA(Punto otro) {
+		double dx = otro.x - this.x;
+		double dy = otro.y - this.y;
+		return Math.sqrt(dx * dx + dy * dy);
+	}
+}
+
+public final class Linea {
+	private final Punto inicio;
+	private final Punto fin;
+
+	public Linea(Punto inicio, Punto fin) {
+		if (inicio == null || fin == null) {
+			throw new IllegalArgumentException("Los puntos no pueden ser null");
+		}
+		this.inicio = inicio;
+		this.fin = fin;
+	}
+
+	public Punto getInicio() {
+		return inicio;
+	}
+
+	public Punto getFin() {
+		return fin;
+	}
+
+	public double longitud() {
+		return inicio.distanciaA(fin);
+	}
+}
+
+class Main {
+	public static void main(String[] args) {
+		Punto p1 = new Punto(0, 0);
+		Punto p2 = new Punto(3, 4);
+		Linea linea = new Linea(p1, p2);
+
+		System.out.println("Distancia entre puntos: " + p1.distanciaA(p2));
+		System.out.println("Longitud de la linea: " + linea.longitud());
+	}
+}
+```
+
+Con esta estructura, la composicion queda explicita y segura: `Linea` depende de dos `Punto`, pero una vez creada no se puede alterar que puntos la forman. Esto mejora la robustez frente al enfoque en C, porque se mantiene la invariante del objeto desde su construccion.
 
 
 ## 3. ¿Qué significa la **multiplicidad** en la composición? En el ejemplo anterior, ¿cuál es la multiplicidad entre `Linea` y `Punto`? Indícalo expresando la multiplicidad en ambas direcciones, de `Linea` a `Punto` y de `Punto` a `Linea`.
