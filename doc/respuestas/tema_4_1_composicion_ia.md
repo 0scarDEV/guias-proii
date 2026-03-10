@@ -141,7 +141,11 @@ En sentido contrario, de `Punto` a `Linea`, la multiplicidad suele considerarse 
 
 ## 4. ¿Qué significa composición **fuerte** y composición **débil**? ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? Indica a cuál solemos referirnos como **"asociación o agregación"** y a cuál como **"composición"** propiamente.
 
-### Respuesta
+La diferencia principal entre composicion fuerte y composicion debil esta en la propiedad y el ciclo de vida de los objetos contenidos. En una relacion fuerte, el objeto contenedor "posee" a sus partes de forma exclusiva: esas partes nacen y dejan de tener sentido con el contenedor. En una relacion debil, en cambio, el contenedor solo referencia objetos que pueden existir por separado.
+
+Como consecuencia, en composicion fuerte el ciclo de vida de la parte queda ligado al del todo: si desaparece el contenedor, tambien deben desaparecer sus componentes. En composicion debil no ocurre eso: al eliminar el contenedor, las partes pueden seguir vivas y reutilizarse en otros contextos. Esta distincion es importante para decidir quien crea, valida y gestiona cada objeto.
+
+En terminologia habitual de modelado, la relacion debil suele llamarse **asociacion** o **agregacion**, mientras que la relacion fuerte se denomina **composicion** en sentido estricto. Por eso, cuando se dice "composicion" sin adjetivos, normalmente se esta aludiendo al caso fuerte.
 
 
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
