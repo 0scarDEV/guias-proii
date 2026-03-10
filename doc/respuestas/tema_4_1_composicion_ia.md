@@ -132,7 +132,11 @@ Con esta estructura, la composicion queda explicita y segura: `Linea` depende de
 
 ## 3. ¿Qué significa la **multiplicidad** en la composición? En el ejemplo anterior, ¿cuál es la multiplicidad entre `Linea` y `Punto`? Indícalo expresando la multiplicidad en ambas direcciones, de `Linea` a `Punto` y de `Punto` a `Linea`.
 
-### Respuesta
+La multiplicidad indica cuantas instancias de una clase pueden o deben estar relacionadas con una instancia de otra clase. Es una forma de expresar restricciones estructurales del modelo: por ejemplo, "exactamente una", "cero o una", "muchas" o "al menos una". En composicion, esta informacion ayuda a definir claramente la forma y los limites del objeto contenedor.
+
+En el ejemplo de `Linea` y `Punto`, de `Linea` a `Punto` la multiplicidad es `2` (o `2..2`), porque cada linea esta formada exactamente por dos puntos: inicio y fin. No puede haber una linea con uno solo ni con tres puntos en ese modelo.
+
+En sentido contrario, de `Punto` a `Linea`, la multiplicidad suele considerarse `0..*` en el dominio general: un punto puede no pertenecer a ninguna linea o pertenecer a varias lineas distintas. Aunque en una implementacion concreta se creen pocos objetos, la regla conceptual del modelo permite multiples lineas que compartan el mismo punto.
 
 
 ## 4. ¿Qué significa composición **fuerte** y composición **débil**? ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? Indica a cuál solemos referirnos como **"asociación o agregación"** y a cuál como **"composición"** propiamente.
