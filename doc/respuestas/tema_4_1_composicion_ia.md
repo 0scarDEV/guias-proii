@@ -232,7 +232,11 @@ La diferencia clave no esta en la formula de longitud, que es la misma en ambos 
 
 ## 7. En Java, en la composición fuerte, ¿cuando el contenedor destruye los objetos? No se observa que `Linea` destruya los `Punto` explícitamente, ¿Por qué?
 
-### Respuesta
+En Java no existe destruccion manual explicita como en C++ con `delete`. En composicion fuerte, se considera que las partes "mueren" con el contenedor en sentido logico: cuando el objeto contenedor deja de ser alcanzable, tambien dejan de serlo sus objetos internos (si no existen otras referencias externas).
+
+La liberacion real de memoria no la hace `Linea` con una instruccion propia, sino el recolector de basura (Garbage Collector). El GC se ejecuta automaticamente cuando la JVM lo estima oportuno, detecta objetos inalcanzables y recupera su memoria. Por eso no se ve codigo de destruccion explicita en clases Java normales.
+
+En consecuencia, en composicion fuerte en Java la responsabilidad del disenador consiste en controlar referencias y encapsulacion para que las partes no se filtren al exterior. Si los componentes solo estan referenciados por el contenedor, al quedar inalcanzable el contenedor, los componentes tambien quedaran listos para recoleccion.
 
 
 ## 8. Pon un ejemplo de composicion débil entre un departamento que tiene varios profesores. Implementa dos composiciones a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
