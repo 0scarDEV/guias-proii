@@ -371,7 +371,92 @@ Con este diseno no se rompe la encapsulacion: desde fuera no se conoce ni se man
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
-### Respuesta
+Al usar `List`, la implementacion se simplifica porque ya no hace falta gestionar manualmente el desplazamiento de elementos al eliminar, ni mantener un contador separado (`numProfesores`) ni comprobar limites de capacidad fija del array. La coleccion se encarga de crecer dinamicamente y de operaciones como `add`, `remove` y `size`.
+
+El riesgo de encapsulacion aparece si se devuelve directamente la lista interna: el codigo cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+final class Profesor {
+	private final String nombre;
+
+	public Profesor(String nombre) {
+		if (nombre == null || nombre.isBlank()) {
+			throw new IllegalArgumentException("El nombre del profesor no puede ser vacio");
+		}
+		this.nombre = nombre;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+}
+
+class Departamento {
+	private final List<Profesor> profesores = new ArrayList<>();
+	private Profesor director;
+
+	public Departamento(Profesor directorInicial) {
+		if (directorInicial == null) {
+			throw new IllegalArgumentException("Debe existir un director inicial");
+		}
+		profesores.add(directorInicial);
+		director = directorInicial;
+	}
+
+	public void addProfesor(Profesor profesor) {
+		if (profesor == null) {
+			throw new IllegalArgumentException("El profesor no puede ser null");
+		}
+		if (profesores.contains(profesor)) {
+			throw new IllegalArgumentException("El profesor ya pertenece al departamento");
+		}
+		profesores.add(profesor);
+	}
+
+	public void removeProfesor(int pos) {
+		Profesor aEliminar = getProfesor(pos);
+		if (aEliminar == director) {
+			throw new IllegalStateException("No se puede eliminar al director actual");
+		}
+		profesores.remove(pos);
+	}
+
+	public int getNumProfesores() {
+		return profesores.size();
+	}
+
+	public Profesor getProfesor(int pos) {
+		if (pos < 0 || pos >= profesores.size()) {
+			throw new IndexOutOfBoundsException("Posicion invalida: " + pos);
+		}
+		return profesores.get(pos);
+	}
+
+	public Profesor getDirector() {
+		return director;
+	}
+
+	public void cambiarDirector(Profesor nuevoDirector) {
+		if (nuevoDirector == null) {
+			throw new IllegalArgumentException("El director no puede ser null");
+		}
+		if (!profesores.contains(nuevoDirector)) {
+			throw new IllegalArgumentException("El director debe pertenecer al departamento");
+		}
+		director = nuevoDirector;
+	}
+
+	public List<Profesor> getProfesores() {
+		return Collections.unmodifiableList(profesores);
+	}
+}
+```
+
+En esta version, lo que mas se ahorra es codigo de gestion interna del almacenamiento: desplazamientos, control de huecos y tamano real frente a capacidad maxima. A cambio, sigue siendo necesario mantener las validaciones de dominio e invariantes, porque eso nunca lo resuelve automaticamente la estructura de datos.
 
 
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciones, denominadas composiciones recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciones recursivas.
