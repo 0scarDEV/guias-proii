@@ -241,7 +241,132 @@ En consecuencia, en composicion fuerte en Java la responsabilidad del disenador 
 
 ## 8. Pon un ejemplo de composicion débil entre un departamento que tiene varios profesores. Implementa dos composiciones a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
 
-### Respuesta
+Se puede modelar una composicion debil donde `Departamento` mantiene referencias a objetos `Profesor` que pueden existir independientemente. Ademas, se modela una segunda composicion debil interna: `Departamento` tambien referencia a un `director`, que debe ser siempre uno de los profesores del propio departamento.
+
+La invariante principal es: "siempre hay director y ese director pertenece a la lista de profesores". Para cumplirla, el constructor recibe un director inicial obligatorio, se inserta automaticamente en la coleccion de profesores, y no se permite eliminar al director actual sin nombrar antes otro. Tambien se lanzan excepciones ante posiciones invalidas, `null`, exceso de capacidad o cambios inconsistentes.
+
+```java
+final class Profesor {
+	private final String nombre;
+
+	public Profesor(String nombre) {
+		if (nombre == null || nombre.isBlank()) {
+			throw new IllegalArgumentException("El nombre del profesor no puede ser vacio");
+		}
+		this.nombre = nombre;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+}
+
+class Departamento {
+	private static final int MAX_PROFESORES = 50;
+
+	private final Profesor[] profesores;
+	private int numProfesores;
+	private Profesor director;
+
+	public Departamento(Profesor directorInicial) {
+		if (directorInicial == null) {
+			throw new IllegalArgumentException("Debe existir un director inicial");
+		}
+		this.profesores = new Profesor[MAX_PROFESORES];
+		this.profesores[0] = directorInicial;
+		this.numProfesores = 1;
+		this.director = directorInicial;
+	}
+
+	public void addProfesor(Profesor profesor) {
+		if (profesor == null) {
+			throw new IllegalArgumentException("El profesor no puede ser null");
+		}
+		if (numProfesores >= MAX_PROFESORES) {
+			throw new IllegalStateException("No se pueden anadir mas profesores");
+		}
+		if (contiene(profesor)) {
+			throw new IllegalArgumentException("El profesor ya pertenece al departamento");
+		}
+
+		profesores[numProfesores] = profesor;
+		numProfesores++;
+	}
+
+	public void removeProfesor(int pos) {
+		validarPosicion(pos);
+		Profesor aEliminar = profesores[pos];
+
+		if (aEliminar == director) {
+			throw new IllegalStateException("No se puede eliminar al director actual");
+		}
+
+		for (int i = pos; i < numProfesores - 1; i++) {
+			profesores[i] = profesores[i + 1];
+		}
+		profesores[numProfesores - 1] = null;
+		numProfesores--;
+	}
+
+	public int getNumProfesores() {
+		return numProfesores;
+	}
+
+	public Profesor getProfesor(int pos) {
+		validarPosicion(pos);
+		return profesores[pos];
+	}
+
+	public Profesor getDirector() {
+		return director;
+	}
+
+	public void cambiarDirector(Profesor nuevoDirector) {
+		if (nuevoDirector == null) {
+			throw new IllegalArgumentException("El director no puede ser null");
+		}
+		if (!contiene(nuevoDirector)) {
+			throw new IllegalArgumentException("El director debe pertenecer al departamento");
+		}
+		this.director = nuevoDirector;
+	}
+
+	private boolean contiene(Profesor profesor) {
+		for (int i = 0; i < numProfesores; i++) {
+			if (profesores[i] == profesor) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void validarPosicion(int pos) {
+		if (pos < 0 || pos >= numProfesores) {
+			throw new IndexOutOfBoundsException("Posicion invalida: " + pos);
+		}
+	}
+}
+
+class MainDepartamento {
+	public static void main(String[] args) {
+		Profesor ana = new Profesor("Ana");
+		Profesor luis = new Profesor("Luis");
+		Profesor marta = new Profesor("Marta");
+
+		Departamento dep = new Departamento(ana);
+		dep.addProfesor(luis);
+		dep.addProfesor(marta);
+
+		dep.cambiarDirector(marta);
+		dep.removeProfesor(1); // Elimina a Luis.
+
+		System.out.println("Director: " + dep.getDirector().getNombre());
+		System.out.println("Total profesores: " + dep.getNumProfesores());
+	}
+}
+```
+
+Con este diseno no se rompe la encapsulacion: desde fuera no se conoce ni se manipula directamente el array interno, solo se usan metodos del dominio. Asi se mantiene el control de invariantes del departamento y se evita que codigo cliente deje el objeto en un estado invalido.
 
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
