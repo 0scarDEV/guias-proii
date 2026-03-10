@@ -17,7 +17,46 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. En C, podemos crear estructuras mayores **componiendo** unas con otras, que suelen describirse como "A tiene-un/tiene-varios B". Pon un ejemplo, empleando `struct`, de una línea de puntos, donde puntos tienen dos coordenadas (`x` e `y`), y la línea esta hecha de dos puntos. Incluye una función para calcular la distancia entre puntos y otra para hallar la longitud de una línea.
 
-### Respuesta
+En C, la composicion puede representarse anidando `struct`: una estructura mayor contiene otras estructuras como campos. En este caso, un `Punto` puede tener dos coordenadas (`x`, `y`) y una `Linea` puede estar formada por dos `Punto` (`inicio` y `fin`). Esta idea expresa directamente la relacion "Linea tiene dos Punto".
+
+Para calcular distancias, se aplica la distancia euclidea entre dos puntos: `sqrt((x2 - x1)^2 + (y2 - y1)^2)`. A partir de ahi, la longitud de una linea se obtiene reutilizando la misma funcion de distancia, pero pasandole los dos puntos que contiene la `Linea`. Asi se evita duplicar logica y se mantiene el codigo mas claro.
+
+```c
+#include <stdio.h>
+#include <math.h>
+
+typedef struct {
+	double x;
+	double y;
+} Punto;
+
+typedef struct {
+	Punto inicio;
+	Punto fin;
+} Linea;
+
+double distanciaPuntos(Punto a, Punto b) {
+	double dx = b.x - a.x;
+	double dy = b.y - a.y;
+	return sqrt(dx * dx + dy * dy);
+}
+
+double longitudLinea(Linea l) {
+	return distanciaPuntos(l.inicio, l.fin);
+}
+
+int main(void) {
+	Punto p1 = {0.0, 0.0};
+	Punto p2 = {3.0, 4.0};
+	Linea l = {p1, p2};
+
+	printf("Distancia entre puntos: %.2f\n", distanciaPuntos(p1, p2));
+	printf("Longitud de la linea: %.2f\n", longitudLinea(l));
+	return 0;
+}
+```
+
+En el ejemplo, se observa una composicion simple y comun en C: estructuras pequenas se combinan para modelar estructuras mas ricas del dominio. Aunque C no tenga orientacion a objetos, el patron "tiene-un" ya aparece de forma natural mediante campos estructurados.
 
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
