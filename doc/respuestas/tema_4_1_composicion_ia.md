@@ -504,4 +504,8 @@ Como ejemplos clasicos adicionales de composicion recursiva pueden citarse: estr
 
 ## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 
-### Respuesta
+Una relacion bidireccional significa que ambos extremos conocen el vinculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` tambien conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
+
+Para implementarlo, `Profesor` deberia incluir una referencia al `Departamento` al que pertenece, y `Departamento` seguiria manteniendo su coleccion de profesores. La parte delicada es la consistencia: cada alta, baja o cambio debe actualizar ambos lados de forma sincronizada para evitar estados incoherentes (por ejemplo, profesor en la lista de un departamento pero apuntando a otro distinto).
+
+En este escenario, conviene centralizar las operaciones en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relacion bidireccional sin pasar por las reglas de negocio.
