@@ -159,7 +159,75 @@ Se consideraria composicion cuando una clase guarda referencias a otra como atri
 
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
 
-### Respuesta
+En composicion fuerte, `Linea` crea internamente sus puntos y no permite que vengan "desde fuera". Asi, los `Punto` quedan conceptualmente ligados al ciclo de vida de la `Linea`: no hay referencias externas directas a los objetos internos, y la linea controla por completo su construccion.
+
+En composicion debil, `Linea` recibe `Punto` ya existentes y los conserva como referencias. En este caso, los puntos pueden vivir independientemente de la linea y, ademas, podrian compartirse entre varias lineas. La relacion sigue siendo "tiene-un", pero sin propiedad exclusiva del ciclo de vida.
+
+```java
+final class Punto {
+	private final double x;
+	private final double y;
+
+	public Punto(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public double distanciaA(Punto otro) {
+		double dx = otro.x - this.x;
+		double dy = otro.y - this.y;
+		return Math.sqrt(dx * dx + dy * dy);
+	}
+}
+
+// Composicion fuerte: Linea crea y controla sus puntos.
+final class LineaFuerte {
+	private final Punto inicio;
+	private final Punto fin;
+
+	public LineaFuerte(double x1, double y1, double x2, double y2) {
+		this.inicio = new Punto(x1, y1);
+		this.fin = new Punto(x2, y2);
+	}
+
+	public double longitud() {
+		return inicio.distanciaA(fin);
+	}
+}
+
+// Composicion debil (agregacion): Linea reutiliza puntos externos.
+final class LineaDebil {
+	private final Punto inicio;
+	private final Punto fin;
+
+	public LineaDebil(Punto inicio, Punto fin) {
+		if (inicio == null || fin == null) {
+			throw new IllegalArgumentException("Los puntos no pueden ser null");
+		}
+		this.inicio = inicio;
+		this.fin = fin;
+	}
+
+	public double longitud() {
+		return inicio.distanciaA(fin);
+	}
+}
+
+class MainComposicion {
+	public static void main(String[] args) {
+		LineaFuerte lf = new LineaFuerte(0, 0, 3, 4);
+
+		Punto a = new Punto(0, 0);
+		Punto b = new Punto(3, 4);
+		LineaDebil ld = new LineaDebil(a, b);
+
+		System.out.println("Longitud fuerte: " + lf.longitud());
+		System.out.println("Longitud debil: " + ld.longitud());
+	}
+}
+```
+
+La diferencia clave no esta en la formula de longitud, que es la misma en ambos casos, sino en quien posee y gestiona los objetos `Punto`. Ese detalle determina si se modela composicion fuerte o debil en el diseno.
 
 
 ## 7. En Java, en la composición fuerte, ¿cuando el contenedor destruye los objetos? No se observa que `Linea` destruya los `Punto` explícitamente, ¿Por qué?
