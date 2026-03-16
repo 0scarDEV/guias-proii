@@ -438,9 +438,9 @@ En esta versión, lo que más se ahorra es código de gestión interna del almac
 
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciónes, denominadas composiciónes recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciónes recursivas.
 
-Una composición recursiva aparece cuando una clase contiene una referencia a otra instancia de su mismo tipo. En este caso, `Persona` puede tener una `madre` que también es `Persona`. Esta estructura permite modelar arboles genealogicos y otras jerarquias naturales del dominio.
+Una composición recursiva aparece cuando una clase contiene una referencia a otra instancia de su mismo tipo. En este caso, `Persona` puede tener una `madre` que también es `Persona`. Esta estructura permite modelar arboles genealógicos y otras jerarquías naturales del dominio.
 
-Para mantener inmutabilidad, se puede declarar la clase como `final`, usar atributos `private final` y omitir setters. Asi, una vez construida una persona, ni su nombre ni su referencia a la madre cambian. El valor `null` en la madre puede representar un caso base (por ejemplo, cuando no se quiere o no se puede modelar una generacion anterior).
+Para mantener inmutabilidad, se puede declarar la clase como `final`, usar atributos `private final` y omitir setters.
 
 ```java
 final class Persona {
@@ -455,13 +455,8 @@ final class Persona {
 		this.madre = madre;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public Persona getMadre() {
-		return madre;
-	}
+	public String getNombre() {return nombre;}
+	public Persona getMadre() {return madre;}
 }
 
 class MainPersona {
@@ -476,8 +471,6 @@ class MainPersona {
 	}
 }
 ```
-
-Como ejemplos clasicos adicionales de composición recursiva pueden citarse: estructura de carpetas (una carpeta contiene subcarpetas del mismo tipo), nodos de arbol binario (cada nodo referencia hijos que también son nodos) y causa de excepcion en Java (`Throwable` puede contener otro `Throwable` como causa).
 
 ## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 
