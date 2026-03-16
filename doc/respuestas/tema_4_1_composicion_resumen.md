@@ -17,7 +17,7 @@ Por favor, escribe en impersonal las respuestas.
 
 ## 1. En C, podemos crear estructuras mayores **componiendo** unas con otras, que suelen describirse como "A tiene-un/tiene-varios B". Pon un ejemplo, empleando `struct`, de una línea de puntos, donde puntos tienen dos coordenadas (`x` e `y`), y la línea esta hecha de dos puntos. Incluye una función para calcular la distancia entre puntos y otra para hallar la longitud de una línea.
 
-En C, la composición puede representarse anidando `struct`: una estructura mayor contiene otras estructuras como campos. En este caso, un `Punto` puede tener dos coordenadas (`x`, `y`) y una `Linea` puede estar formada por dos `Punto` (`inicio` y `fin`). Esta idea expresa directamente la relacion "Linea tiene dos Punto".
+En C, la composición puede representarse anidando `struct`: una estructura mayor contiene otras estructuras como campos. En este caso, un `Punto` puede tener dos coordenadas (`x`, `y`) y una `Linea` puede estar formada por dos `Punto` (`inicio` y `fin`). Esta idea expresa directamente la relación "Linea tiene dos Punto".
 
 Para calcular distancias, se aplica la distancia euclidea entre dos puntos: `sqrt((x2 - x1)^2 + (y2 - y1)^2)`. A partir de ahi, la longitud de una linea se obtiene reutilizando la misma funcion de distancia, pero pasandole los dos puntos que contiene la `Linea`. Asi se evita duplicar logica y se mantiene el código más claro.
 
@@ -126,8 +126,8 @@ En sentido contrario, de `Punto` a `Linea`, la multiplicidad suele considerarse 
 ## 4. ¿Qué significa composición **fuerte** y composición **débil**? 
 
 La diferencia principal está en la propiedad y el ciclo de vida de los objetos;
-- En una relacion fuerte, el objeto contenedor "posee" a sus partes de forma exclusiva: esas partes nacen y dejan de tener sentido con el contenedor. 
-- En una relacion débil, en cambio, el contenedor solo referencia objetos que pueden existir por separado.
+- En una relación fuerte, el objeto contenedor "posee" a sus partes de forma exclusiva: esas partes nacen y dejan de tener sentido con el contenedor. 
+- En una relación débil, en cambio, el contenedor solo referencia objetos que pueden existir por separado.
 
 ### ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? 
 Como consecuencia;
@@ -138,14 +138,14 @@ Esta distincion es importante para decidir quien crea, valida y gestiona cada ob
 
 ### Indica a cuál solemos referirnos como **"asociación o agregación"** y a cuál como **"composición"** propiamente.
 En terminologia habitual de modelado;
-- La relacion débil suele llamarse **asociación** o **agregación**. 
-- La relacion fuerte se denomina **composición**. 
+- La relación débil suele llamarse **asociación** o **agregación**. 
+- La relación fuerte se denomina **composición**. 
 
 Por eso, cuando se dice "composición" sin adjetivos, normalmente se esta aludiendo al caso fuerte.
 
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
 
-En esos casos se habla, en general, de **dependencia** y no de composición. La razón es que la clase solo "usa" temporalmente a otra para realizar una operación, pero no la mantiene necesariamente como parte estable de su estado interno. Es una relacion de uso, no una relacion estructural de "tiene-un" persistente.
+En esos casos se habla, en general, de **dependencia** y no de composición. La razón es que la clase solo "usa" temporalmente a otra para realizar una operación, pero no la mantiene necesariamente como parte estable de su estado interno. Es una relación de uso, no una relación estructural de "tiene-un" persistente.
 
 Se consideraria composición cuando una clase guarda referencias a otra como atributos que forman parte de su identidad o estructura (por ejemplo, `private final Punto inicio;`). 
 
@@ -472,10 +472,11 @@ class MainPersona {
 }
 ```
 
-## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
+## 11. ¿Qué son las relaciones de composición "bidireccionales"? 
 
-Una relacion bidireccional significa que ambos extremos conocen el vinculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` también conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
+Una relación bidireccional significa que ambos extremos conocen el vínculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` también conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
 
+### ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 Para implementarlo, `Profesor` deberia incluir una referencia al `Departamento` al que pertenece, y `Departamento` seguiria manteniendo su coleccion de profesores. La parte delicada es la consistencia: cada alta, baja o cambio debe actualizar ambos lados de forma sincronizada para evitar estados incoherentes (por ejemplo, profesor en la lista de un departamento pero apuntando a otro distinto).
 
-En este escenario, conviene centralizar las operaciónes en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relacion bidireccional sin pasar por las reglas de negocio.
+En este escenario, conviene centralizar las operaciónes en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relación bidireccional sin pasar por las reglas de negocio.
