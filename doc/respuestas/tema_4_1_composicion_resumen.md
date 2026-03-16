@@ -19,7 +19,7 @@ Por favor, escribe en impersonal las respuestas.
 
 En C, la composición puede representarse anidando `struct`: una estructura mayor contiene otras estructuras como campos. En este caso, un `Punto` puede tener dos coordenadas (`x`, `y`) y una `Linea` puede estar formada por dos `Punto` (`inicio` y `fin`). Esta idea expresa directamente la relacion "Linea tiene dos Punto".
 
-Para calcular distancias, se aplica la distancia euclidea entre dos puntos: `sqrt((x2 - x1)^2 + (y2 - y1)^2)`. A partir de ahi, la longitud de una linea se obtiene reutilizando la misma funcion de distancia, pero pasandole los dos puntos que contiene la `Linea`. Asi se evita duplicar logica y se mantiene el codigo mas claro.
+Para calcular distancias, se aplica la distancia euclidea entre dos puntos: `sqrt((x2 - x1)^2 + (y2 - y1)^2)`. A partir de ahi, la longitud de una linea se obtiene reutilizando la misma funcion de distancia, pero pasandole los dos puntos que contiene la `Linea`. Asi se evita duplicar logica y se mantiene el código más claro.
 
 ```c
 #include <stdio.h>
@@ -56,7 +56,7 @@ int main(void) {
 }
 ```
 
-En el ejemplo, se observa una composición simple y comun en C: estructuras pequenas se combinan para modelar estructuras mas ricas del dominio. Aunque C no tenga orientacion a objetos, el patron "tiene-un" ya aparece de forma natural mediante campos estructurados.
+En el ejemplo, se observa una composición simple y comun en C: estructuras pequenas se combinan para modelar estructuras más ricas del dominio. Aunque C no tenga orientacion a objetos, el patron "tiene-un" ya aparece de forma natural mediante campos estructurados.
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
 
@@ -266,7 +266,7 @@ class Departamento {
 			throw new IllegalArgumentException("El profesor no puede ser null");
 		}
 		if (numProfesores >= MAX_PROFESORES) {
-			throw new IllegalStateException("No se pueden anadir mas profesores");
+			throw new IllegalStateException("No se pueden anadir más profesores");
 		}
 		if (contiene(profesor)) {
 			throw new IllegalArgumentException("El profesor ya pertenece al departamento");
@@ -343,14 +343,14 @@ class MainDepartamento {
 }
 ```
 
-Con este diseño no se rompe la encapsulación: desde fuera no se conoce ni se manipula directamente el array interno, solo se usan metodos del dominio. Asi se mantiene el control de invariantes del departamento y se evita que codigo cliente deje el objeto en un estado inválido.
+Con este diseño no se rompe la encapsulación: desde fuera no se conoce ni se manipula directamente el array interno, solo se usan metodos del dominio. Asi se mantiene el control de invariantes del departamento y se evita que código cliente deje el objeto en un estado inválido.
 
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
 Al usar `List`, la implementacion se simplifica porque ya no hace falta gestionar manualmente el desplazamiento de elementos al eliminar, ni mantener un contador separado (`numProfesores`) ni comprobar limites de capacidad fija del array. La coleccion se encarga de crecer dinamicamente y de operaciónes como `add`, `remove` y `size`.
 
-El riesgo de encapsulación aparece si se devuelve directamente la lista interna: el codigo cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
+El riesgo de encapsulación aparece si se devuelve directamente la lista interna: el código cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
 
 ```java
 import java.util.ArrayList;
@@ -433,7 +433,7 @@ class Departamento {
 }
 ```
 
-En esta version, lo que mas se ahorra es codigo de gestion interna del almacenamiento: desplazamientos, control de huecos y tamano real frente a capacidad maxima. A cambio, sigue siendo necesario mantener las validaciones de dominio e invariantes, porque eso nunca lo resuelve automaticamente la estructura de datos.
+En esta versión, lo que más se ahorra es código de gestión interna del almacenamiento: desplazamientos, control de huecos y tamaño real frente a capacidad máxima. A cambio, sigue siendo necesario mantener las validaciones de dominio e invariantes, porque eso nunca lo resuelve automaticamente la estructura de datos.
 
 
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciónes, denominadas composiciónes recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciónes recursivas.
