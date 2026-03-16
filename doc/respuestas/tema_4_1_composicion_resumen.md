@@ -60,7 +60,7 @@ En el ejemplo, se observa una composición simple y comun en C: estructuras pequ
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
 
-En Java, la misma idea "Linea tiene dos Punto" se modela con composición entre clases. La diferencia respecto a C es que se puede proteger mejor el estado interno con encapsulacion: los atributos se declaran `private` y se exponen solo operaciónes controladas. De ese modo, no se permite modificar libremente las coordenadas ni los extremos de la linea.
+En Java, la misma idea "Linea tiene dos Punto" se modela con composición entre clases. La diferencia respecto a C es que se puede proteger mejor el estado interno con encapsulación: los atributos se declaran `private` y se exponen solo operaciónes controladas. De ese modo, no se permite modificar libremente las coordenadas ni los extremos de la linea.
 
 Para asegurar inmutabilidad, `Punto` y `Linea` pueden declararse como clases `final`, con atributos `private final`, sin setters. Asi, tras construir un objeto, su estado no cambia. El metodo `distanciaA` queda dentro de `Punto`, porque es una operación natural del propio objeto, y `longitud` en `Linea` reutiliza `distanciaA` para evitar duplicacion.
 
@@ -113,7 +113,7 @@ class Main {
 }
 ```
 
-Con esta estructura, la composición queda explicita y segura: `Linea` depende de dos `Punto`, pero una vez creada no se puede alterar que puntos la forman. Esto mejora la robustez frente al enfoque en C, porque se mantiene la invariante del objeto desde su construccion.
+Con esta estructura, la composición queda explícita y segura: `Linea` depende de dos `Punto`, pero una vez creada no se puede alterar que puntos la forman. Esto mejora la robustez frente al enfoque en C, porque se mantiene la invariante del objeto desde su construccion.
 
 ## 3. ¿Qué significa la **multiplicidad** en la composición? En el ejemplo anterior, ¿cuál es la multiplicidad entre `Linea` y `Punto`? Indícalo expresando la multiplicidad en ambas direcciones, de `Linea` a `Punto` y de `Punto` a `Linea`.
 
@@ -131,7 +131,7 @@ La diferencia principal está en la propiedad y el ciclo de vida de los objetos;
 
 ### ¿Qué consecuencia implica en relación al ciclo de vida de los objetos? 
 Como consecuencia;
-> - En composición **fuerte** el ciclo de vida de la parte queda ligado al del todo: si desaparece el contenedor, tambien deben desaparecer sus componentes. 
+> - En composición **fuerte** el ciclo de vida de la parte queda ligado al del todo: si desaparece el contenedor, también deben desaparecer sus componentes. 
 > - En composición **débil** no ocurre eso: al eliminar el contenedor, las partes pueden seguir vivas y reutilizarse en otros contextos. 
 
 Esta distincion es importante para decidir quien crea, valida y gestiona cada objeto.
@@ -218,16 +218,15 @@ class MainComposicion {
 ```
 ## 7. En Java, en la composición fuerte, ¿cuando el contenedor destruye los objetos? No se observa que `Linea` destruya los `Punto` explícitamente, ¿Por qué?
 
-En Java no existe destruccion manual explicita como en C++ con `delete`. En composición fuerte, se considera que las partes "mueren" con el contenedor en sentido logico: cuando el objeto contenedor deja de ser alcanzable, tambien dejan de serlo sus objetos internos (si no existen otras referencias externas).
+En Java no existe destrucción manual explícita. 
+En composición fuerte, se considera que las partes "mueren" con el contenedor en sentido logico: cuando el objeto contenedor deja de ser alcanzable, también dejan de serlo sus objetos internos (si no existen otras referencias externas).
 
-La liberacion real de memoria no la hace `Linea` con una instruccion propia, sino el recolector de basura (Garbage Collector). El GC se ejecuta automaticamente cuando la JVM lo estima oportuno, detecta objetos inalcanzables y recupera su memoria. Por eso no se ve codigo de destruccion explicita en clases Java normales.
+La liberación real de memoria no la hace `Linea` con una instruccion propia, sino el recolector de basura (Garbage Collector), pues detecta objetos inalcanzables y recupera su memoria.
 
-En consecuencia, en composición fuerte en Java la responsabilidad del disenador consiste en controlar referencias y encapsulacion para que las partes no se filtren al exterior. Si los componentes solo estan referenciados por el contenedor, al quedar inalcanzable el contenedor, los componentes tambien quedaran listos para recoleccion.
+## 8. Pon un ejemplo de composición débil entre un departamento que tiene varios profesores. 
+#### Implementa dos composiciónes a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
 
-
-## 8. Pon un ejemplo de composición débil entre un departamento que tiene varios profesores. Implementa dos composiciónes a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
-
-Se puede modelar una composición débil donde `Departamento` mantiene referencias a objetos `Profesor` que pueden existir independientemente. Ademas, se modela una segunda composición débil interna: `Departamento` tambien referencia a un `director`, que debe ser siempre uno de los profesores del propio departamento.
+Se puede modelar una composición débil donde `Departamento` mantiene referencias a objetos `Profesor` que pueden existir independientemente. Ademas, se modela una segunda composición débil interna: `Departamento` también referencia a un `director`, que debe ser siempre uno de los profesores del propio departamento.
 
 La invariante principal es: "siempre hay director y ese director pertenece a la lista de profesores". Para cumplirla, el constructor recibe un director inicial obligatorio, se inserta automaticamente en la coleccion de profesores, y no se permite eliminar al director actual sin nombrar antes otro. Tambien se lanzan excepciones ante posiciones invalidas, `null`, exceso de capacidad o cambios inconsistentes.
 
@@ -242,9 +241,7 @@ final class Profesor {
 		this.nombre = nombre;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
+	public String getNombre() {return nombre;}
 }
 
 class Departamento {
@@ -294,18 +291,12 @@ class Departamento {
 		numProfesores--;
 	}
 
-	public int getNumProfesores() {
-		return numProfesores;
-	}
-
+	public int getNumProfesores() {return numProfesores;}
 	public Profesor getProfesor(int pos) {
 		validarPosicion(pos);
 		return profesores[pos];
 	}
-
-	public Profesor getDirector() {
-		return director;
-	}
+	public Profesor getDirector() {return director;	}
 
 	public void cambiarDirector(Profesor nuevoDirector) {
 		if (nuevoDirector == null) {
@@ -352,14 +343,14 @@ class MainDepartamento {
 }
 ```
 
-Con este diseno no se rompe la encapsulacion: desde fuera no se conoce ni se manipula directamente el array interno, solo se usan metodos del dominio. Asi se mantiene el control de invariantes del departamento y se evita que codigo cliente deje el objeto en un estado invalido.
+Con este diseño no se rompe la encapsulación: desde fuera no se conoce ni se manipula directamente el array interno, solo se usan metodos del dominio. Asi se mantiene el control de invariantes del departamento y se evita que codigo cliente deje el objeto en un estado inválido.
 
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
 Al usar `List`, la implementacion se simplifica porque ya no hace falta gestionar manualmente el desplazamiento de elementos al eliminar, ni mantener un contador separado (`numProfesores`) ni comprobar limites de capacidad fija del array. La coleccion se encarga de crecer dinamicamente y de operaciónes como `add`, `remove` y `size`.
 
-El riesgo de encapsulacion aparece si se devuelve directamente la lista interna: el codigo cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
+El riesgo de encapsulación aparece si se devuelve directamente la lista interna: el codigo cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
 
 ```java
 import java.util.ArrayList;
@@ -447,7 +438,7 @@ En esta version, lo que mas se ahorra es codigo de gestion interna del almacenam
 
 ## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciónes, denominadas composiciónes recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciónes recursivas.
 
-Una composición recursiva aparece cuando una clase contiene una referencia a otra instancia de su mismo tipo. En este caso, `Persona` puede tener una `madre` que tambien es `Persona`. Esta estructura permite modelar arboles genealogicos y otras jerarquias naturales del dominio.
+Una composición recursiva aparece cuando una clase contiene una referencia a otra instancia de su mismo tipo. En este caso, `Persona` puede tener una `madre` que también es `Persona`. Esta estructura permite modelar arboles genealogicos y otras jerarquias naturales del dominio.
 
 Para mantener inmutabilidad, se puede declarar la clase como `final`, usar atributos `private final` y omitir setters. Asi, una vez construida una persona, ni su nombre ni su referencia a la madre cambian. El valor `null` en la madre puede representar un caso base (por ejemplo, cuando no se quiere o no se puede modelar una generacion anterior).
 
@@ -486,11 +477,11 @@ class MainPersona {
 }
 ```
 
-Como ejemplos clasicos adicionales de composición recursiva pueden citarse: estructura de carpetas (una carpeta contiene subcarpetas del mismo tipo), nodos de arbol binario (cada nodo referencia hijos que tambien son nodos) y causa de excepcion en Java (`Throwable` puede contener otro `Throwable` como causa).
+Como ejemplos clasicos adicionales de composición recursiva pueden citarse: estructura de carpetas (una carpeta contiene subcarpetas del mismo tipo), nodos de arbol binario (cada nodo referencia hijos que también son nodos) y causa de excepcion en Java (`Throwable` puede contener otro `Throwable` como causa).
 
 ## 11. ¿Qué son las relaciones de composición "bidireccionales"? ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
 
-Una relacion bidireccional significa que ambos extremos conocen el vinculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` tambien conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
+Una relacion bidireccional significa que ambos extremos conocen el vinculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` también conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
 
 Para implementarlo, `Profesor` deberia incluir una referencia al `Departamento` al que pertenece, y `Departamento` seguiria manteniendo su coleccion de profesores. La parte delicada es la consistencia: cada alta, baja o cambio debe actualizar ambos lados de forma sincronizada para evitar estados incoherentes (por ejemplo, profesor en la lista de un departamento pero apuntando a otro distinto).
 
