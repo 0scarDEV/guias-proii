@@ -60,9 +60,9 @@ En el ejemplo, se observa una composición simple y comun en C: estructuras pequ
 
 ## 2. Ahora transforma ese ejemplo a orientación a objetos con Java, para tener un primer ejemplo de **composición** en orientación a objetos. Crea una clase `Punto`, y una clase `Linea`. La clase `Punto` debe tener un método para calcular distancia a otro `Punto` y `Linea` debe tener un método para calcular su longitud. Gracias a la ocultación de información, supera a C, garantizando que los puntos sean inmutables, al igual que la línea, que una vez creada, no queremos que se modifique de qué a qué puntos va dicha línea.  
 
-En Java, la misma idea "Linea tiene dos Punto" se modela con composición entre clases. La diferencia respecto a C es que se puede proteger mejor el estado interno con encapsulacion: los atributos se declaran `private` y se exponen solo operaciones controladas. De ese modo, no se permite modificar libremente las coordenadas ni los extremos de la linea.
+En Java, la misma idea "Linea tiene dos Punto" se modela con composición entre clases. La diferencia respecto a C es que se puede proteger mejor el estado interno con encapsulacion: los atributos se declaran `private` y se exponen solo operaciónes controladas. De ese modo, no se permite modificar libremente las coordenadas ni los extremos de la linea.
 
-Para asegurar inmutabilidad, `Punto` y `Linea` pueden declararse como clases `final`, con atributos `private final`, sin setters. Asi, tras construir un objeto, su estado no cambia. El metodo `distanciaA` queda dentro de `Punto`, porque es una operacion natural del propio objeto, y `longitud` en `Linea` reutiliza `distanciaA` para evitar duplicacion.
+Para asegurar inmutabilidad, `Punto` y `Linea` pueden declararse como clases `final`, con atributos `private final`, sin setters. Asi, tras construir un objeto, su estado no cambia. El metodo `distanciaA` queda dentro de `Punto`, porque es una operación natural del propio objeto, y `longitud` en `Linea` reutiliza `distanciaA` para evitar duplicacion.
 
 ```java
 public final class Punto {
@@ -145,11 +145,11 @@ Por eso, cuando se dice "composición" sin adjetivos, normalmente se esta aludie
 
 ## 5. Cuando una clase usa a otra al recibirla o devolverla como parámetro en algún método, al hacer `new` dentro de un método, o al usarlas como variables locales, ¿hablamos de composición o de **"dependencia"**?
 
-En esos casos se habla, en general, de **dependencia** y no de composición. La razon es que la clase solo "usa" temporalmente a otra para realizar una operacion, pero no la mantiene necesariamente como parte estable de su estado interno. Es una relacion de uso, no una relacion estructural de "tiene-un" persistente.
+En esos casos se habla, en general, de **dependencia** y no de composición. La razón es que la clase solo "usa" temporalmente a otra para realizar una operación, pero no la mantiene necesariamente como parte estable de su estado interno. Es una relacion de uso, no una relacion estructural de "tiene-un" persistente.
 
-Por ejemplo, si una clase recibe un objeto por parametro, lo usa dentro del metodo y termina la llamada, existe dependencia porque el metodo depende de ese tipo para funcionar. Lo mismo ocurre si crea un objeto local con `new` o si devuelve un objeto de otro tipo: hay acoplamiento entre clases, pero no implica que una contenga a la otra como atributo propio.
+Se consideraria composición cuando una clase guarda referencias a otra como atributos que forman parte de su identidad o estructura (por ejemplo, `private final Punto inicio;`). 
 
-Se consideraria composición cuando una clase guarda referencias a otra como atributos que forman parte de su identidad o estructura (por ejemplo, `private final Punto inicio;`). Si solo aparece en firmas de metodos, variables locales o uso puntual, el termino correcto es dependencia.
+<u>Si solo aparece en firmas de metodos, variables locales o uso puntual, el termino correcto es dependencia.</u>
 
 
 ## 6. En el ejemplo anterior de línea y punto, programa la relación entre `Linea` y `Punto` de dos formas. Una **como composición fuerte**, donde el ciclo de vida de los puntos está ligado al de Linea y otra **como composición débil**, donde no.
@@ -366,7 +366,7 @@ Con este diseno no se rompe la encapsulacion: desde fuera no se conoce ni se man
 
 ## 9. En Java, existen también `List`, cambia y muestra cómo sería el código anterior empleando `List` en vez de arrays primitivos. ¿Qué parte del código original te has ahorrado? Además, fíjate en el método `getProfesor(int pos)`: si en su lugar existiera un método que devolviera todos los profesores a la vez, ¿qué problema tendría devolver directamente la lista interna? ¿Cómo lo resolverías?
 
-Al usar `List`, la implementacion se simplifica porque ya no hace falta gestionar manualmente el desplazamiento de elementos al eliminar, ni mantener un contador separado (`numProfesores`) ni comprobar limites de capacidad fija del array. La coleccion se encarga de crecer dinamicamente y de operaciones como `add`, `remove` y `size`.
+Al usar `List`, la implementacion se simplifica porque ya no hace falta gestionar manualmente el desplazamiento de elementos al eliminar, ni mantener un contador separado (`numProfesores`) ni comprobar limites de capacidad fija del array. La coleccion se encarga de crecer dinamicamente y de operaciónes como `add`, `remove` y `size`.
 
 El riesgo de encapsulacion aparece si se devuelve directamente la lista interna: el codigo cliente podria modificarla por fuera del control de `Departamento` y romper invariantes (por ejemplo, eliminar al director o insertar `null`). Para evitarlo, se puede devolver una vista inmodificable (`Collections.unmodifiableList`) o una copia defensiva.
 
@@ -503,4 +503,4 @@ Una relacion bidireccional significa que ambos extremos conocen el vinculo: no s
 
 Para implementarlo, `Profesor` deberia incluir una referencia al `Departamento` al que pertenece, y `Departamento` seguiria manteniendo su coleccion de profesores. La parte delicada es la consistencia: cada alta, baja o cambio debe actualizar ambos lados de forma sincronizada para evitar estados incoherentes (por ejemplo, profesor en la lista de un departamento pero apuntando a otro distinto).
 
-En este escenario, conviene centralizar las operaciones en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relacion bidireccional sin pasar por las reglas de negocio.
+En este escenario, conviene centralizar las operaciónes en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relacion bidireccional sin pasar por las reglas de negocio.
