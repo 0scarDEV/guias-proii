@@ -468,4 +468,86 @@ Por eso se recomienda diseñar herencia con contratos muy claros, jerarquías pe
 
 ## 13. Pongamos un ejemplo de dos alternativas para lo mismo. Tenemos un `Estudiante` y un `Trabajador`, ambos tienen datos en común: el DNI y el nombre. Modelemos esto de dos formas: uno por herencia, con una superclase `Persona`, y otro con composición, con una clase `DatosPersonales`. Se debe recibir una instancia de `DatosPersonales` en el constructor de la clase `Estudiante` y `Trabajador`.
 
-### Respuesta
+Se puede modelar el caso de dos formas válidas. Con **herencia**, se crea una superclase `Persona` con los campos comunes (`dni`, `nombre`) y luego `Estudiante` y `Trabajador` extienden de ella. Esta alternativa expresa explícitamente que ambos tipos son personas y centraliza en un punto el estado compartido.
+
+Con **composición**, se separan los datos comunes en una clase `DatosPersonales` y cada clase (`Estudiante`, `Trabajador`) contiene una referencia a ese objeto. Esta opción favorece flexibilidad y menor acoplamiento de jerarquía, porque la relación es "tiene-un" en lugar de "es-un". Además, facilita reutilizar `DatosPersonales` en otros contextos sin forzar herencia.
+
+En el ejemplo siguiente se muestran ambas alternativas. En la versión por composición, tal como se pide, el constructor de `Estudiante` y `Trabajador` recibe una instancia de `DatosPersonales`.
+
+```java
+// ===== Alternativa 1: Herencia =====
+class Persona {
+    private String dni;
+    private String nombre;
+
+    public Persona(String dni, String nombre) {
+        this.dni = dni;
+        this.nombre = nombre;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+
+class EstudianteH extends Persona {
+    private String carrera;
+
+    public EstudianteH(String dni, String nombre, String carrera) {
+        super(dni, nombre);
+        this.carrera = carrera;
+    }
+}
+
+class TrabajadorH extends Persona {
+    private String empresa;
+
+    public TrabajadorH(String dni, String nombre, String empresa) {
+        super(dni, nombre);
+        this.empresa = empresa;
+    }
+}
+
+// ===== Alternativa 2: Composición =====
+class DatosPersonales {
+    private String dni;
+    private String nombre;
+
+    public DatosPersonales(String dni, String nombre) {
+        this.dni = dni;
+        this.nombre = nombre;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+
+class Estudiante {
+    private DatosPersonales datos;
+    private String carrera;
+
+    public Estudiante(DatosPersonales datos, String carrera) {
+        this.datos = datos;
+        this.carrera = carrera;
+    }
+}
+
+class Trabajador {
+    private DatosPersonales datos;
+    private String empresa;
+
+    public Trabajador(DatosPersonales datos, String empresa) {
+        this.datos = datos;
+        this.empresa = empresa;
+    }
+}
+```
