@@ -446,7 +446,13 @@ En resumen, la herencia debe elegirse por modelado del tipo y polimorfismo, no c
 
 ## 11. Herencia vs. Composición. Se dice que se debe *"favorecer la composición frente a la herencia"*, ¿por qué?
 
-### Respuesta
+Se recomienda favorecer composición porque permite construir clases a partir de colaboradores, en lugar de fijarlas a una jerarquía rígida. Con composición, cada responsabilidad se encapsula en componentes separados y la clase principal delega en ellos. Esto genera diseños más modulares y fáciles de adaptar.
+
+También reduce acoplamiento: cambiar una implementación interna suele requerir reemplazar un objeto colaborador, sin alterar una cadena de subclases. En herencia, en cambio, las dependencias entre superclase y subclases son más fuertes, y un cambio en la base puede provocar efectos colaterales en varios niveles.
+
+Otra ventaja es la variación de comportamiento en tiempo de ejecución. Mediante composición se pueden inyectar distintas estrategias según contexto, algo difícil si la variación está codificada en jerarquías profundas. Este enfoque se alinea con principios de diseño como responsabilidad única y abierto/cerrado.
+
+En conclusión, la composición no elimina la utilidad de la herencia, pero suele ser una opción más segura y flexible como punto de partida. La herencia queda mejor reservada para casos donde existe una relación clara de subtipo.
 
 
 ## 12. Herencia vs. Composición. Se dice que la *"herencia rompe la encapsulación"*, ¿a qué se refiere esto?
