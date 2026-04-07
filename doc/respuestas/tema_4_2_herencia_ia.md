@@ -435,7 +435,13 @@ class RepositorioUsuarios {
 
 ## 10. Herencia vs. Composición. Se dice que no se debe emplear herencia simplemente por reutilizar código, es decir, que si quiero reutilizar código simplemente, no debo pensar en herencia como primera opción ¿por qué?
 
-### Respuesta
+No se recomienda usar herencia solo para reutilizar código porque heredar no significa "copiar funcionalidad", sino establecer una relación semántica fuerte de tipo "A es-un B". Si esa relación conceptual no es verdadera, la jerarquía queda forzada y el modelo del dominio pierde claridad.
+
+Además, la herencia introduce acoplamiento estructural entre superclase y subclase. Cualquier cambio en la clase base puede afectar comportamientos de clases derivadas, incluso en lugares no previstos. Eso vuelve el diseño más frágil y dificulta evolucionar el sistema con seguridad.
+
+Cuando el objetivo principal es reutilizar comportamiento sin imponer una relación de subtipo, suele ser preferible composición (tener un objeto colaborador) o delegación. Así se reutiliza código de forma más flexible, se pueden intercambiar implementaciones y se reduce el impacto de cambios internos.
+
+En resumen, la herencia debe elegirse por modelado del tipo y polimorfismo, no como mecanismo automático de reutilización. Si solo se quiere compartir lógica, composición suele ofrecer mejor mantenibilidad.
 
 
 ## 11. Herencia vs. Composición. Se dice que se debe *"favorecer la composición frente a la herencia"*, ¿por qué?
