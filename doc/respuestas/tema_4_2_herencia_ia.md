@@ -457,7 +457,13 @@ En conclusión, la composición no elimina la utilidad de la herencia, pero suel
 
 ## 12. Herencia vs. Composición. Se dice que la *"herencia rompe la encapsulación"*, ¿a qué se refiere esto?
 
-### Respuesta
+La frase "la herencia rompe la encapsulación" se refiere a que una subclase depende no solo de la interfaz pública de la superclase, sino también de detalles de implementación y de supuestos internos sobre su funcionamiento. Aunque esos detalles no estén explícitamente documentados como contrato, la subclase puede quedar atada a ellos para funcionar correctamente.
+
+Como consecuencia, cambios internos en la superclase (por ejemplo, orden de llamadas, uso de métodos sobrescribibles o modificación de comportamiento base) pueden romper subclases existentes sin que haya cambios en la firma pública. Esto debilita el aislamiento entre módulos y aumenta el riesgo de regresiones al evolucionar la clase padre.
+
+El problema se vuelve más visible cuando las subclases sobreescriben métodos y dependen del comportamiento previo de `super`. Si la lógica heredada cambia, la subclase puede violar invariantes o producir resultados inesperados. En ese sentido, la encapsulación queda parcialmente comprometida por el acoplamiento vertical de la jerarquía.
+
+Por eso se recomienda diseñar herencia con contratos muy claros, jerarquías pequeñas y puntos de extensión controlados. En muchos escenarios, composición evita esta fragilidad porque la colaboración entre objetos se basa en interfaces explícitas, no en internals heredados.
 
 
 ## 13. Pongamos un ejemplo de dos alternativas para lo mismo. Tenemos un `Estudiante` y un `Trabajador`, ambos tienen datos en común: el DNI y el nombre. Modelemos esto de dos formas: uno por herencia, con una superclase `Persona`, y otro con composición, con una clase `DatosPersonales`. Se debe recibir una instancia de `DatosPersonales` en el constructor de la clase `Estudiante` y `Trabajador`.
