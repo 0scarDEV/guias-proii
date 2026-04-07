@@ -89,7 +89,31 @@ public class Principal {
 
 ## 2. Al crear los soldados concretos, ¿cuántos constructores se ejecutan y en qué orden? ¿Qué significa `super` dentro de un constructor? Si la clase base no tiene visible el constructor sin parámetros, ¿debo llamar a `super` siempre? 
 
-### Respuesta
+
+Al crear una instancia de una subclase en Java, se ejecutan varios constructores en cadena. Primero se ejecuta el constructor de la superclase y después el de la subclase. Por ejemplo, al construir un `Artillero`, antes de inicializar sus propios atributos (como el número de cohetes), se inicializa la parte heredada de `Soldado`.
+
+Dentro del constructor, `super(...)` sirve para invocar explícitamente un constructor de la superclase. En este caso, `super(nombre)` transfiere el valor a `Soldado` para que inicialice su estado interno (por ejemplo, el atributo privado `nombre`). De esta forma, cada clase se responsabiliza de inicializar su propia parte del objeto.
+
+Si la superclase no tiene visible un constructor sin parámetros, entonces sí se debe llamar a `super` de forma explícita con una firma válida. Si no se hace, el compilador intentará insertar `super()` automáticamente y fallará. Por tanto, en ese escenario la llamada a `super(...)` no es opcional.
+
+```java
+class Soldado {
+    private String nombre;
+
+    public Soldado(String nombre) {
+        this.nombre = nombre;
+    }
+}
+
+class Artillero extends Soldado {
+    private int numCohetes;
+
+    public Artillero(String nombre, int numCohetes) {
+        super(nombre); // Primero inicializa la parte Soldado
+        this.numCohetes = numCohetes;
+    }
+}
+```
 
 ## 3. Respecto a los objetos de subclases en memoria, los atributos privados de la superclase, ¿forman parte de una instancia de la subclase en memoria? En caso afirmativo ¿implica que se puedan usar desde el código de la subclase? Explícalo con el ejemplo de `Soldado` y alguna de sus subclases.
 
