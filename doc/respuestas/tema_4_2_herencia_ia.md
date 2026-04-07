@@ -117,7 +117,39 @@ class Artillero extends Soldado {
 
 ## 3. Respecto a los objetos de subclases en memoria, los atributos privados de la superclase, ¿forman parte de una instancia de la subclase en memoria? En caso afirmativo ¿implica que se puedan usar desde el código de la subclase? Explícalo con el ejemplo de `Soldado` y alguna de sus subclases.
 
-### Respuesta
+Sí, los atributos privados de la superclase forman parte de la instancia completa de la subclase en memoria. Cuando se crea un `Artillero`, el objeto contiene tanto la parte heredada de `Soldado` (incluyendo `nombre`) como la parte propia de `Artillero` (por ejemplo, `numCohetes`). En otras palabras, la memoria del objeto incluye el estado definido en toda la cadena de herencia.
+
+Sin embargo, que esos datos existan en memoria no implica acceso directo desde el código de la subclase. En Java, `private` restringe el acceso al interior de la clase que declara el atributo. Por tanto, `Artillero` no puede leer ni modificar directamente `nombre`, aunque ese valor exista dentro del objeto. Para usar ese dato desde subclases, se necesita un método público/protegido en la superclase (por ejemplo, un getter).
+
+Este comportamiento mantiene la encapsulación: la superclase controla cómo se consulta o modifica su estado interno. Así se evita que una subclase rompa invariantes de la clase base manipulando directamente campos sensibles.
+
+```java
+class Soldado {
+    private String nombre;
+
+    public Soldado(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+
+class Artillero extends Soldado {
+    private int numCohetes;
+
+    public Artillero(String nombre, int numCohetes) {
+        super(nombre);
+        this.numCohetes = numCohetes;
+    }
+
+    public void informar() {
+        // System.out.println(nombre); // Error: nombre es privado en Soldado
+        System.out.println("Artillero: " + getNombre() + ", cohetes: " + numCohetes);
+    }
+}
+```
 
 ## 4. ¿Qué implica en términos de **extensibilidad** de código el hecho de que sean compatibles a nivel de tipos? Ilustra esto añadiendo un nuevo tipo de `Soldado` y demostrando que el código para pedir el saludo a todos los soldados no se modifica.
 
