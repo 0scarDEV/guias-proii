@@ -210,7 +210,63 @@ public class Principal {
 
 ## 5. En Java, cuando trabajo con referencias y herencia. ¿Puedo tener una referencia del supertipo que apunte a objetos reales de un subtipo? ¿Puedo invocar con la referencia del supertipo a métodos públicos del subtipo? ¿En qué consiste el **"upcasting"** y el **"downcasting"**? ¿Qué es el `instanceof`? Pon un ejemplo de recorrido de un array de `Soldado`, comprobando que, si el objeto real es un `Artillero`, solicite el número de cohetes que tiene y los imprima.
 
-### Respuesta
+Sí, en Java una referencia del supertipo puede apuntar a un objeto real de un subtipo. Por ejemplo, una variable `Soldado` puede referenciar un `Artillero` o un `Zapador`. A esto se le llama **upcasting** y ocurre de forma implícita y segura porque todo subtipo "es-un" supertipo.
+
+Con esa referencia de supertipo solo se pueden invocar directamente los métodos visibles en el tipo `Soldado`. Si el objeto real tiene métodos específicos de `Artillero` (como `getNumCohetes()`), no se pueden usar de forma directa desde una referencia `Soldado`. Para ello se necesita un **downcasting**, es decir, convertir explícitamente de `Soldado` a `Artillero`.
+
+`instanceof` permite verificar en tiempo de ejecución el tipo real del objeto antes de hacer downcasting. Esto evita errores de conversión (`ClassCastException`) y permite ejecutar lógica específica según el subtipo concreto.
+
+```java
+class Soldado {
+    private String nombre;
+
+    public Soldado(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void saludar() {
+        System.out.println("Hola, soy " + nombre);
+    }
+}
+
+class Artillero extends Soldado {
+    private int numCohetes;
+
+    public Artillero(String nombre, int numCohetes) {
+        super(nombre);
+        this.numCohetes = numCohetes;
+    }
+
+    public int getNumCohetes() {
+        return numCohetes;
+    }
+}
+
+class Zapador extends Soldado {
+    public Zapador(String nombre) {
+        super(nombre);
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Soldado[] ejercito = {
+            new Artillero("Juan", 6),
+            new Zapador("Marta"),
+            new Artillero("Luis", 3)
+        };
+
+        for (Soldado s : ejercito) {
+            s.saludar(); // método común del supertipo
+
+            if (s instanceof Artillero) {
+                Artillero a = (Artillero) s; // downcasting seguro
+                System.out.println("Cohetes disponibles: " + a.getNumCohetes());
+            }
+        }
+    }
+}
+```
 
 
 ## 6. Respecto a la ocultación de información y herencia, ¿qué significa acceso **"protegido"** de métodos y/o atributos? ¿Cómo se implementa en Java? Pon un ejemplo de uso de en la clase `Soldado` para que su nombre sea protegido y pueda usarse en el método de poner bombas del `Zapador`.
