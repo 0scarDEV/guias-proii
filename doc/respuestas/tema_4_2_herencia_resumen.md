@@ -55,63 +55,34 @@ public class Principal {
 }
 ```
 
-## 2. Al crear los soldados concretos, ¿cuántos constructores se ejecutan y en qué orden? ¿Qué significa `super` dentro de un constructor? Si la clase base no tiene visible el constructor sin parámetros, ¿debo llamar a `super` siempre? 
-
-
-Al crear una instancia de una subclase en Java, se ejecutan varios constructores en cadena. Primero se ejecuta el constructor de la superclase y después el de la subclase. Por ejemplo, al construir un `Artillero`, antes de inicializar sus propios atributos (como el número de cohetes), se inicializa la parte heredada de `Soldado`.
-
-Dentro del constructor, `super(...)` sirve para invocar explícitamente un constructor de la superclase. En este caso, `super(nombre)` transfiere el valor a `Soldado` para que inicialice su estado interno (por ejemplo, el atributo privado `nombre`). De esta forma, cada clase se responsabiliza de inicializar su propia parte del objeto.
-
+## 2. Al crear los soldados concretos, ¿cuántos constructores se ejecutan y en qué orden?
+Al crear una instancia de una subclase en Java, se ejecutan varios constructores en cadena. Primero se ejecuta el constructor (por defecto) de la superclase y después el de la subclase (en cadena).
+#### ¿Qué significa `super` dentro de un constructor? 
+Dentro del constructor, `super(...)` sirve para invocar explícitamente un constructor de la superclase. De esta forma, cada clase se responsabiliza de inicializar su propia parte del objeto.
+#### Si la clase base no tiene visible el constructor sin parámetros, ¿debo llamar a `super` siempre? 
 Si la superclase no tiene visible un constructor sin parámetros, entonces sí se debe llamar a `super` de forma explícita con una firma válida. Si no se hace, el compilador intentará insertar `super()` automáticamente y fallará. Por tanto, en ese escenario la llamada a `super(...)` no es opcional.
 
-```java
-class Soldado {
-    private String nombre;
+## 3. Respecto a los objetos de subclases en memoria, los atributos privados de la superclase, ¿forman parte de una instancia de la subclase en memoria?
 
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-}
+Sí, los atributos privados de la superclase forman parte de la instancia completa de la subclase en memoria. Cuando se crea un `Artillero`, el objeto contiene tanto la parte heredada de `Soldado` como la parte propia de `Artillero`..
 
-class Artillero extends Soldado {
-    private int numCohetes;
-
-    public Artillero(String nombre, int numCohetes) {
-        super(nombre); // Primero inicializa la parte Soldado
-        this.numCohetes = numCohetes;
-    }
-}
-```
-
-## 3. Respecto a los objetos de subclases en memoria, los atributos privados de la superclase, ¿forman parte de una instancia de la subclase en memoria? En caso afirmativo ¿implica que se puedan usar desde el código de la subclase? Explícalo con el ejemplo de `Soldado` y alguna de sus subclases.
-
-Sí, los atributos privados de la superclase forman parte de la instancia completa de la subclase en memoria. Cuando se crea un `Artillero`, el objeto contiene tanto la parte heredada de `Soldado` (incluyendo `nombre`) como la parte propia de `Artillero` (por ejemplo, `numCohetes`). En otras palabras, la memoria del objeto incluye el estado definido en toda la cadena de herencia.
-
-Sin embargo, que esos datos existan en memoria no implica acceso directo desde el código de la subclase. En Java, `private` restringe el acceso al interior de la clase que declara el atributo. Por tanto, `Artillero` no puede leer ni modificar directamente `nombre`, aunque ese valor exista dentro del objeto. Para usar ese dato desde subclases, se necesita un método público/protegido en la superclase (por ejemplo, un getter).
+#### En caso afirmativo ¿implica que se puedan usar desde el código de la subclase?
+No implica acceso directo desde el código de la subclase. En Java, `private` restringe el acceso al interior de la clase que declara el atributo. Para usar ese dato desde subclases, se necesita un método público/protegido en la superclase (por ejemplo, un getter).
 
 Este comportamiento mantiene la encapsulación: la superclase controla cómo se consulta o modifica su estado interno. Así se evita que una subclase rompa invariantes de la clase base manipulando directamente campos sensibles.
 
 ```java
 class Soldado {
     private String nombre;
-
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
+    public Soldado(String nombre) { this.nombre = nombre; }
+    public String getNombre() { return nombre; }
 }
-
 class Artillero extends Soldado {
     private int numCohetes;
-
     public Artillero(String nombre, int numCohetes) {
         super(nombre);
         this.numCohetes = numCohetes;
     }
-
     public void informar() {
         // System.out.println(nombre); // Error: nombre es privado en Soldado
         System.out.println("Artillero: " + getNombre() + ", cohetes: " + numCohetes);
