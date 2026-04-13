@@ -90,62 +90,11 @@ class Artillero extends Soldado {
 }
 ```
 
-## 4. ¿Qué implica en términos de **extensibilidad** de código el hecho de que sean compatibles a nivel de tipos? Ilustra esto añadiendo un nuevo tipo de `Soldado` y demostrando que el código para pedir el saludo a todos los soldados no se modifica.
+## 4. ¿Qué implica en términos de **extensibilidad** de código el hecho de que sean compatibles a nivel de tipos?
 
-La compatibilidad de tipos en herencia mejora la extensibilidad porque permite programar contra el tipo general (`Soldado`) y no contra cada subtipo concreto. De esta manera, el código cliente queda desacoplado de las clases específicas y acepta nuevas variantes sin requerir cambios estructurales.
+La compatibilidad de tipos en herencia mejora la extensibilidad porque permite programar contra el tipo general y no contra cada subtipo concreto. El código no va ligado a las clases específicas y acepta nuevas variantes sin requerir cambios estructurales.
 
-En la práctica, esto significa que se puede añadir un nuevo subtipo, por ejemplo `Francotirador`, y seguir usando exactamente el mismo bucle que recorre un array de `Soldado`. El bloque que solicita el saludo no necesita conocer qué tipos concretos existen; solo invoca el comportamiento común heredado (`saludar()`).
-
-Este enfoque reduce mantenimiento y riesgo de regresiones: al crecer el sistema, se agregan clases nuevas sin tocar lógica ya probada. Es una ventaja directa del principio "A es-un B" aplicado con polimorfismo.
-
-```java
-class Soldado {
-    private String nombre;
-
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void saludar() {
-        System.out.println("Soy " + nombre);
-    }
-}
-
-class Artillero extends Soldado {
-    public Artillero(String nombre) {
-        super(nombre);
-    }
-}
-
-class Zapador extends Soldado {
-    public Zapador(String nombre) {
-        super(nombre);
-    }
-}
-
-// Nuevo tipo añadido después
-class Francotirador extends Soldado {
-    public Francotirador(String nombre) {
-        super(nombre);
-    }
-}
-
-public class Principal {
-    public static void main(String[] args) {
-        Soldado[] ejercito = {
-            new Artillero("Ana"),
-            new Zapador("Luis"),
-            new Francotirador("Elena") // Nuevo subtipo
-        };
-
-        // Este código no cambia al añadir subtipos
-        for (Soldado s : ejercito) {
-            s.saludar();
-        }
-    }
-}
-```
-
+Este enfoque reduce mantenimiento y riesgo de regresiones: al crecer el sistema, se agregan clases nuevas sin tocar lógica ya probada.
 
 ## 5. En Java, cuando trabajo con referencias y herencia. ¿Puedo tener una referencia del supertipo que apunte a objetos reales de un subtipo? ¿Puedo invocar con la referencia del supertipo a métodos públicos del subtipo? ¿En qué consiste el **"upcasting"** y el **"downcasting"**? ¿Qué es el `instanceof`? Pon un ejemplo de recorrido de un array de `Soldado`, comprobando que, si el objeto real es un `Artillero`, solicite el número de cohetes que tiene y los imprima.
 
