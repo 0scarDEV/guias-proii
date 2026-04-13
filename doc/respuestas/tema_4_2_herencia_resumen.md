@@ -1,64 +1,44 @@
 # Tema 4.2. Herencia
 
-## 1. En orientación a objetos, ¿qué es la **herencia** y su relación con "A es-un B"?. Explica las dos implicaciones principales: (1) **compatibilidad de tipos** y (2) **herencia de estado y comportamiento**. Pon un ejemplo en Java muy sencillo, donde un `Soldado` tiene un `nombre` (privado) y un método `saludar()` que muestra su nombre. Hay dos subtipos: un `Artillero`, que es capaz de disparar cohetes y un `Zapador` que pone minas, ambos heredan el atributo nombre y la capacidad de saludar. Además, y de forma específica, el artillero tiene un número de cohetes y el zapador un número de minas, accesibles mediante "getters" específicos. Respecto a la compatibilidad de tipos, aprovechémosla: crea un array de `Soldado`, mete varios de distinto tipo (son todos compatibles con `Soldado`). Recórrela y que todos te saluden.
+## 1. En orientación a objetos, ¿qué es la **herencia** y su relación con "A es-un B"?. 
+La herencia es un mecanismo de la orientación a objetos que permite que una clase (subclase) herede atributos y métodos de otra clase (superclase).
 
-La herencia es un mecanismo de la orientación a objetos que permite que una clase (subclase) herede atributos y métodos de otra clase (superclase). La relación "A es-un B" indica una dependencia de tipos donde A es un caso especial o más específico de B. Por ejemplo, un Artillero es-un Soldado, y un Zapador es-un Soldado. Esto establece una jerarquía de clases donde los subtipos comparten características comunes de su supertipo.
+#### Explica las dos implicaciones principales: (1) **compatibilidad de tipos** y (2) **herencia de estado y comportamiento**. 
+1. La **compatibilidad de tipos**: un objeto de tipo Artillero puede ser tratado como un Soldado porque un Artillero "es-un" Soldado.
+2. La **herencia de estado y comportamiento**: las subclases heredan todos los atributos (estado) y métodos (comportamiento) de la superclase.
 
-La primera implicación principal es la **compatibilidad de tipos**: un objeto de tipo Artillero puede ser tratado como un Soldado porque un Artillero "es-un" Soldado. Esto permite que referencias de tipo Soldado apunten a objetos reales de tipo Artillero o Zapador, facilitando la generalidad en el código.
-
-La segunda implicación es la **herencia de estado y comportamiento**: las subclases heredan todos los atributos (estado) y métodos (comportamiento) de la superclase. En el ejemplo, tanto Artillero como Zapador heredan el atributo privado `nombre` y el método `saludar()` de Soldado. Además, cada subclase puede tener sus propios atributos (numCohetes, numMinas) y métodos específicos (disparar(), ponerMinas()).
-
+#### (2) Pon un ejemplo en Java muy sencillo, donde un `Soldado` tiene un `nombre` (privado) y un método `saludar()` que muestra su nombre. Hay dos subtipos: un `Artillero`, que es capaz de disparar cohetes y un `Zapador` que pone minas, ambos heredan el atributo nombre y la capacidad de saludar. Además, y de forma específica, el artillero tiene un número de cohetes y el zapador un número de minas, accesibles mediante "getters" específicos.
 ```java
-// Clase base: Soldado
+// Superclase:
 class Soldado {
     private String nombre;
-    
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    public void saludar() {
-        System.out.println("Soy " + nombre);
-    }
+    public Soldado(String nombre) { this.nombre = nombre; }
+    public void saludar() { System.out.println("Soy " + nombre); }
 }
 
-// Subclase: Artillero
+// Subclases:
 class Artillero extends Soldado {
     private int numCohetes;
-    
     public Artillero(String nombre, int numCohetes) {
         super(nombre);
         this.numCohetes = numCohetes;
     }
-    
-    public int getNumCohetes() {
-        return numCohetes;
-    }
-    
-    public void disparar() {
-        System.out.println("¡Disparando cohete!");
-    }
+    public int getNumCohetes() { return numCohetes; }
+    public void disparar() { System.out.println("¡Disparando cohete!"); }
 }
 
-// Subclase: Zapador
 class Zapador extends Soldado {
     private int numMinas;
-    
     public Zapador(String nombre, int numMinas) {
         super(nombre);
         this.numMinas = numMinas;
     }
-    
-    public int getNumMinas() {
-        return numMinas;
-    }
-    
-    public void ponerMinas() {
-        System.out.println("Poniendo minas...");
-    }
+    public int getNumMinas() { return numMinas; }
+    public void ponerMinas() { System.out.println("Poniendo minas..."); }
 }
-
-// Uso de compatibilidad de tipos
+```
+#### (1) Respecto a la compatibilidad de tipos, aprovechémosla: crea un array de `Soldado`, mete varios de distinto tipo (son todos compatibles con `Soldado`). Recórrela y que todos te saluden.
+```java
 public class Principal {
     public static void main(String[] args) {
         // Array de Soldado - puede contener objetos de cualquier subtipo
