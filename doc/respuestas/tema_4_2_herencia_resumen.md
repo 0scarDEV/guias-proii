@@ -96,44 +96,32 @@ La compatibilidad de tipos en herencia mejora la extensibilidad porque permite p
 
 Este enfoque reduce mantenimiento y riesgo de regresiones: al crecer el sistema, se agregan clases nuevas sin tocar lógica ya probada.
 
-## 5. En Java, cuando trabajo con referencias y herencia. ¿Puedo tener una referencia del supertipo que apunte a objetos reales de un subtipo? ¿Puedo invocar con la referencia del supertipo a métodos públicos del subtipo? ¿En qué consiste el **"upcasting"** y el **"downcasting"**? ¿Qué es el `instanceof`? Pon un ejemplo de recorrido de un array de `Soldado`, comprobando que, si el objeto real es un `Artillero`, solicite el número de cohetes que tiene y los imprima.
+## 5. En Java, cuando trabajo con referencias y herencia. ¿Puedo tener una referencia del supertipo que apunte a objetos reales de un subtipo? ¿Puedo invocar con la referencia del supertipo a métodos públicos del subtipo? ¿En qué consiste el **"upcasting"** y el **"downcasting"**? 
 
-Sí, en Java una referencia del supertipo puede apuntar a un objeto real de un subtipo. Por ejemplo, una variable `Soldado` puede referenciar un `Artillero` o un `Zapador`. A esto se le llama **upcasting** y ocurre de forma implícita y segura porque todo subtipo "es-un" supertipo.
+1. **Upcasting:** Es el proceso de convertir una referencia de un subtipo a su supertipo. Esto ocurre de forma implícita y segura, ya que un objeto de un subtipo siempre es compatible con su supertipo. Por ejemplo, una variable de tipo `Soldado` puede referenciar un objeto de tipo `Artillero` o `Zapador`.
 
-Con esa referencia de supertipo solo se pueden invocar directamente los métodos visibles en el tipo `Soldado`. Si el objeto real tiene métodos específicos de `Artillero` (como `getNumCohetes()`), no se pueden usar de forma directa desde una referencia `Soldado`. Para ello se necesita un **downcasting**, es decir, convertir explícitamente de `Soldado` a `Artillero`.
+2. **Downcasting:** Es el proceso de convertir una referencia de un supertipo a un subtipo específico. Esto requiere una conversión explícita y puede ser peligroso si el objeto real no es del tipo esperado, lo que puede resultar en una `ClassCastException`.
 
+#### ¿Qué es el `instanceof`?
 `instanceof` permite verificar en tiempo de ejecución el tipo real del objeto antes de hacer downcasting. Esto evita errores de conversión (`ClassCastException`) y permite ejecutar lógica específica según el subtipo concreto.
 
+#### Pon un ejemplo de recorrido de un array de `Soldado`, comprobando que, si el objeto real es un `Artillero`, solicite el número de cohetes que tiene y los imprima.
 ```java
 class Soldado {
     private String nombre;
-
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void saludar() {
-        System.out.println("Hola, soy " + nombre);
-    }
+    public Soldado(String nombre) { this.nombre = nombre; }
+    public void saludar() { System.out.println("Hola, soy " + nombre); }
 }
-
 class Artillero extends Soldado {
     private int numCohetes;
-
     public Artillero(String nombre, int numCohetes) {
         super(nombre);
         this.numCohetes = numCohetes;
     }
-
-    public int getNumCohetes() {
-        return numCohetes;
-    }
+    public int getNumCohetes() { return numCohetes; }
 }
-
 class Zapador extends Soldado {
-    public Zapador(String nombre) {
-        super(nombre);
-    }
+    public Zapador(String nombre) { super(nombre); }
 }
 
 public class Principal {
