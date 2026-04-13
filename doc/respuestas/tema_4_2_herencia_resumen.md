@@ -138,12 +138,13 @@ public class Principal {
             if (s instanceof Artillero) {
                 Artillero a = (Artillero) s; // downcasting seguro
                 System.out.println("Cohetes disponibles: " + a.getNumCohetes());
+            } else if (s instanceof Zapador zapador) {
+                System.out.println("El nombre del zapador es: " + zapador.getNombre());
             }
         }
     }
 }
 ```
-
 
 ## 6. Respecto a la ocultación de información y herencia, ¿qué significa acceso **"protegido"** de métodos y/o atributos? ¿Cómo se implementa en Java? Pon un ejemplo de uso de en la clase `Soldado` para que su nombre sea protegido y pueda usarse en el método de poner bombas del `Zapador`.
 
