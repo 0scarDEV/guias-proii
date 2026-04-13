@@ -224,7 +224,11 @@ En composición fuerte, se considera que las partes "mueren" con el contenedor e
 La liberación real de memoria no la hace `Linea` con una instruccion propia, sino el recolector de basura (Garbage Collector), pues detecta objetos inalcanzables y recupera su memoria.
 
 ## 8. Pon un ejemplo de composición débil entre un departamento que tiene varios profesores. 
-#### Implementa dos composiciónes a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. El director se puede cambiar por otro profesor del departamento. Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
+#### Implementa dos composiciónes a la vez: entre el departamento y todos sus profesores y entre el departamento y su director, que es un profesor del departamento. 
+#### Siempre debe haber un director en el departamento desde el inicio. Lanza excepciones si se viola la invariante. Emplea arrays primitivos de Java, estilo `Profesor[]`, con máximo 50, pero no rompas la encapsulación, no desveles que estás empleando un array, permite añadir un `Profesor` al final de la lista, y eliminar un profesor dada su posición. 
+#### Da acceso a los profesores con un método para saber cuántos hay y otro para obtener un profesor por posición. 
+#### El director se puede cambiar por otro profesor del departamento. 
+#### Sin embargo, ten en cuenta esta invariante de clase: el director debe formar siempre parte de la lista de profesores, es decir, ten cuidado al cambiar el director o al eliminar un profesor.
 
 Se puede modelar una composición débil donde `Departamento` mantiene referencias a objetos `Profesor` que pueden existir independientemente. Ademas, se modela una segunda composición débil interna: `Departamento` también referencia a un `director`, que debe ser siempre uno de los profesores del propio departamento.
 
@@ -436,12 +440,14 @@ class Departamento {
 En esta versión, lo que más se ahorra es código de gestión interna del almacenamiento: desplazamientos, control de huecos y tamaño real frente a capacidad máxima. A cambio, sigue siendo necesario mantener las validaciones de dominio e invariantes, porque eso nunca lo resuelve automaticamente la estructura de datos.
 
 
-## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciónes, denominadas composiciónes recursivas. Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela. Enumera algún otro ejemplo clásico de composiciónes recursivas.
+## 10. Al igual que ocurre con las excepciones en Java, que pueden encerrar causas (que son excepciones), de forma recursiva, suponen un tipo especial de composiciones, denominadas composiciónes recursivas. 
 
 Una composición recursiva aparece cuando una clase contiene una referencia a otra instancia de su mismo tipo. En este caso, `Persona` puede tener una `madre` que también es `Persona`. Esta estructura permite modelar arboles genealógicos y otras jerarquías naturales del dominio.
 
 Para mantener inmutabilidad, se puede declarar la clase como `final`, usar atributos `private final` y omitir setters.
 
+#### Pon un ejemplo en Java de una `Persona`, que sea inmutable, y que tiene una madre, que es otra `Persona`. 
+#### Haz un main con un ejemplo de uso con una familia de personas, desde el nieto hasta la abuela.
 ```java
 final class Persona {
 	private final String nombre;
