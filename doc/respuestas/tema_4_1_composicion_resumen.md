@@ -483,6 +483,7 @@ class MainPersona {
 Una relación bidireccional significa que ambos extremos conocen el vínculo: no solo `Departamento` conoce a sus `Profesor`, sino que cada `Profesor` también conoce a su `Departamento`. En otras palabras, se puede navegar en las dos direcciones del modelo: de departamento a profesor y de profesor a departamento.
 
 ### ¿Qué habría que hacer para implementar este tipo de relación en el ejemplo de `Profesor` y `Departamento`?
-Para implementarlo, `Profesor` deberia incluir una referencia al `Departamento` al que pertenece, y `Departamento` seguiria manteniendo su coleccion de profesores. La parte delicada es la consistencia: cada alta, baja o cambio debe actualizar ambos lados de forma sincronizada para evitar estados incoherentes (por ejemplo, profesor en la lista de un departamento pero apuntando a otro distinto).
-
-En este escenario, conviene centralizar las operaciónes en metodos de dominio (`addProfesor`, `removeProfesor`, `trasladarProfesor`) que validen invariantes y hagan las dos actualizaciones juntas. Tambien suele evitarse exponer setters publicos libres en ambos extremos, porque facilitan romper la relación bidireccional sin pasar por las reglas de negocio.
+Exige tener cuidado al programar para mantener la consistencia.
+EJ: "Añadir un profesor a un departamento y que solo se guarde en Departamento, pero no en Profesor".
+- **Sol-1:** Que cada método modificador llame al otro y cuidar que no se produzcan bucles infinitos.
+- **Sol-2:** Solo dejar visible a terceros uno de los métodos modificadores, y que el otro sea privado (o visibilidad de paquete), de modo que solo se pueda modificar la relación desde un lado, y el otro se actualice automáticamente.
