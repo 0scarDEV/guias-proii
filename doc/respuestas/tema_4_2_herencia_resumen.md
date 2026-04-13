@@ -146,41 +146,33 @@ public class Principal {
 }
 ```
 
-## 6. Respecto a la ocultación de información y herencia, ¿qué significa acceso **"protegido"** de métodos y/o atributos? ¿Cómo se implementa en Java? Pon un ejemplo de uso de en la clase `Soldado` para que su nombre sea protegido y pueda usarse en el método de poner bombas del `Zapador`.
-
+## 6. Respecto a la ocultación de información y herencia, ¿qué significa acceso **"protegido"** de métodos y/o atributos?
 El acceso **protegido** (`protected`) en Java permite que un atributo o método sea accesible desde la propia clase, desde sus subclases y desde clases del mismo paquete. Es un nivel intermedio entre `private` y `public`: no expone el miembro a todo el mundo, pero sí lo abre parcialmente para facilitar herencia.
 
+#### ¿Cómo se implementa en Java?
 En términos de encapsulación, usar `protected` debe hacerse con criterio. Si un dato se marca como protegido, las subclases pueden usarlo directamente, lo que simplifica ciertos casos, pero también aumenta el acoplamiento entre la clase base y sus derivadas. Por eso suele recomendarse para información que realmente se necesita extender en subclases.
 
+#### Pon un ejemplo de uso de en la clase `Soldado` para que su nombre sea protegido y pueda usarse en el método de poner bombas del `Zapador`.
 En el ejemplo, `Soldado` declara `nombre` como `protected`, y `Zapador` lo utiliza en su método de poner minas. Esto permite construir un mensaje específico sin necesidad de getter, aunque a cambio se otorga acceso directo al campo heredado.
 
 ```java
 class Soldado {
     protected String nombre; // Accesible desde subclases
-
-    public Soldado(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void saludar() {
-        System.out.println("Soy " + nombre);
-    }
+    public Soldado(String nombre) { this.nombre = nombre; }
+    public void saludar() { System.out.println("Soy " + nombre); }
 }
 
 class Zapador extends Soldado {
     private int numMinas;
-
     public Zapador(String nombre, int numMinas) {
         super(nombre);
         this.numMinas = numMinas;
     }
-
     public void ponerMinas() {
         System.out.println(nombre + " está colocando minas. Total: " + numMinas);
     }
 }
 ```
-
 
 ## 7. En los lenguajes orientados a objetos ¿hay una **clase base** para todos los objetos? ¿Ocurre en todos los lenguajes? ¿Qué ocurre en Java?
 
