@@ -235,4 +235,37 @@ Con este diseño, `Linea` solo conoce el tipo abstracto `Punto`, por lo que trab
 
 ## 11. ¿Qué es la **"herencia de interfaces"** en Java? ¿Existe **"herencia múltiple de interfaces"**? Pon un ejemplo de una interfaz `Fichero` que tenga un método para leer su contenido en forma de `String` y luego dicha interfaz sea extendida por otra que sea `FicheroEscribible` que permita enviar contenido e incluso eliminar el fichero.
 
-### Respuesta
+La herencia de interfaces en Java consiste en que una interfaz puede extender otra para reutilizar y ampliar su contrato. De esta forma, una interfaz hija hereda todos los métodos de la interfaz padre y puede añadir nuevos. Sí existe herencia múltiple de interfaces: una interfaz puede extender varias interfaces a la vez, y una clase puede implementar una o varias interfaces según las capacidades que deba ofrecer.
+
+```java
+interface Fichero {
+	String leerContenido();
+}
+
+interface FicheroEscribible extends Fichero {
+	void escribirContenido(String contenido);
+	boolean eliminar();
+}
+
+class FicheroMemoria implements FicheroEscribible {
+	private String contenido = "";
+
+	@Override
+	public String leerContenido() {
+		return contenido;
+	}
+
+	@Override
+	public void escribirContenido(String contenido) {
+		this.contenido = contenido;
+	}
+
+	@Override
+	public boolean eliminar() {
+		this.contenido = "";
+		return true;
+	}
+}
+```
+
+En este ejemplo, `FicheroEscribible` hereda el método de lectura desde `Fichero` y añade escritura y borrado. Cualquier clase que implemente `FicheroEscribible` queda obligada a implementar los tres métodos, lo que permite trabajar con referencias al contrato más general (`Fichero`) o al más específico (`FicheroEscribible`) según convenga.
