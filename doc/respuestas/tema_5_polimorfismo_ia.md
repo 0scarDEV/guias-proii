@@ -110,7 +110,35 @@ Por tanto, al sobreescribir `toString()` o `equals(Object)` ya se está aplicand
 
 ## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 
-### Respuesta
+Una clase abstracta es una clase pensada para servir de base común, no para crear objetos directamente. Puede contener atributos, métodos concretos y también métodos abstractos. Un método abstracto es un método declarado sin implementación, dejando a las subclases la obligación de definir su comportamiento.
+
+No se pueden crear instancias de una clase abstracta con `new`, precisamente porque podría tener métodos sin cuerpo. En Java, la palabra clave `abstract` debe ponerse en la declaración de la clase y también en cada método abstracto. Cualquier subclase concreta que herede de esa clase tendrá que implementar esos métodos abstractos.
+
+```java
+abstract class Soldado {
+	public void saluda() {
+		System.out.println("Soldado: saludo reglamentario.");
+	}
+
+	public abstract void atacar();
+}
+
+class Zapador extends Soldado {
+	@Override
+	public void atacar() {
+		System.out.println("Zapador: colocando carga de demolicion.");
+	}
+}
+
+class Artillero extends Soldado {
+	@Override
+	public void atacar() {
+		System.out.println("Artillero: fuego de apoyo.");
+	}
+}
+```
+
+En este diseño, `abstract` aparece en `abstract class Soldado` y en `public abstract void atacar();`. Así se garantiza una interfaz común (`atacar`) para todos los tipos de soldado, manteniendo a la vez comportamiento compartido (`saluda`) en la clase base.
 
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
