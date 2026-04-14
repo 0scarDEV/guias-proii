@@ -31,8 +31,46 @@ En Python también existe comportamiento equivalente al enlace tardío, porque e
 
 ## 3. Pon un ejemplo sencillo en Java, de un `Soldado`, con un método `saluda`, con dos subclases: `Zapador` y `Artillero`, donde `Zapador` sobreescribe el método `saludar`, sustituyendo por completo su comportamiento. Ilustra el funcionamiento del polimorfismo creando un array de `Soldados` de dos tipos y luego recorriéndolo empleando referencias de tipo `Soldado` y llamando a `saludar`.
 
-### Respuesta
+En el siguiente ejemplo se define una clase base `Soldado` con el método `saludar`, y dos subclases (`Zapador` y `Artillero`). La clase `Zapador` sobreescribe completamente el comportamiento del método heredado, mientras que `Artillero` también ofrece su propia versión para que se observe con claridad el efecto polimórfico.
 
+```java
+class Soldado {
+	public void saludar() {
+		System.out.println("Soldado: saludo reglamentario.");
+	}
+}
+
+class Zapador extends Soldado {
+	@Override
+	public void saludar() {
+		System.out.println("Zapador: listo para abrir paso.");
+	}
+}
+
+class Artillero extends Soldado {
+	@Override
+	public void saludar() {
+		System.out.println("Artillero: pieza preparada.");
+	}
+}
+
+public class DemoPolimorfismo {
+	public static void main(String[] args) {
+		Soldado[] peloton = {
+			new Soldado(),
+			new Zapador(),
+			new Artillero(),
+			new Zapador()
+		};
+
+		for (Soldado s : peloton) {
+			s.saludar();
+		}
+	}
+}
+```
+
+Al recorrer el array `Soldado[]`, la variable de control del bucle tiene tipo `Soldado`, pero cada posición puede contener un objeto de distinto subtipo. Gracias a la ligadura dinámica, la llamada `s.saludar()` ejecuta en cada iteración el método correspondiente al objeto real almacenado (`Soldado`, `Zapador` o `Artillero`). Esa es precisamente la idea práctica de polimorfismo: tratar objetos distintos con una misma referencia general y obtener comportamientos específicos sin usar condicionales por tipo.
 
 ## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES" ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
 
