@@ -20,10 +20,13 @@ En programación orientada a objetos, el polimorfismo es la capacidad de tratar 
 
 La sobreescritura de métodos (overriding) es el mecanismo que hace posible ese comportamiento especializado. Consiste en que una subclase redefine un método heredado manteniendo la misma firma, para adaptar su lógica a su caso particular. Cuando se invoca ese método mediante una referencia del tipo base, se ejecuta la versión redefinida del objeto real en tiempo de ejecución, no necesariamente la versión escrita en la clase padre.
 
-
 ## 2. ¿En qué consiste la **"ligadura dinámica"** o **"enlace tardío"**? ¿qué relación tiene con el polimorfismo? ¿hay que indicarlos explícitamente al programar o depende esto del lenguaje? Compara C++ y Java. Indicalo después también para Python.
 
-### Respuesta
+La ligadura dinámica (o enlace tardío) es el proceso por el cual la implementación concreta de un método se decide en tiempo de ejecución según el tipo real del objeto, y no solo por el tipo de la referencia. Es decir, si una variable se declara como tipo base pero contiene un objeto de una subclase, al invocar un método sobreescrito se ejecuta la versión de esa subclase. Este mecanismo es el núcleo práctico del polimorfismo en métodos de instancia.
+
+Su relación con el polimorfismo es directa: sin enlace tardío, una referencia de tipo general no podría comportarse de forma distinta según el objeto concreto que contiene. En Java, este comportamiento es el predeterminado para métodos de instancia no `final`, no `static` y no `private`; no hace falta marcar cada método como "virtual". En C++, en cambio, hay que indicar explícitamente que se quiere despacho dinámico con la palabra clave `virtual` (y, si se quiere exigir redefinición, con `= 0` en métodos puros).
+
+En Python también existe comportamiento equivalente al enlace tardío, porque el lenguaje resuelve los métodos en tiempo de ejecución de forma natural y no requiere declarar clases base o métodos como virtuales. Por tanto, en Python el estilo es aún más dinámico: normalmente no se señala explícitamente el polimorfismo, simplemente se define el método esperado y se invoca. La diferencia principal frente a Java y C++ está en que Python lo hace con tipado dinámico y comprobaciones en ejecución, mientras que Java y C++ combinan esto con tipado estático en compilación.
 
 
 ## 3. Pon un ejemplo sencillo en Java, de un `Soldado`, con un método `saluda`, con dos subclases: `Zapador` y `Artillero`, donde `Zapador` sobreescribe el método `saludar`, sustituyendo por completo su comportamiento. Ilustra el funcionamiento del polimorfismo creando un array de `Soldados` de dos tipos y luego recorriéndolo empleando referencias de tipo `Soldado` y llamando a `saludar`.
