@@ -154,7 +154,84 @@ Se parece a una clase abstracta en que ambas pueden participar en diseños polim
 
 ## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
 
-### Respuesta
+Se puede resolver definiendo una jerarquía con una clase abstracta `Punto` que declare el método `calcularDistanciaA`. Después, cada subtipo (`Punto2D` y `Punto3D`) implementa su fórmula concreta. Para forzar compatibilidad entre dimensiones, en cada implementación se valida el tipo recibido con `instanceof` y se hace *downcasting* al tipo correcto antes de operar.
+
+```java
+abstract class Punto {
+	public abstract double calcularDistanciaA(Punto otro);
+}
+
+class Punto2D extends Punto {
+	private final double x;
+	private final double y;
+
+	public Punto2D(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	@Override
+	public double calcularDistanciaA(Punto otro) {
+		if (!(otro instanceof Punto2D)) {
+			throw new IllegalArgumentException("Se esperaba un Punto2D");
+		}
+		Punto2D p = (Punto2D) otro; // downcasting seguro tras instanceof
+		double dx = this.x - p.x;
+		double dy = this.y - p.y;
+		return Math.sqrt(dx * dx + dy * dy);
+	}
+}
+
+class Punto3D extends Punto {
+	private final double x;
+	private final double y;
+	private final double z;
+
+	public Punto3D(double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	@Override
+	public double calcularDistanciaA(Punto otro) {
+		if (!(otro instanceof Punto3D)) {
+			throw new IllegalArgumentException("Se esperaba un Punto3D");
+		}
+		Punto3D p = (Punto3D) otro; // downcasting seguro tras instanceof
+		double dx = this.x - p.x;
+		double dy = this.y - p.y;
+		double dz = this.z - p.z;
+		return Math.sqrt(dx * dx + dy * dy + dz * dz);
+	}
+}
+
+class Linea {
+	private final Punto origen;
+	private final Punto destino;
+
+	public Linea(Punto origen, Punto destino) {
+		this.origen = origen;
+		this.destino = destino;
+	}
+
+	public double longitud() {
+		return origen.calcularDistanciaA(destino);
+	}
+}
+
+public class DemoPuntos {
+	public static void main(String[] args) {
+		Linea l2d = new Linea(new Punto2D(1, 1), new Punto2D(4, 5));
+		System.out.println("Longitud 2D = " + l2d.longitud());
+
+		Linea l3d = new Linea(new Punto3D(0, 0, 0), new Punto3D(1, 2, 2));
+		System.out.println("Longitud 3D = " + l3d.longitud());
+	}
+}
+```
+
+Con este diseño, `Linea` solo conoce el tipo abstracto `Punto`, por lo que trabaja de forma polimórfica y no necesita saber si son puntos 2D o 3D. La decisión de qué cálculo aplicar queda encapsulada en cada subclase de `Punto`, y la verificación con `instanceof` evita mezclar dimensiones incompatibles en tiempo de ejecución.
 
 ## 11. ¿Qué es la **"herencia de interfaces"** en Java? ¿Existe **"herencia múltiple de interfaces"**? Pon un ejemplo de una interfaz `Fichero` que tenga un método para leer su contenido en forma de `String` y luego dicha interfaz sea extendida por otra que sea `FicheroEscribible` que permita enviar contenido e incluso eliminar el fichero.
 
