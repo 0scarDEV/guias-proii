@@ -74,28 +74,41 @@ Al recorrer el array `Soldado[]`, la variable de control del bucle tiene tipo `S
 
 ## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES" ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
 
-### Respuesta
+Sí, al sobreescribir un método en Java se puede invocar la implementación de la clase base y después ampliar su comportamiento. Esto resulta útil cuando se quiere reutilizar la lógica común del padre y añadir una variación propia de la subclase, en lugar de reescribir todo desde cero.
 
+```java
+class Soldado {
+	public void saludar() {
+		System.out.println("Soldado: saludo reglamentario.");
+	}
+}
+
+class Zapador extends Soldado {
+	@Override
+	public void saludar() {
+		super.saludar(); // Invoca el método heredado de Soldado
+		System.out.println("ZAPADOR A SUS ORDENES");
+	}
+}
+```
+
+La palabra clave utilizada para invocar el método de la clase base es `super`. Con `super.saludar()` se ejecuta primero la versión definida en `Soldado`, y a continuación se añade el mensaje específico del `Zapador`. De esta forma se mantiene la parte común y se personaliza solo lo necesario.
 
 ## 5. Al sobreescribir un método en Java, ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
 
 ### Respuesta
 
-
 ## 6. Entonces, cuando se estudia Java, ¿se emplea el polimorfismo desde el principio? Por ejemplo, sobreescribiendo `toString` o sobreescribiendo `equals`, ¿ya estoy usando polimorfismo?
 
 ### Respuesta
-
 
 ## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 
 ### Respuesta
 
-
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
 ### Respuesta
-
 
 ## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
 
