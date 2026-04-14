@@ -104,7 +104,9 @@ La anotación `@Override` indica explícitamente que se pretende sobreescribir u
 
 ## 6. Entonces, cuando se estudia Java, ¿se emplea el polimorfismo desde el principio? Por ejemplo, sobreescribiendo `toString` o sobreescribiendo `equals`, ¿ya estoy usando polimorfismo?
 
-### Respuesta
+Sí, el polimorfismo se empieza a usar prácticamente desde el inicio en Java, aunque a veces no se perciba de forma explícita. En cuanto se sobreescribe un método heredado y luego ese método se invoca sobre una referencia general (por ejemplo, de tipo `Object` o de una clase base), se está aprovechando enlace dinámico. Es decir, la versión ejecutada depende del objeto real que hay detrás de la referencia.
+
+Por tanto, al sobreescribir `toString()` o `equals(Object)` ya se está aplicando polimorfismo. Ambos métodos están definidos en `Object`, y cada clase puede redefinirlos con su comportamiento propio. Cuando, por ejemplo, se imprime un objeto o se compara con `equals`, Java decide en tiempo de ejecución qué implementación concreta ejecutar, lo cual es exactamente el comportamiento polimórfico.
 
 ## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 
