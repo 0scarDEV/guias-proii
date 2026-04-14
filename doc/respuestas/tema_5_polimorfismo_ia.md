@@ -142,17 +142,17 @@ En este diseño, `abstract` aparece en `abstract class Soldado` y en `public abs
 
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 
-### Respuesta
+En Java, `final` aplicado a un método impide que ese método sea sobreescrito en subclases. Aplicado a una clase, impide que esa clase sea heredada. Por tanto, `final` se usa para "cerrar" comportamiento: en métodos, se garantiza que la implementación queda fija; en clases, se evita extender su diseño y modificar su contrato mediante herencia.
+
+Su relación con el polimorfismo es que limita el polimorfismo por herencia. Un método `final` no puede participar en sobreescritura, así que no hay variación dinámica de ese método entre subclases. Una clase `final` tampoco puede tener subtipos, por lo que no se puede construir una jerarquía basada en ella. En la API estándar existen varios ejemplos de clases `final`, como `String`, `Integer` y `Math`.
 
 ## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
 
 ### Respuesta
 
-
 ## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
 
 ### Respuesta
-
 
 ## 11. ¿Qué es la **"herencia de interfaces"** en Java? ¿Existe **"herencia múltiple de interfaces"**? Pon un ejemplo de una interfaz `Fichero` que tenga un método para leer su contenido en forma de `String` y luego dicha interfaz sea extendida por otra que sea `FicheroEscribible` que permita enviar contenido e incluso eliminar el fichero.
 
