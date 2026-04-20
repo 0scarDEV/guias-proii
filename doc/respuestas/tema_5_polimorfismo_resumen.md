@@ -124,11 +124,18 @@ class Artillero extends Soldado {
 
 En este diseño, `abstract` aparece en `abstract class Soldado` y en `public abstract void atacar();`. Así se garantiza una interfaz común (`atacar`) para todos los tipos de soldado, manteniendo a la vez comportamiento compartido (`saluda`) en la clase base.
 
-## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java? ¿Cómo se relaciona con el polimorfismo? ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
+## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java?
+En Java, `final`:
+- Aplicado a una clase impide que esa clase sea heredada. 
+- Aplicado a un método impide que ese método sea sobreescrito en subclases. 
 
-En Java, `final` aplicado a un método impide que ese método sea sobreescrito en subclases. Aplicado a una clase, impide que esa clase sea heredada. Por tanto, `final` se usa para "cerrar" comportamiento: en métodos, se garantiza que la implementación queda fija; en clases, se evita extender su diseño y modificar su contrato mediante herencia.
+Por tanto, `final` se usa para "cerrar" comportamiento: en métodos, se garantiza que la implementación queda fija; en clases, se evita extender su diseño y modificar su contrato mediante herencia.
 
-Su relación con el polimorfismo es que limita el polimorfismo por herencia. Un método `final` no puede participar en sobreescritura, así que no hay variación dinámica de ese método entre subclases. Una clase `final` tampoco puede tener subtipos, por lo que no se puede construir una jerarquía basada en ella. En la API estándar existen varios ejemplos de clases `final`, como `String`, `Integer` y `Math`.
+#### ¿Cómo se relaciona con el polimorfismo?
+Su relación con el polimorfismo es que limita el polimorfismo por herencia.
+
+#### ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
+Si, la clase String.
 
 ## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
 
