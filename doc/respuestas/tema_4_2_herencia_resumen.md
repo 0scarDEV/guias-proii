@@ -176,29 +176,9 @@ class Zapador extends Soldado {
 
 ## 7. En los lenguajes orientados a objetos ¿hay una **clase base** para todos los objetos? ¿Ocurre en todos los lenguajes? ¿Qué ocurre en Java?
 
-En muchos lenguajes orientados a objetos existe una clase raíz común para todos los objetos, pero no es una regla universal en todos los lenguajes ni en todos los paradigmas. Depende del diseño del lenguaje: algunos imponen una jerarquía única, y otros combinan modelos distintos o permiten tipos que no participan en una jerarquía de objetos convencional.
-
-En Java sí existe una clase base común: `Object`. Toda clase que se define en Java hereda directa o indirectamente de `Object`, incluso si no se escribe `extends Object`. Esto permite que cualquier instancia comparta un conjunto mínimo de métodos heredados, como `toString()`, `equals()` o `hashCode()`.
-
-Esta decisión facilita el polimorfismo general y la interoperabilidad entre APIs: una referencia de tipo `Object` puede apuntar a cualquier objeto de clase. Sin embargo, trabajar solo con `Object` pierde información de tipo específico y puede requerir conversiones cuando se necesitan comportamientos concretos.
-
-```java
-class Soldado {
-}
-
-class Artillero extends Soldado {
-}
-
-public class Principal {
-    public static void main(String[] args) {
-        Object o1 = new Soldado();
-        Object o2 = new Artillero();
-
-        System.out.println(o1.toString());
-        System.out.println(o2.getClass().getSimpleName());
-    }
-}
-```
+La hay en algunos objetos.
+En Java sí existe una clase base común: `Object`. Heredan ciertos métodos como el `toString()` o el `equals()`.
+En C++ no la hay.
 
 ## 8. ¿Qué es la **"herencia múltiple"**? ¿Existe en Java herencia múltiple?
 
