@@ -68,13 +68,22 @@ class Zapador extends Soldado {
 #### ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
 La palabra clave es `super`.
 
-## 5. Al sobreescribir un método en Java, ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
+## 5. Al sobreescribir un método en Java, 
+#### ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? 
+En una sobreescritura real (overriding):
+- La firma del método debe coincidir con la de la clase base: mismo nombre y mismos tipos de parámetros. 
+- El tipo de retorno debe ser igual o más específico (retorno covariante), nunca uno incompatible. 
+- No se puede reducir visibilidad (por ejemplo, de `public` a `protected`) y no se pueden declarar excepciones comprobadas más generales que las del método original.
 
-En una sobreescritura real (overriding), la firma del método debe coincidir con la de la clase base: mismo nombre y mismos tipos de parámetros. El tipo de retorno debe ser igual o más específico (retorno covariante), nunca uno incompatible. Además, no se puede reducir visibilidad (por ejemplo, de `public` a `protected`) y no se pueden declarar excepciones comprobadas más generales que las del método original.
+#### ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? 
+- La sobrecarga usa el mismo nombre de método pero con una lista de parámetros distinta. La elección se resuelve en compilacion.
+- La sobreescritura redefine un método heredado con la misma firma. La selección ocurre en ejecución por polimorfismo.
 
-La diferencia con la sobrecarga (overloading) es que en la sobrecarga se usa el mismo nombre de método pero con lista de parámetros distinta dentro de una misma clase (o jerarquía), y la elección se resuelve en compilación. En cambio, la sobreescritura redefine un método heredado con la misma firma y su selección efectiva ocurre en ejecución por polimorfismo. Por eso overriding y overloading comparten nombre, pero no son el mismo mecanismo.
+#### ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
+La anotación `@Override` indica explícitamente que se pretende sobreescribir un método heredado. 
+Es muy recomendable usarla siempre porque el compilador valida la intención y detecta errores típicos (por ejemplo, un parámetro mal escrito que en realidad crea otro método y no sobreescribe nada). 
 
-La anotación `@Override` indica explícitamente que se pretende sobreescribir un método heredado. Es muy recomendable usarla siempre porque el compilador valida la intención y detecta errores típicos (por ejemplo, un parámetro mal escrito que en realidad crea otro método y no sobreescribe nada). En consecuencia, mejora la seguridad del código y facilita el mantenimiento.
+En consecuencia, mejora la seguridad del código y facilita el mantenimiento.
 
 ## 6. Entonces, cuando se estudia Java, ¿se emplea el polimorfismo desde el principio? Por ejemplo, sobreescribiendo `toString` o sobreescribiendo `equals`, ¿ya estoy usando polimorfismo?
 
