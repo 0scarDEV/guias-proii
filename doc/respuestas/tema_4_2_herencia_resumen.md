@@ -182,44 +182,9 @@ En C++ no la hay.
 
 ## 8. ¿Qué es la **"herencia múltiple"**? ¿Existe en Java herencia múltiple?
 
-La **herencia múltiple** consiste en que una clase herede de más de una superclase al mismo tiempo. Esto puede resultar útil para combinar comportamientos, pero también introduce conflictos cuando dos superclases definen métodos o estados con el mismo nombre (problema clásico del "diamante").
+La **herencia múltiple** consiste en que una clase herede de más de una superclase al mismo tiempo. Puede dar problemas si dos superclases tienen métodos o atributos con el mismo nombre, lo que genera ambigüedad sobre cuál se debe usar.
 
-En Java no existe herencia múltiple de clases: una clase solo puede extender de una única clase (`extends`). Esta restricción simplifica el modelo de objetos y evita ambigüedades en la resolución de miembros heredados.
-
-Sin embargo, Java sí permite implementar múltiples interfaces (`implements`), lo que ofrece una forma controlada de combinar contratos de comportamiento sin heredar estado de varias clases. Desde Java 8, las interfaces pueden tener métodos `default`, y cuando hay conflicto Java obliga a resolverlo explícitamente en la clase implementadora.
-
-```java
-class Soldado {
-    public void saludar() {
-        System.out.println("Saludos");
-    }
-}
-
-interface Comunicador {
-    void transmitir();
-}
-
-interface Navegador {
-    void orientarse();
-}
-
-// Correcto: una sola clase base + múltiples interfaces
-class Artillero extends Soldado implements Comunicador, Navegador {
-    @Override
-    public void transmitir() {
-        System.out.println("Transmitiendo coordenadas");
-    }
-
-    @Override
-    public void orientarse() {
-        System.out.println("Orientando posición");
-    }
-}
-
-// No permitido en Java:
-// class X extends A, B { }
-```
-
+En Java no existe herencia múltiple de clases: una clase solo puede extender de una única clase (`extends`).
 
 ## 9. Las excepciones en los lenguajes orientados a objetos son objetos. Por tanto, se pueden crear excepciones personalizadas. Pon un ejemplo en Java de una excepción personalizada (`UsuarioNoEncontradoException`), que sea *no controlada* y que además este compuesto con un `Usuario`, para saber qué `Usuario` dio el problema. Permite además que se pueda incluir la causa, es decir, sobrecarga el constructor para tener una versión que permita añadir la causa subyacente. 
 
