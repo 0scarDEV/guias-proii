@@ -144,24 +144,19 @@ En Java, una interfaz es mecanismo "similar" a una clase abstracta pero con una 
 #### ¿Una clase puede implementar más de una interfaz?
 - Una clase puede implementar varias interfaces a la vez, mientras que solo puede heredar de una clase (abstracta o no).
 
-## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
-
-Se puede resolver definiendo una jerarquía con una clase abstracta `Punto` que declare el método `calcularDistanciaA`. Después, cada subtipo (`Punto2D` y `Punto3D`) implementa su fórmula concreta. Para forzar compatibilidad entre dimensiones, en cada implementación se valida el tipo recibido con `instanceof` y se hace *downcasting* al tipo correcto antes de operar.
-
+## 10. Vamos a poner un ejemplo nuevo con polimorfismo. 
+#### Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. 
 ```java
 abstract class Punto {
 	public abstract double calcularDistanciaA(Punto otro);
 }
-
 class Punto2D extends Punto {
 	private final double x;
 	private final double y;
-
 	public Punto2D(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-
 	@Override
 	public double calcularDistanciaA(Punto otro) {
 		if (!(otro instanceof Punto2D)) {
@@ -173,18 +168,15 @@ class Punto2D extends Punto {
 		return Math.sqrt(dx * dx + dy * dy);
 	}
 }
-
 class Punto3D extends Punto {
 	private final double x;
 	private final double y;
 	private final double z;
-
 	public Punto3D(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-
 	@Override
 	public double calcularDistanciaA(Punto otro) {
 		if (!(otro instanceof Punto3D)) {
@@ -197,21 +189,18 @@ class Punto3D extends Punto {
 		return Math.sqrt(dx * dx + dy * dy + dz * dz);
 	}
 }
-
+```
+#### Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
+```java
 class Linea {
 	private final Punto origen;
 	private final Punto destino;
-
 	public Linea(Punto origen, Punto destino) {
 		this.origen = origen;
 		this.destino = destino;
 	}
-
-	public double longitud() {
-		return origen.calcularDistanciaA(destino);
-	}
+	public double longitud() { return origen.calcularDistanciaA(destino); }
 }
-
 public class DemoPuntos {
 	public static void main(String[] args) {
 		Linea l2d = new Linea(new Punto2D(1, 1), new Punto2D(4, 5));
