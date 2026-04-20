@@ -223,32 +223,19 @@ class RepositorioUsuarios {
 }
 ```
 
-## 10. Herencia vs. Composición. Se dice que no se debe emplear herencia simplemente por reutilizar código, es decir, que si quiero reutilizar código simplemente, no debo pensar en herencia como primera opción ¿por qué?
+## Herencia vs. Composición. 
+### 10. Se dice que no se debe emplear herencia simplemente por reutilizar código, es decir, que si quiero reutilizar código simplemente, no debo pensar en herencia como primera opción ¿por qué?
 
 No se recomienda usar herencia solo para reutilizar código porque heredar no significa "copiar funcionalidad", sino establecer una relación "A es-un B". Si esa relación conceptual no es verdadera, no se debe hacer.
 En ese caso es mejor usar Composición.
 
-## 11. Herencia vs. Composición. Se dice que se debe *"favorecer la composición frente a la herencia"*, ¿por qué?
+### 11. Se dice que se debe *"favorecer la composición frente a la herencia"*, ¿por qué?
 
-Se recomienda favorecer composición porque permite construir clases a partir de colaboradores, en lugar de fijarlas a una jerarquía rígida. Con composición, cada responsabilidad se encapsula en componentes separados y la clase principal delega en ellos. Esto genera diseños más modulares y fáciles de adaptar.
+La herencia impone una dependencia muy fuerte de las subclases respecto a la clase base. Se recomienda favorecer composición porque permite más flexibilidad, en lugar de fijarlas a esa jerarquía rígida.
 
-También reduce acoplamiento: cambiar una implementación interna suele requerir reemplazar un objeto colaborador, sin alterar una cadena de subclases. En herencia, en cambio, las dependencias entre superclase y subclases son más fuertes, y un cambio en la base puede provocar efectos colaterales en varios niveles.
+### 12. Se dice que la *"herencia rompe la encapsulación"*, ¿a qué se refiere esto?
 
-Otra ventaja es la variación de comportamiento en tiempo de ejecución. Mediante composición se pueden inyectar distintas estrategias según contexto, algo difícil si la variación está codificada en jerarquías profundas. Este enfoque se alinea con principios de diseño como responsabilidad única y abierto/cerrado.
-
-En conclusión, la composición no elimina la utilidad de la herencia, pero suele ser una opción más segura y flexible como punto de partida. La herencia queda mejor reservada para casos donde existe una relación clara de subtipo.
-
-
-## 12. Herencia vs. Composición. Se dice que la *"herencia rompe la encapsulación"*, ¿a qué se refiere esto?
-
-La frase "la herencia rompe la encapsulación" se refiere a que una subclase depende no solo de la interfaz pública de la superclase, sino también de detalles de implementación y de supuestos internos sobre su funcionamiento. Aunque esos detalles no estén explícitamente documentados como contrato, la subclase puede quedar atada a ellos para funcionar correctamente.
-
-Como consecuencia, cambios internos en la superclase (por ejemplo, orden de llamadas, uso de métodos sobrescribibles o modificación de comportamiento base) pueden romper subclases existentes sin que haya cambios en la firma pública. Esto debilita el aislamiento entre módulos y aumenta el riesgo de regresiones al evolucionar la clase padre.
-
-El problema se vuelve más visible cuando las subclases sobreescriben métodos y dependen del comportamiento previo de `super`. Si la lógica heredada cambia, la subclase puede violar invariantes o producir resultados inesperados. En ese sentido, la encapsulación queda parcialmente comprometida por el acoplamiento vertical de la jerarquía.
-
-Por eso se recomienda diseñar herencia con contratos muy claros, jerarquías pequeñas y puntos de extensión controlados. En muchos escenarios, composición evita esta fragilidad porque la colaboración entre objetos se basa en interfaces explícitas, no en internals heredados.
-
+La herencia rompe la encapsulación porque las subclases dependen de la implementación interna de la superclase. Si la superclase cambia, las subclases pueden verse afectadas, lo que hace que el sistema sea más frágil y difícil de mantener.
 
 ## 13. Pongamos un ejemplo de dos alternativas para lo mismo. Tenemos un `Estudiante` y un `Trabajador`, ambos tienen datos en común: el DNI y el nombre. Modelemos esto de dos formas: uno por herencia, con una superclase `Persona`, y otro con composición, con una clase `DatosPersonales`. Se debe recibir una instancia de `DatosPersonales` en el constructor de la clase `Estudiante` y `Trabajador`.
 
