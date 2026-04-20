@@ -48,17 +48,15 @@ public class DemoPolimorfismo {
 Gracias a la ligadura dinámica, la llamada `s.saludar()` ejecuta en cada iteración el método correspondiente al objeto real almacenado (`Soldado`, `Zapador` o `Artillero`). 
 Se añadan los soldados con subclases que se quiera, el método `pasarRevista` seguirá funcionando sin necesidad de cambios, lo que demuestra la flexibilidad que aporta el polimorfismo.
 
-## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES" ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
-
-Sí, al sobreescribir un método en Java se puede invocar la implementación de la clase base y después ampliar su comportamiento. Esto resulta útil cuando se quiere reutilizar la lógica común del padre y añadir una variación propia de la subclase, en lugar de reescribir todo desde cero.
-
+## 4. Si sobreescribo un método, ¿puedo invocar el método base para trabajar a partir de su resultado? 
+Sí.
+#### Haz que zapador cambie ligeramente la forma de saludar, que salude de forma normal, tal cual hace el soldado base, pero que además añada un "ZAPADOR A SUS ORDENES"
 ```java
 class Soldado {
 	public void saludar() {
 		System.out.println("Soldado: saludo reglamentario.");
 	}
 }
-
 class Zapador extends Soldado {
 	@Override
 	public void saludar() {
@@ -67,8 +65,8 @@ class Zapador extends Soldado {
 	}
 }
 ```
-
-La palabra clave utilizada para invocar el método de la clase base es `super`. Con `super.saludar()` se ejecuta primero la versión definida en `Soldado`, y a continuación se añade el mensaje específico del `Zapador`. De esta forma se mantiene la parte común y se personaliza solo lo necesario.
+#### ¿qué palabra clave del lenguaje has usado para invocar al método de la clase base?
+La palabra clave es `super`.
 
 ## 5. Al sobreescribir un método en Java, ¿qué restricciones existen sobre los tipos de los parámetros y el tipo de retorno? ¿Qué diferencia hay entre sobreescritura (*overriding*) y sobrecarga (*overloading*)? ¿Para qué sirve la anotación `@Override` y por qué es recomendable usarla siempre?
 
