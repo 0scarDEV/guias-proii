@@ -137,11 +137,12 @@ Su relación con el polimorfismo es que limita el polimorfismo por herencia.
 #### ¿Conoces algún ejemplo de clase `final` en la propia API estándar de Java?
 Si, la clase String.
 
-## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? ¿Una clase puede implementar más de una interfaz?
-
-En Java, una interfaz es un contrato de comportamiento: define qué operaciones debe ofrecer una clase, sin imponer cómo deben implementarse internamente. Dicho de forma simple, una interfaz describe capacidades (por ejemplo, "comparable", "serializable", "dibujable") y las clases que la implementan se comprometen a proporcionar esos métodos. Esto permite trabajar con referencias del tipo interfaz y aplicar polimorfismo entre clases distintas que comparten el mismo contrato.
-
-Se parece a una clase abstracta en que ambas pueden participar en diseños polimórficos, pero no son equivalentes. Una clase abstracta modela una base común con estado y comportamiento compartido; una interfaz modela principalmente un rol o capacidad. Además, una clase en Java solo puede heredar de una clase (abstracta o no), pero sí puede implementar varias interfaces a la vez. Por tanto, la implementación múltiple de interfaces es el mecanismo estándar para combinar varios contratos en una misma clase.
+## 9. En Java, qué son las **"interfaces"**? ¿Son como clases abstractas? 
+En Java, una interfaz es mecanismo "similar" a una clase abstracta pero con una serie de diferencias:
+- Una interfaz no tiene estado (atributos).
+- Todos los métodos son "abstractos" (sin código). Aunque en versiones recientes de Java se permite usar la palabra clave `default` para dar código en los métodos de una interfaz.
+#### ¿Una clase puede implementar más de una interfaz?
+- Una clase puede implementar varias interfaces a la vez, mientras que solo puede heredar de una clase (abstracta o no).
 
 ## 10. Vamos a poner un ejemplo nuevo con polimorfismo. Queremos implementar una clase `Punto`, con un método `calcularDistanciaA`, que permite calcular la distancia a otro `Punto`. Sin embargo, como queremos trabajar con puntos 2D y 3D, haz que ese método sea abstracto y haya dos implementaciones de ese cálculo de distancia. Emplea `instanceof` y *downcasting* para verificar que se recibe un punto compatible y poder calcular correctamente la distancia siempre entre puntos del mismo subtipo. Aprovecha este diseño para crear ahora una clase `Linea`, que acepta `Punto`, sin saber de qué tipo es, y es capaz de dar su longitud independientemente de las dimensiones de sus puntos (las cuales desconoce).
 
