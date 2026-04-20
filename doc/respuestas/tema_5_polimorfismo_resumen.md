@@ -92,28 +92,29 @@ Sí, el polimorfismo se empieza a usar prácticamente desde el inicio en Java, a
 Si, ambos métodos están definidos en `Object`, y cada clase puede redefinirlos con su comportamiento propio. 
 Cuando, por ejemplo, se imprime un objeto o se compara con `equals`, Java decide en tiempo de ejecución qué implementación concreta ejecutar, lo cual es exactamente el comportamiento polimórfico.
 
-## 7. ¿Qué es una **"clase abstracta"**? ¿Qué es un **"método abstracto"**? ¿Puedo crear instancias de una clase abstracta? Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
+## 7. ¿Qué es una **"clase abstracta"**? 
+Es un tipo especial de clase que puede tener 0 o más métodos abstractos. 
 
-Una clase abstracta es una clase pensada para servir de base común, no para crear objetos directamente. Puede contener atributos, métodos concretos y también métodos abstractos. Un método abstracto es un método declarado sin implementación, dejando a las subclases la obligación de definir su comportamiento.
+#### ¿Puedo crear instancias de una clase abstracta?
+No pueden ser instanciados directamente.
 
-No se pueden crear instancias de una clase abstracta con `new`, precisamente porque podría tener métodos sin cuerpo. En Java, la palabra clave `abstract` debe ponerse en la declaración de la clase y también en cada método abstracto. Cualquier subclase concreta que herede de esa clase tendrá que implementar esos métodos abstractos.
+#### ¿Qué es un **"método abstracto"**? 
+Un método sin implementación, está declarada la firma y es **obligatorio** implementarlo en subclases pero cada una decide cómo hacerlo. Existe una excepción, si la subclase también es abstracta.
 
+#### Pongamos un ejemplo en Java: Redefinamos `Soldado`, hagamos que, además del método `saluda` que ya tenía, tenga un método `atacar`, que sea abstracto y que cada tipo de soldado haga su acción cuando se le pida atacar. ¿Donde debemos poner `abstract`?
 ```java
 abstract class Soldado {
 	public void saluda() {
 		System.out.println("Soldado: saludo reglamentario.");
 	}
-
 	public abstract void atacar();
 }
-
 class Zapador extends Soldado {
 	@Override
 	public void atacar() {
 		System.out.println("Zapador: colocando carga de demolicion.");
 	}
 }
-
 class Artillero extends Soldado {
 	@Override
 	public void atacar() {
@@ -121,7 +122,6 @@ class Artillero extends Soldado {
 	}
 }
 ```
-
 En este diseño, `abstract` aparece en `abstract class Soldado` y en `public abstract void atacar();`. Así se garantiza una interfaz común (`atacar`) para todos los tipos de soldado, manteniendo a la vez comportamiento compartido (`saluda`) en la clase base.
 
 ## 8. ¿Qué efecto tiene la palabra clave `final` sobre métodos y clases en Java?
