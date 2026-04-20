@@ -186,35 +186,15 @@ La **herencia múltiple** consiste en que una clase herede de más de una superc
 
 En Java no existe herencia múltiple de clases: una clase solo puede extender de una única clase (`extends`).
 
-## 9. Las excepciones en los lenguajes orientados a objetos son objetos. Por tanto, se pueden crear excepciones personalizadas. Pon un ejemplo en Java de una excepción personalizada (`UsuarioNoEncontradoException`), que sea *no controlada* y que además este compuesto con un `Usuario`, para saber qué `Usuario` dio el problema. Permite además que se pueda incluir la causa, es decir, sobrecarga el constructor para tener una versión que permita añadir la causa subyacente. 
-
-En Java, una excepción personalizada *no controlada* se define heredando de `RuntimeException`. De este modo no se obliga a declararla con `throws`, pero puede propagarse en tiempo de ejecución cuando ocurre una situación anómala del dominio, como no encontrar un usuario.
-
-Si se quiere conservar contexto del error, la excepción puede componerse con un objeto `Usuario` que identifique qué dato provocó el problema. Además, es buena práctica ofrecer un constructor que reciba la causa (`Throwable`) para no perder la excepción original cuando se está envolviendo un error de más bajo nivel.
-
-El siguiente ejemplo muestra ambas ideas: la excepción contiene el `Usuario` problemático y ofrece dos constructores, uno simple y otro con causa encadenada.
+## 9. Las excepciones en los lenguajes orientados a objetos son objetos. Por tanto, se pueden crear excepciones personalizadas. 
+#### Pon un ejemplo en Java de una excepción personalizada (`UsuarioNoEncontradoException`), que sea *no controlada* y que además este compuesto con un `Usuario`, para saber qué `Usuario` dio el problema. Permite además que se pueda incluir la causa, es decir, sobrecarga el constructor para tener una versión que permita añadir la causa subyacente. 
 
 ```java
 class Usuario {
     private String dni;
-    private String nombre;
-
-    public Usuario(String dni, String nombre) {
-        this.dni = dni;
-        this.nombre = nombre;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{dni='" + dni + "', nombre='" + nombre + "'}";
+    public Usuario(String dni) { this.dni = dni; }
+    @Override public String toString() {
+        return "Usuario{dni='" + dni+ "'}";
     }
 }
 
@@ -231,21 +211,17 @@ class UsuarioNoEncontradoException extends RuntimeException {
         this.usuario = usuario;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public Usuario getUsuario() { return usuario; }
 }
 
 class RepositorioUsuarios {
     public Usuario buscarPorDni(String dni) {
-        Usuario criterio = new Usuario(dni, "(desconocido)");
-
+        Usuario criterio = new Usuario(dni);
         // Simulación: no se encuentra
         throw new UsuarioNoEncontradoException(criterio);
     }
 }
 ```
-
 
 ## 10. Herencia vs. Composición. Se dice que no se debe emplear herencia simplemente por reutilizar código, es decir, que si quiero reutilizar código simplemente, no debo pensar en herencia como primera opción ¿por qué?
 
