@@ -191,13 +191,11 @@ class Punto<T extends Number> {
 public interface Punto { 
     public double distanciaA(Punto p); 
 } 
-
 public class Punto2D implements Punto { 
      private final double x, y; 
      public Punto2D(double x, double y) { 
         this.x = x; this.y = y; 
     } 
-
     @Override 
     public double distanciaA(Punto p) { 
         if (p instanceof Punto2D) { 
@@ -215,7 +213,7 @@ public class Punto3D implements Punto {
 } 
 ```
 
-Para evitar `instanceof` y cast, puede aplicarse un patrón de auto-referencia genérica (a veces llamado CRTP en POO): la interfaz se declara como `Punto<T extends Punto<T>>` y su método recibe `T`. Así, cada implementación fija su propio tipo y el compilador impide comparar puntos de dimensiones distintas en la misma llamada.
+Para evitar `instanceof` y cast, la interfaz se declara como `Punto<T extends Punto<T>>` y su método recibe `T`. Así, cada implementación fija su propio tipo y el compilador impide comparar puntos de dimensiones distintas en la misma llamada.
 
 Con este enfoque, `Punto2D` implementa `Punto<Punto2D>` y `Punto3D` implementa `Punto<Punto3D>`. La distancia queda tipada de forma coherente y cualquier intento de mezclar `Punto2D` con `Punto3D` produce error de compilación en lugar de excepción en runtime.
 
@@ -223,15 +221,11 @@ Con este enfoque, `Punto2D` implementa `Punto<Punto2D>` y `Punto3D` implementa `
 public interface Punto<T extends Punto<T>> {
     double distanciaA(T p);
 }
-
 public class Punto2D implements Punto<Punto2D> {
     private final double x, y;
-
     public Punto2D(double x, double y) {
-        this.x = x;
-        this.y = y;
+        this.x = x; this.y = y;
     }
-
     @Override
     public double distanciaA(Punto2D p) {
         double dx = x - p.x;
@@ -239,16 +233,13 @@ public class Punto2D implements Punto<Punto2D> {
         return Math.sqrt(dx * dx + dy * dy);
     }
 }
-
 public class Punto3D implements Punto<Punto3D> {
     private final double x, y, z;
-
     public Punto3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
-
     @Override
     public double distanciaA(Punto3D p) {
         double dx = x - p.x;
