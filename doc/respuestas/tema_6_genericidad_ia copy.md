@@ -72,14 +72,15 @@ int main() {
 
 ## 6. Sobre el funcionamiento de la programación genérica. ¿Qué hace el compilador cuando se instancia una clase que tiene parámetros de tipo? 
 
-Al instanciar una clase genérica, el compilador verifica que los tipos concretos usados respetan las restricciones declaradas y que las operaciones realizadas con esos tipos son válidas.
+Al instanciar una clase genérica, el compilador verifica que los tipos concretos usados respetan las restricciones declaradas y que las operaciones realizadas con esos tipos son válidas. Esto permite detectar incompatibilidades antes de ejecutar.
 
 #### ¿Hace lo mismo C++ y Java? 
-Esto permite detectar incompatibilidades antes de ejecutar. Sin embargo, Java y C++ no implementan internamente la genericidad de la misma forma.
+Java y C++ no implementan internamente la genericidad de la misma forma.
 
 #### ¿Qué es el "type erasure" de Java y la "instanciación de plantillas" de C++?
-En Java se aplica `type erasure`: durante compilación se reemplazan parámetros de tipo por su cota (o por `Object` si no hay cota) y se insertan casts donde haga falta. Por eso en runtime no existe, por ejemplo, una clase distinta para `List<String>` y `List<Integer>`. En C++, en cambio, los templates se instancian generando código específico por combinación de tipos (instanciación de plantillas), lo que mantiene tipado fuerte sin borrado y posibilita optimizaciones muy potentes, a costa de mayor coste de compilación y posible crecimiento de binario.
+En Java se aplica `type erasure`. En tiempo de ejecución los parámetros de tipo "no existen" y trabaja realmente con `Object`, <u>usando solo una clase común</u>. A la hora de hacer uso de los objetos se hace un cast seguro. 
 
+En C++ en cambio, los templates se instancian generando código específico por combinación de tipos (instanciación de plantillas), lo que mantiene tipado fuerte sin borrado y posibilita optimizaciones muy potentes, a costa de mayor coste de compilación y posible crecimiento de binario. <u>Existen distintos objetos para cada tipo usado.</u>
 
 ## 7. Vamos a crear una nueva clase con parámetros de tipo. Define en Java una clase `Par`, que permite alojar dos valores de tipos diferentes. Incluye un constructor y un getter para cada tipo. Pon un ejemplo de uso de ese `Par`, por ejemplo para especificar el tipo de retorno de una función que devuelve en un `Par` la media y desviación típica de un array de `double`.
 
