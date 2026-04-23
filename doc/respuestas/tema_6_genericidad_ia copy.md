@@ -84,10 +84,6 @@ En C++ en cambio, los templates se instancian generando código específico por 
 
 ## 7. Vamos a crear una nueva clase con parámetros de tipo. Define en Java una clase `Par`, que permite alojar dos valores de tipos diferentes. Incluye un constructor y un getter para cada tipo. Pon un ejemplo de uso de ese `Par`, por ejemplo para especificar el tipo de retorno de una función que devuelve en un `Par` la media y desviación típica de un array de `double`.
 
-Una clase `Par<A, B>` permite empaquetar dos resultados relacionados sin perder precisión de tipos. Es útil cuando una función necesita devolver dos valores distintos, evitando crear clases ad hoc para casos sencillos. El constructor inicializa ambos campos y los getters exponen cada componente con su tipo exacto.
-
-Para el ejemplo estadístico, puede devolverse un `Par<Double, Double>` donde el primer valor sea la media y el segundo la desviación típica. Así se expresa con claridad el contrato del método y se evita usar arrays posicionales que suelen ser menos legibles.
-
 ```java
 public class Par<A, B> {
     private final A primero;
@@ -118,7 +114,6 @@ class Estadistica {
     }
 }
 ```
-
 
 ## 8. En Java, se pueden declarar parámetros de tipo también a nivel de método, no solo a nivel de clase. 
 
