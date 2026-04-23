@@ -33,19 +33,15 @@ El problema principal es que se pierde información de tipo en la interfaz de la
 
 En Java con `Object`, aunque no hay comportamiento indefinido como en C, también se requiere casting al recuperar elementos. Si se hace una conversión incorrecta, aparece una `ClassCastException` en tiempo de ejecución. En ambos casos, se retrasa el error: en lugar de detectarse al compilar, se descubre al ejecutar, lo que dificulta depuración y mantenimiento.
 
-
 ## 4. Vamos entonces con mecanismos de mejora de la programación genérica ¿Qué son los **parámetros de tipo**? 
 Los parámetros de tipo son marcadores formales que se declaran en clases, interfaces o métodos para representar tipos aún no concretados. Se suelen escribir como `<T>`, `<K, V>`, etc., y se reemplazan por tipos reales en el momento de uso. Así, la estructura sigue siendo reutilizable, pero el compilador sí conoce el tipo concreto en cada instancia.
 
-El valor práctico es que se logra genericidad con chequeo estático fuerte. Por ejemplo, una `List<String>` solo admite `String`, y al leer de ella no se necesita downcasting. De esta manera se evita gran parte de los errores que sí aparecen con `Object`, manteniendo la flexibilidad de un diseño reutilizable.
+## 5. En Java existe "generics", en C++ existen "templates". 
+En Java, al usar `List<String>`, el compilador impide añadir elementos incorrectos y garantiza que cada lectura produce directamente un `String`. Ahorra conversiones manuales y errores de tipo.
 
+En C++, `std::vector<std::string>` ofrece una idea equivalente: el contenedor queda especializado para cadenas y cada elemento obtenido en iteración tiene tipo `std::string`.
 
-## 5. En Java existe "generics", en C++ existen "templates". Pon un ejemplo de uso de programación genérica en ambos, instanciando una lista o vector dinámico que solo admite `String`. Introduce valores, y luego haz un recorrido de ellos mostrando cómo cada elemento es del tipo concreto con seguridad.
-
-En Java, al usar `List<String>`, el compilador impide añadir elementos que no sean cadenas y garantiza que cada lectura produce directamente un `String`. Esto elimina conversiones manuales al recorrer la colección y evita errores típicos de casteo. El mecanismo es cómodo para trabajar con APIs de colecciones de forma segura.
-
-En C++, `std::vector<std::string>` ofrece una idea equivalente: el contenedor queda especializado para cadenas y cada elemento obtenido en iteración tiene tipo `std::string`. También en este caso el control de tipos sucede en compilación, por lo que no se aceptan elementos incompatibles.
-
+#### Pon un ejemplo de uso de programación genérica en ambos, instanciando una lista o vector dinámico que solo admite `String`. Introduce valores, y luego haz un recorrido de ellos mostrando cómo cada elemento es del tipo concreto con seguridad.
 ```java
 import java.util.*;
 
@@ -67,7 +63,6 @@ int main() {
     std::vector<std::string> nombres;
     nombres.push_back("Ana");
     nombres.push_back("Luis");
-
     for (const std::string& s : nombres) {
         std::cout << s << " (longitud=" << s.size() << ")\n";
     }
