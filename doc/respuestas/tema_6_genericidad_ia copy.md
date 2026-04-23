@@ -124,23 +124,19 @@ Con un método genérico `<T>`, el compilador deduce `T` y exige que ambos argum
 #### Pon un ejemplo con un método genérico `seleccionaUno`, que pasados dos objetos del mismo tipo, te devuelva aleatoriamente uno de ellos. 
 #### Muestra la diferencia de definirlo con dos `Object`, a definirlo con dos parámetros de tipo, en terminos de (i) evitar downcasting y (ii) forzar que ambos objetos sean del mismo tipo. 
 ```java
-import java.util.concurrent.ThreadLocalRandom;
-
+import java.util.Random;
 // Versión débil con Object
 static Object seleccionaUnoObject(Object a, Object b) {
-    return ThreadLocalRandom.current().nextBoolean() ? a : b;
+    return new Random().nextBoolean() ? a : b;
 }
-
 // Versión genérica fuerte
 static <T> T seleccionaUno(T a, T b) {
-    return ThreadLocalRandom.current().nextBoolean() ? a : b;
+    return new Random().nextBoolean() ? a : b;
 }
-
 // Uso
 String s = seleccionaUno("hola", "adios"); // sin cast
 // String x = (String) seleccionaUnoObject("hola", 3); // compila, pero es peligroso
 ```
-
 
 ## 9. ¿Se pueden establecer restricciones en los parámetros de tipo? Por ejemplo, si quiero definir un tipo genérico `<T>`, ¿puedo decir que tenga que ser, al menos, un número para poder tratarlo como tal? Pon un ejemplo en Java de un `Punto` con dos coordenadas, metodos `getX`, `getY`, y una función `calcularDistanciaA` otro `Punto`. Permite que esas coordenadas sean cualquier tipo de número. Pon dos soluciones: una simplemente creando coordenadas de tipo `Number` y otra añadiendo generics para reforzar el chequeo de tipos y saber exactamente con qué tipo de número trabaja el `Punto`. En este caso y respecto al "type erasure", ¿cuál es el tipo final tras la compilación?
 
