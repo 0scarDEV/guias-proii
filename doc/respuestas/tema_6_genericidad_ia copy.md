@@ -178,11 +178,13 @@ class Punto<T extends Number> {
 ```
 
 
-## 10. Sobre las soluciones anteriores. Si bien ambas permiten trabajar con distintos tipos de número sin duplicar la clase `Punto`, reflexiona sobre el refuerzo del chequeo de tipos con generics. ¿Permiten ambas crear un punto con una coordenada de tipo entero y la otra coordenada de tipo real? ¿Qué tipo devuelve el `getX` con la solucion sin generics y qué tipo devuelve el que tiene la solución con generics?
+## 10. Sobre las soluciones anteriores. Si bien ambas permiten trabajar con distintos tipos de número sin duplicar la clase `Punto`, reflexiona sobre el refuerzo del chequeo de tipos con generics. ¿Permiten ambas crear un punto con una coordenada de tipo entero y la otra coordenada de tipo real? 
+- Con la versión basada en `Number`, sí se permite mezclar tipos en el mismo objeto, por ejemplo `x` como `Integer` e `y` como `Double`, porque ambos campos aceptan cualquier subtipo de `Number`.
+- Con la versión de tipos genéricos, al solo usar un tipo genérico `T` para ambas coordenadas, se fuerza que ambas sean del mismo tipo concreto en cada instancia. Se podría usar otro punto que use `T` y `U` para permitir coords de distinto tipo.
 
-Con la versión basada en `Number`, sí se permite mezclar tipos en el mismo objeto, por ejemplo `x` como `Integer` e `y` como `Double`, porque ambos campos aceptan cualquier subtipo de `Number`. Esa flexibilidad puede ser útil, pero también relaja el contrato y puede ocultar inconsistencias de modelado si se esperaba homogeneidad de coordenadas.
-
-Con la versión genérica `Punto<T extends Number>`, si se define un único parámetro `T` para ambas coordenadas, se fuerza que ambas sean del mismo tipo concreto en cada instancia (`Punto<Integer>`, `Punto<Double>`, etc.). En la solución sin generics, `getX` devuelve `Number`; en la solución genérica, `getX` devuelve `T`, que para el cliente se traduce en el tipo concreto con el que se instanció el punto.
+#### ¿Qué tipo devuelve el `getX` con la solucion sin generics y qué tipo devuelve el que tiene la solución con generics?
+- En la solución sin generics, `getX` devuelve `Number`.
+- En la solución genérica, `getX` devuelve `T`.
 
 ## 11. Hagamos un ejemplo avanzado. El siguiente código, con interfaz `Punto`, que define un método `calcularDistanciaA(Punto p)`, junto con las implementaciones `Punto2D` y `Punto3D`. Añade generics para asegurarnos que la sobreescritura del método calcular distancia a otro `Punto` siempre es sobre un `Punto` del mismo tipo, evitando `instanceof` y el downcasting.
 ```java
