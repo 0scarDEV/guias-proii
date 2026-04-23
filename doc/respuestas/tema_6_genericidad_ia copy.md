@@ -138,10 +138,11 @@ String s = seleccionaUno("hola", "adios"); // sin cast
 // String x = (String) seleccionaUnoObject("hola", 3); // compila, pero es peligroso
 ```
 
-## 9. ¿Se pueden establecer restricciones en los parámetros de tipo? Por ejemplo, si quiero definir un tipo genérico `<T>`, ¿puedo decir que tenga que ser, al menos, un número para poder tratarlo como tal? Pon un ejemplo en Java de un `Punto` con dos coordenadas, metodos `getX`, `getY`, y una función `calcularDistanciaA` otro `Punto`. Permite que esas coordenadas sean cualquier tipo de número. Pon dos soluciones: una simplemente creando coordenadas de tipo `Number` y otra añadiendo generics para reforzar el chequeo de tipos y saber exactamente con qué tipo de número trabaja el `Punto`. En este caso y respecto al "type erasure", ¿cuál es el tipo final tras la compilación?
+## 9. ¿Se pueden establecer restricciones en los parámetros de tipo? Por ejemplo, si quiero definir un tipo genérico `<T>`, ¿puedo decir que tenga que ser, al menos, un número para poder tratarlo como tal?
 
-Sí, se pueden imponer restricciones mediante cotas superiores, por ejemplo `<T extends Number>`. Con eso se garantiza que `T` tiene al menos la interfaz de `Number` y, por tanto, permite convertir a `double` para cálculos como distancias. Esta técnica combina flexibilidad con reglas de tipado más estrictas.
+Sí, se pueden imponer restricciones mediante cotas superiores, por ejemplo `<T extends Number>`. Con eso se garantiza que `T` tiene al menos la interfaz de `Number` y, por tanto, permite convertir a `double`.
 
+#### Pon un ejemplo en Java de un `Punto` con dos coordenadas, metodos `getX`, `getY`, y una función `calcularDistanciaA` otro `Punto`. Permite que esas coordenadas sean cualquier tipo de número. Pon dos soluciones: una simplemente creando coordenadas de tipo `Number` y otra añadiendo generics para reforzar el chequeo de tipos y saber exactamente con qué tipo de número trabaja el `Punto`. En este caso y respecto al "type erasure", ¿cuál es el tipo final tras la compilación?
 Si se modela directamente con `Number`, cualquier subtipo numérico sirve, pero se pierde información específica del tipo en la API. Con `Punto<T extends Number>`, en cambio, se sabe si se está trabajando con `Integer`, `Double`, etc. Tras compilar, por `type erasure`, `T` se borra a su cota `Number`, de modo que el tipo efectivo en bytecode queda como `Number` (con casts insertados cuando proceda).
 
 ```java
