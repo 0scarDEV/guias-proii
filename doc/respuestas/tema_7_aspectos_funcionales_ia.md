@@ -293,6 +293,11 @@ La closure ocurre porque la lambda devuelta captura el valor de `porcentaje` del
 
 ### Respuesta
 
+Una interfaz funcional es una interfaz que declara exactamente un único método abstracto (Single Abstract Method, SAM); ese método es la "firma" que las lambdas y referencias a métodos implementan. Las lambdas en Java no introducen nuevos tipos: se asignan a una interfaz funcional existente, y el compilador verifica la compatibilidad entre la firma de la lambda y la del método abstracto objetivo.
+
+Requisitos y reglas principales: la interfaz debe tener un único método abstracto (métodos `default` o `static` están permitidos y no cuentan como abstractos). Los métodos heredados de `Object` (como `equals`, `hashCode` o `toString`) no se consideran al contar métodos abstractos. Es recomendable anotar la interfaz con `@FunctionalInterface` para dejar explícita la intención y que el compilador genere un error si se añaden accidentalmente más métodos abstractos.
+
+Las interfaces funcionales pueden ser genéricas y soportan la inferencia de tipos cuando se usan con lambdas. Además, pueden contener métodos `default` y `static` para proporcionar comportamiento complementario, pero la compatibilidad de una lambda con una interfaz funcional depende únicamente de su único método abstracto.
 
 ## 11. Creemos una interfaz funcional a mano. Por ejemplo, define la interfaz funcional del ejemplo que transforma la cadena en otra. Llámale `Transformador`, que define una función que convierte una cadena de texto (`String`) en otra (`String`).
 
