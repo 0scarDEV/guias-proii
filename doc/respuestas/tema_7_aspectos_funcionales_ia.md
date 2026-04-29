@@ -184,6 +184,37 @@ En ambos casos `transformar` no conoce los detalles de la transformación; simpl
 
 ### Respuesta
 
+Se puede pasar una lambda directamente en la llamada a `transformar` sin crear una variable intermedia. Esto es útil cuando la función transformadora se usa una sola vez o se desea definirla de forma concisa junto al punto de uso. A continuación se muestran ejemplos en JavaScript y Java que invocan `transformar` pasando una lambda inline que invierte la cadena.
+
+Ejemplo en JavaScript, usando una función flecha que invierte la cadena con `split`, `reverse` y `join`.
+
+```javascript
+const transformar = (texto, transformador) => transformador(texto);
+
+const entrada = 'Hola Mundo';
+const resultado = transformar(entrada, s => s.split('').reverse().join(''));
+console.log(resultado); // odnuM aloH
+```
+
+Ejemplo en Java, pasando la lambda inline que invierte la cadena mediante `StringBuilder`.
+
+```java
+import java.util.function.Function;
+
+public class Main {
+	public static String transformar(String texto, Function<String, String> transformador) {
+		return transformador.apply(texto);
+	}
+
+	public static void main(String[] args) {
+		String entrada = "Hola Mundo";
+		String resultado = transformar(entrada, s -> new StringBuilder(s).reverse().toString());
+		System.out.println(resultado); // odnuM aloH
+	}
+}
+```
+
+Definir la lambda en la llamada mejora la legibilidad cuando la transformación es simple y local, evitando declarar variables auxiliares innecesarias.
 
 ## 7. ¿Qué se entiende por cierre o "closure" en el contexto de las funciones lambda? Pon un ejemplo en Java de cómo una función lambda es capaz de acceder a una variable local en el contexto donde fue definida. Modifica el ejemplo anterior, creando otra función lambda para transformar una cadena, pero que lo que haga es concatenar a la cadena de entrada otra cadena que está en una variable local definida fuera de la función lambda.
 
