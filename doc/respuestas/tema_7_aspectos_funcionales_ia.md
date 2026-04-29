@@ -95,6 +95,11 @@ En ambos ejemplos la función lambda permite tratar la transformación como un v
 
 ### Respuesta
 
+El paradigma funcional es un estilo de programación centrado en el uso de funciones puras, inmutabilidad de datos y la composición de funciones para construir programas. Se evita, en la medida de lo posible, el uso de estado mutable y efectos colaterales; en su lugar se prefieren transformaciones de datos mediante funciones que siempre devuelven el mismo resultado para las mismas entradas.
+
+Lenguajes como Java 8 se describen como multi-paradigma porque mantienen sus capacidades orientadas a objetos pero incorporan características propias del paradigma funcional (por ejemplo, expresiones lambda, funciones como valores e API de streams). Esto permite usar estilos imperativos/OO junto con estilos funcionales según convenga, facilitando migraciones parciales y patrones híbridos.
+
+Decir que las funciones son "ciudadanos de primera clase" significa que las funciones pueden ser tratadas como cualquier otro valor: se pueden asignar a variables, pasarse como argumentos, devolver desde otras funciones y almacenarse en estructuras de datos. Esta propiedad habilita patrones funcionales como callbacks, composición y creación dinámica de comportamientos.
 
 ## 4. Explica la sintaxis básica de una función lambda en Java.
 
