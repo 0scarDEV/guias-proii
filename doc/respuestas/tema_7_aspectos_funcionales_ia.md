@@ -303,6 +303,26 @@ Las interfaces funcionales pueden ser genéricas y soportan la inferencia de tip
 
 ### Respuesta
 
+Una interfaz funcional hecha a mano es simplemente una interfaz con un único método abstracto cuya firma define la forma de las lambdas que se le pueden asignar. Definiendo `Transformador` se establece explícitamente la operación que transforma un `String` en otro `String` y se permite asignar lambdas o referencias a métodos compatibles.
+
+Ejemplo de definición de la interfaz `Transformador` y uso práctico con una lambda que convierte a mayúsculas:
+
+```java
+@FunctionalInterface
+public interface Transformador {
+	String transformar(String s);
+}
+
+// Uso de la interfaz
+public class DemoTransformador {
+	public static void main(String[] args) {
+		Transformador aMayusculas = s -> s.toUpperCase();
+		System.out.println(aMayusculas.transformar("Hola Mundo")); // HOLA MUNDO
+	}
+}
+```
+
+Anotar la interfaz con `@FunctionalInterface` no es obligatorio pero ayuda a documentar la intención y obliga al compilador a verificar que la interfaz posee exactamente un método abstracto, evitando errores accidentales.
 
 ## 12. Ahora hagamos la interfaz funcional algo más genérica y empleando generics, para que permita definir un `Transformador` de un tipo en otro. Pon un ejemplo de un transformador que redondea un `Double` en un `Integer`.
 
