@@ -541,3 +541,64 @@ En el ejemplo anterior se ve la diferencia entre referir un método que no depen
 ## 18. Otro ejemplo expresivo. Ordena una lista de `Persona`, cada persona tiene un nombre y una edad (de tipo entero). Ordena la lista de `Persona` con `Collections.sort`, pasándole como comparador una expresión lambda que compare la edad de ambas personas y si tienen la misma edad, se ordene por orden alfabético del nombre. Crea dos versiones: Una con la función de comparación hecha manualmente, y otra empleando `Comparator`.
 
 ### Respuesta
+
+Ordenar por edad y, en caso de empate, por nombre es un ejemplo típico donde una lambda ayuda a expresar la lógica de comparación de forma directa. La primera versión implementa el comparador de manera manual, devolviendo un valor negativo, cero o positivo según la edad y, si hace falta, usando el nombre como desempate. La segunda versión aprovecha `Comparator`, que ofrece métodos utilitarios como `comparing` y `thenComparing` para construir la misma ordenación de manera más declarativa.
+
+La versión manual deja más claro el mecanismo de comparación, mientras que la versión con `Comparator` resulta más legible y extensible. En ambos casos la lista se ordena con `Collections.sort`, pero en la segunda opción la intención queda mejor expresada y es más fácil modificar el criterio de ordenación si en el futuro se añade otro campo.
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class OrdenarPersonas {
+	static class Persona {
+		private final String nombre;
+		private final int edad;
+
+		public Persona(String nombre, int edad) {
+			this.nombre = nombre;
+			this.edad = edad;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public int getEdad() {
+			return edad;
+		}
+
+		@Override
+		public String toString() {
+			return nombre + " (" + edad + ")";
+		}
+	}
+
+	public static void main(String[] args) {
+		List<Persona> personas = new ArrayList<>();
+		personas.add(new Persona("Luis", 30));
+		personas.add(new Persona("Ana", 25));
+		personas.add(new Persona("Carlos", 25));
+		personas.add(new Persona("Bea", 30));
+
+		// Versión 1: comparador manual con lambda
+		Collections.sort(personas, (p1, p2) -> {
+			if (p1.getEdad() != p2.getEdad()) {
+				return Integer.compare(p1.getEdad(), p2.getEdad());
+			}
+			return p1.getNombre().compareTo(p2.getNombre());
+		});
+		System.out.println("Manual: " + personas);
+
+		// Versión 2: usando Comparator
+		Collections.sort(personas,
+				Comparator.comparingInt(Persona::getEdad)
+						  .thenComparing(Persona::getNombre));
+		System.out.println("Comparator: " + personas);
+	}
+}
+```
+
+En la práctica, la primera forma es útil para entender la lógica base de comparación, mientras que `Comparator.comparingInt(...).thenComparing(...)` suele ser la opción preferida por claridad y por facilitar la composición de criterios de ordenación.
