@@ -356,6 +356,36 @@ La ventaja de la versión genérica es que la misma interfaz sirve para cualquie
 
 ### Respuesta
 
+Java incluye en `java.util.function` un conjunto de interfaces funcionales predefinidas que cubren los casos más comunes, de modo que no es necesario declarar nuevas interfaces para operaciones frecuentes. Estas interfaces proporcionan nomenclatura y métodos estándar (`apply`, `accept`, `get`, `test`, etc.), y muchas están parametrizadas con genéricos para mantener la seguridad de tipos.
+
+Las principales interfaces son:
+
+- `Function<T,R>`: representa una función que recibe `T` y devuelve `R` (método `R apply(T)`).
+- `Consumer<T>`: representa una operación que consume un `T` y no devuelve nada (método `void accept(T)`).
+- `Supplier<T>`: no recibe parámetros y suministra un `T` (método `T get()`).
+- `Predicate<T>`: recibe `T` y devuelve `boolean` (método `boolean test(T)`), útil para filtros.
+- `BiFunction<T,U,R>`: función que acepta dos argumentos y devuelve un resultado.
+- `UnaryOperator<T>`: una `Function<T,T>` especializada donde entrada y salida son del mismo tipo.
+- `BinaryOperator<T>`: una `BiFunction<T,T,T>` especializada para operaciones binarias donde ambos operandos y el resultado comparten tipo.
+
+Además existen variantes primitivas para evitar autoboxing (`IntFunction`, `ToDoubleFunction`, `IntPredicate`, `LongUnaryOperator`, etc.) y combinadores útiles (por ejemplo, `Predicate.and`, `Function.compose`, `Consumer.andThen`). A continuación un ejemplo breve que muestra `Function` y `Consumer`:
+
+```java
+import java.util.function.Function;
+import java.util.function.Consumer;
+
+public class PredefinidasDemo {
+	public static void main(String[] args) {
+		Function<String, Integer> longitud = s -> s.length();
+		Consumer<Integer> imprimir = n -> System.out.println("Longitud: " + n);
+
+		String texto = "Hola";
+		imprimir.accept(longitud.apply(texto)); // Longitud: 4
+	}
+}
+```
+
+Usar estas interfaces predefinidas favorece la interoperabilidad con la API de Streams y utilidades estándar, y permite aprovechar la inferencia de tipos y los métodos por defecto que ofrecen composiciones y combinadores.
 
 ## 14. Vamos a ver ejemplos expresivos de funcional en Java. Estudiemos el `List.forEach`, como versión funcional del bucle `for`. Emplea el `forEach` para recorrer una lista de `Integer` y que muestre un mensaje si el entero es positivo.
 
