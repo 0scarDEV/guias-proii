@@ -105,6 +105,40 @@ Decir que las funciones son "ciudadanos de primera clase" significa que las func
 
 ### Respuesta
 
+La sintaxis básica de una función lambda en Java se escribe con parámetros, la flecha `->` y el cuerpo de la función. Para expresiones simples se puede usar una forma concisa `param -> expresion`, y para cuerpos más largos se emplea un bloque `{ ... }` con declaraciones y `return` si hace falta. Los tipos de los parámetros suelen inferirse a partir del contexto (la interfaz funcional objetivo), por lo que no es necesario declararlos explícitamente.
+
+Por ejemplo, asignando una lambda a una variable de tipo `Function<String, String>` se puede escribir `s -> s.toUpperCase()`. Para múltiples parámetros se usan paréntesis: `(a, b) -> a + b`. Para una lambda sin parámetros se usan paréntesis vacíos: `() -> 42`. Cuando el cuerpo es un bloque que contiene varias instrucciones, debe envolverse entre llaves y usar `return` para devolver valor.
+
+Reglas importantes: la lambda debe ser compatible con una interfaz funcional (una interfaz con un único método abstracto), puede capturar variables locales siempre que sean *effectively final*, y la referencia `this` dentro de una lambda se refiere al objeto que la contiene, no a una instancia creada por la lambda.
+
+Ejemplo completo de sintaxis:
+
+```java
+import java.util.function.Function;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class LambdaSyntax {
+	public static void main(String[] args) {
+		Function<String, String> aMayusculas = s -> s.toUpperCase();
+		System.out.println(aMayusculas.apply("Hola Mundo")); // HOLA MUNDO
+
+		BiFunction<Integer, Integer, Integer> sumar = (x, y) -> x + y;
+		System.out.println(sumar.apply(2, 3)); // 5
+
+		Supplier<String> saludo = () -> "Hola";
+		System.out.println(saludo.get()); // Hola
+
+		Function<String, String> ejemploBloque = s -> {
+			String r = s.trim().toUpperCase();
+			return r + "!";
+		};
+		System.out.println(ejemploBloque.apply("  hola  ")); // HOLA!
+	}
+}
+```
+
+Las referencias a métodos (`Clase::metodo`) ofrecen una forma más compacta cuando la lambda simplemente delega a un método existente.
 
 ## 5. Ahora recibamos una función como parámetro a un método y la llamaremos desde dentro. Amplia los ejemplos anteriores de Java y JavaScript con un método llamado `transformar`, que reciba un `String` como parámetro y luego una función transformadora como lo es `aMayúsculas` y la invoque desde dentro.
 
