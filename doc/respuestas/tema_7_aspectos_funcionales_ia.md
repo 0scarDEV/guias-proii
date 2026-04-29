@@ -484,6 +484,59 @@ Ambos ejemplos muestran cómo capturar un método existente en una variable y ej
 
 ### Respuesta
 
+En Java se distinguen cuatro formas habituales de referencias a método. La referencia a método estático usa `Clase::metodo` y representa una función que ya existe como método de clase. La referencia a constructor usa `Clase::new` y permite crear objetos de forma concisa. La referencia a método de una instancia concreta usa `instancia::metodo` y queda enlazada a ese objeto específico. La referencia a método de instancia sobre cualquier instancia usa `Clase::metodo` pero se resuelve dinámicamente sobre el objeto que se reciba como primer argumento.
+
+Estas referencias son especialmente útiles cuando una lambda solo delega en un método existente, porque hacen el código más corto y legible. Además, el compilador las adapta a la interfaz funcional compatible según el contexto: por ejemplo, `Function`, `Supplier`, `Consumer` o `Comparator`.
+
+Ejemplo con las cuatro variantes:
+
+```java
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.Consumer;
+
+public class ReferenciasMetodo {
+	static class Util {
+		static String mayusculas(String s) {
+			return s.toUpperCase();
+		}
+	}
+
+	static class Persona {
+		private final String nombre;
+
+		public Persona(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public void saludar() {
+			System.out.println("Hola, soy " + nombre);
+		}
+
+		public void saludarConPrefijo(String prefijo) {
+			System.out.println(prefijo + " " + nombre);
+		}
+	}
+
+	public static void main(String[] args) {
+		Function<String, String> refEstatico = Util::mayusculas;
+		System.out.println(refEstatico.apply("hola")); // HOLA
+
+		Supplier<Persona> refConstructor = () -> new Persona("Ana");
+		Persona p1 = refConstructor.get();
+		p1.saludar();
+
+		Persona p2 = new Persona("Luis");
+		Runnable refInstanciaConcreta = p2::saludar;
+		refInstanciaConcreta.run();
+
+		Consumer<Persona> refInstanciaCualquier = Persona::saludar;
+		refInstanciaCualquier.accept(new Persona("Marta"));
+	}
+}
+```
+
+En el ejemplo anterior se ve la diferencia entre referir un método que no depende de objeto (`Util::mayusculas`), construir objetos (`Persona::new`), fijar el receptor a una instancia concreta (`p2::saludar`) y dejar que cualquier instancia ejecute el método cuando se le pase como primer argumento (`Persona::saludar`).
 
 ## 18. Otro ejemplo expresivo. Ordena una lista de `Persona`, cada persona tiene un nombre y una edad (de tipo entero). Ordena la lista de `Persona` con `Collections.sort`, pasándole como comparador una expresión lambda que compare la edad de ambas personas y si tienen la misma edad, se ordene por orden alfabético del nombre. Crea dos versiones: Una con la función de comparación hecha manualmente, y otra empleando `Comparator`.
 
