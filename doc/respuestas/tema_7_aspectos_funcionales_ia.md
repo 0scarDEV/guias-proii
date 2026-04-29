@@ -254,6 +254,11 @@ En el ejemplo la lambda accede a `sufijo` definido fuera de ella; si se intentar
 
 ### Respuesta
 
+Aunque a primera vista las lambdas y los punteros a función permiten invocar código de forma indirecta, difieren en varias propiedades importantes. Un puntero a función en C es simplemente una dirección a código con una firma concreta: no captura entorno, no lleva información sobre el estado y su seguridad de tipos depende del programador. Las lambdas, en cambio, suelen ser objetos (o instancias de una interfaz funcional) que pueden portar estado y comportarse como cierres, accediendo a variables del entorno donde se definieron.
+
+Otra diferencia práctica es la ergonomía y el sistema de tipos. En C se trabaja con sintaxis explícita para declarar y usar punteros a función y el manejo de contexto (si se necesita) requiere estructuras adicionales (`struct` con función + puntero a datos). En lenguajes modernos (JavaScript, Java) la lambda se integra con el sistema de tipos y con la biblioteca estándar: en Java una lambda implementa una interfaz funcional y su invocación y compabilidad están comprobadas en tiempo de compilación, además de poder combinarse con referencias a métodos y la API de streams.
+
+Finalmente, en tiempo de ejecución las lambdas pueden tener una representación con cierre (captura de variables, ejecución segura), y el runtime/compilador gestiona su implementación (a menudo como objetos o métodos generados). Los punteros a función son más cercanos al nivel de máquina y ofrecen menos abstracción: son más ligeros pero requieren al programador gestionar manualmente detalles como contexto y compatibilidad de tipos.
 
 ## 9. Devolvamos ahora funciones. Creemos ahora una función que sea capaz de crear funciones "descuento". Una función "descuento", decrementa un porcentaje pasado como parámetro. Por simplicidad, usa `Function<Double, Double>` para su tipo. La función `crearDescuento(porcentaje)`, recibe solo el porcentaje de descuento a aplicar y devuelve la función de descuento. Prueba a crear dos descuentos distintos y aplicarlos a una cantidad. Explica la closure en la función descuento.
 
