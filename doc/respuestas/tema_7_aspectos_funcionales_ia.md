@@ -62,6 +62,34 @@ En este ejemplo se separa la lógica de transformación de la invocación median
 
 ### Respuesta
 
+Una función lambda es una función anónima y concisa que se puede definir en línea donde se necesita comportamiento funcional. Se utiliza para crear bloques de código reutilizables sin declarar un método con nombre, facilitando el paso de comportamiento (funciones) como valores, la programación basada en callbacks y estilos funcionales en lenguajes imperativos.
+
+Ejemplo en JavaScript: se define una función flecha que toma una cadena y devuelve la misma en mayúsculas; se asigna a la variable local `aMayusculas` y se invoca como cualquier otra función. Este estilo es familiar para quien haya usado funciones como punteros, pero con sintaxis más directa y sin manejar direcciones de memoria.
+
+```javascript
+// JavaScript
+const aMayusculas = s => s.toUpperCase();
+
+const texto = 'Hola Mundo';
+console.log(aMayusculas(texto)); // HOLA MUNDO
+```
+
+Ejemplo en Java: empleando la interfaz funcional `Function<String, String>` se puede asignar una lambda a una variable local `aMayusculas`. La invocación se realiza con `apply`, que es la convención de `Function` en la API de Java.
+
+```java
+import java.util.function.Function;
+
+public class Main {
+	public static void main(String[] args) {
+		Function<String, String> aMayusculas = s -> s.toUpperCase();
+
+		String texto = "Hola Mundo";
+		System.out.println(aMayusculas.apply(texto)); // HOLA MUNDO
+	}
+}
+```
+
+En ambos ejemplos la función lambda permite tratar la transformación como un valor asignable a `aMayusculas`, simplificando el paso y la composición de comportamiento en tiempo de ejecución.
 
 ## 3. ¿Qué es el **paradigma funcional**? ¿Por qué a algunos lenguajes orientados a objetos como Java 8, se les llama multi-paradigma? ¿Qué quiere decir que las funciones son "ciudadanos de primera clase"?
 
