@@ -220,6 +220,35 @@ Definir la lambda en la llamada mejora la legibilidad cuando la transformación 
 
 ### Respuesta
 
+Un cierre (closure) es una función junto con el entorno léxico en el que fue creada: la lambda puede acceder a variables locales del ámbito donde se definió, aun cuando se invoque fuera de ese ámbito. Esto permite encapsular comportamiento que depende de datos del contexto sin necesidad de pasarlos explícitamente en cada llamada.
+
+En Java las lambdas pueden capturar variables locales siempre que sean *effectively final* (no se reasignen después de su inicialización). La lambda retiene acceso al valor de la variable del entorno, lo que posibilita construir funciones parametrizadas en el momento de su creación.
+
+Ejemplo en Java: se reutiliza el método `transformar` y se crea una variable local `sufijo` fuera de la lambda; la lambda concatenará ese `sufijo` a la cadena de entrada.
+
+```java
+import java.util.function.Function;
+
+public class ClosureEjemplo {
+	public static String transformar(String texto, Function<String, String> transformador) {
+		return transformador.apply(texto);
+	}
+
+	public static void main(String[] args) {
+		final String sufijo = "!!!"; // variable local capturada por la lambda (effectively final)
+
+		Function<String, String> añadirSufijo = s -> s + sufijo;
+
+		String entrada = "Hola Mundo";
+		System.out.println(transformar(entrada, añadirSufijo)); // Hola Mundo!!!
+
+		// También se puede pasar la lambda inline usando la misma variable del entorno:
+		System.out.println(transformar("Adiós", s -> s + sufijo)); // Adiós!!!
+	}
+}
+```
+
+En el ejemplo la lambda accede a `sufijo` definido fuera de ella; si se intentara reasignar `sufijo` después de su inicialización, el compilador de Java rechazará el código por no ser *effectively final*.
 
 ## 8. Reflexiona: ¿en qué se diferencia entonces una función lambda de los punteros a funciones que hay en C?
 
