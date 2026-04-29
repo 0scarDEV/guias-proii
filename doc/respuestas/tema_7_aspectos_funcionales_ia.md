@@ -264,6 +264,30 @@ Finalmente, en tiempo de ejecución las lambdas pueden tener una representación
 
 ### Respuesta
 
+Se puede crear una función que devuelva otras funciones configuradas con un parámetro (el porcentaje). En Java esto se implementa retornando una `Function<Double, Double>` donde la lambda resultante aplica el porcentaje capturado al importe recibido. Esta técnica permite generar funciones de descuento parametrizadas sin repetir la lógica de cálculo.
+
+Ejemplo en Java: la función `crearDescuento` acepta un `double porcentaje` y devuelve una `Function<Double, Double>` que aplica ese porcentaje cada vez que se invoque con una cantidad. A continuación se crean dos descuentos distintos y se aplican a una misma cantidad.
+
+```java
+import java.util.function.Function;
+
+public class Descuentos {
+	public static Function<Double, Double> crearDescuento(double porcentaje) {
+		return amount -> amount * (1.0 - porcentaje / 100.0);
+	}
+
+	public static void main(String[] args) {
+		Function<Double, Double> desc10 = crearDescuento(10.0); // 10% de descuento
+		Function<Double, Double> desc25 = crearDescuento(25.0); // 25% de descuento
+
+		double precio = 200.0;
+		System.out.println(desc10.apply(precio)); // 180.0
+		System.out.println(desc25.apply(precio)); // 150.0
+	}
+}
+```
+
+La closure ocurre porque la lambda devuelta captura el valor de `porcentaje` del entorno donde fue creada. Aunque `crearDescuento` haya terminado su ejecución, las funciones `desc10` y `desc25` retienen el valor de `porcentaje` con el que se crearon, permitiendo aplicarlo posteriormente. En Java la variable capturada debe ser *effectively final*, pero la lambda conserva su valor, lo que hace posible crear funciones específicas a partir de parámetros en tiempo de creación.
 
 ## 10. En Java, que es un lenguaje con comprobación estática de tipos, donde los tipos se declaran, toda función lambda tiene un tipo, que se conoce como **interfaz funcional**. ¿Qué es una **interfaz funcional**? ¿Qué requisitos tiene?
 
