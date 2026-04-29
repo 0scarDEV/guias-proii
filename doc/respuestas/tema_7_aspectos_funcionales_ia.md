@@ -431,10 +431,54 @@ public static <T, R> R transformar(T input, Function<? super T, ? extends R> tra
 ```
 
 Ejemplo de uso: se puede pasar un `Function<Number,String>` como transformador al invocar `transformar(5, numberToString)`, donde `5` es un `Integer` (subtipo de `Number`) y la función acepta `Number`. Gracias a `? super T` y `? extends R` la llamada es segura y más reutilizable en distintos contextos.
+
 ## 16. Referencias a métodos. Podemos obtener una referencia a métodos de objetos o clases. Pon un ejemplo en JavaScript y en Java, de una clase `Persona` con un método `saludar`. En el código principal, crea una `Persona` con un nombre, y obtén una referencia a su método `saludar` en una variable local. Invoca `saludar` con esa referencia a su método `saludar`.
 
 ### Respuesta
 
+Las referencias a métodos permiten capturar y reutilizar la lógica de un método existente sin volver a escribirlo, tratándolo como un valor. En JavaScript hay que tener cuidado con el enlace del contexto (`this`); por ello, al extraer un método de instancia se suele emplear `bind` para mantener la referencia correcta al objeto. En Java se pueden obtener referencias a métodos usando la sintaxis `instance::method`, que se ajusta automáticamente a una interfaz funcional compatible.
+
+Ejemplo en JavaScript, donde se crea una clase `Persona`, se instancia y se obtiene una referencia al método `saludar` usando `bind` para preservar `this`:
+
+```javascript
+class Persona {
+	constructor(nombre) {
+		this.nombre = nombre;
+	}
+
+	saludar() {
+		console.log(`Hola, soy ${this.nombre}`);
+	}
+}
+
+const p = new Persona('Ana');
+const saludarRef = p.saludar.bind(p); // bind para mantener `this` apuntando a `p`
+saludarRef(); // Hola, soy Ana
+```
+
+Ejemplo en Java: la clase `Persona` define `saludar`. En el `main` se crea una instancia y se obtiene una referencia al método de instancia `saludar` mediante `p::saludar`; la referencia se asigna a una interfaz funcional compatible, por ejemplo `Runnable`, y se invoca con `run()`.
+
+```java
+public class Persona {
+		private final String nombre;
+
+		public Persona(String nombre) {
+				this.nombre = nombre;
+		}
+
+		public void saludar() {
+				System.out.println("Hola, soy " + nombre);
+		}
+
+		public static void main(String[] args) {
+				Persona p = new Persona("Ana");
+				Runnable saludarRef = p::saludar; // referencia al método de instancia
+				saludarRef.run(); // Hola, soy Ana
+		}
+}
+```
+
+Ambos ejemplos muestran cómo capturar un método existente en una variable y ejecutarlo más tarde, lo que facilita pasar comportamientos como parámetros o almacenarlos para uso posterior.
 
 ## 17. ¿Qué tipos de referencias a método se pueden hacer en Java? Pon un ejemplo de referencia a método estático, a constructor, a método de instancia de una instancia concreta y a método de instancia sobre cualquier instancia.
 
