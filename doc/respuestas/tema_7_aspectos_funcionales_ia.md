@@ -391,6 +391,28 @@ Usar estas interfaces predefinidas favorece la interoperabilidad con la API de S
 
 ### Respuesta
 
+`List.forEach` es la versión orientada a funciones del bucle `for` para colecciones: recibe un `Consumer<? super T>` y ejecuta la operación dada sobre cada elemento de la lista. Su uso promueve un estilo declarativo donde se describe la operación a aplicar en lugar de gestionar explícitamente el índice o el iterador.
+
+Ejemplo que recorre una lista de `Integer` y muestra un mensaje solo cuando el entero es positivo:
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class ForEachDemo {
+	public static void main(String[] args) {
+		List<Integer> nums = Arrays.asList(-2, 0, 3, 7, -1);
+
+		nums.forEach(n -> {
+			if (n > 0) {
+				System.out.println("Es positivo: " + n);
+			}
+		});
+	}
+}
+```
+
+Para casos más complejos puede combinarse `forEach` con streams (`filter`, `map`, etc.) para componer el flujo de transformación y filtrado antes de la acción final.
 ## 15. Repasando el tema de genericidad, fíjate en la firma de `forEach`, ¿por qué se usa `Consumer<? super T>` y no `Consumer<T>`? Explica qué significa **PECS**, y explícalo para el caso de mejorar el ejemplo del método `transformar` la hora de definir el tipo de la función transformadora.
 
 ### Respuesta
