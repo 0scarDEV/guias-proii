@@ -328,6 +328,29 @@ Anotar la interfaz con `@FunctionalInterface` no es obligatorio pero ayuda a doc
 
 ### Respuesta
 
+La versión genérica de `Transformador` permite expresar la transformación entre dos tipos arbitrarios, `T` y `R`, haciendo la interfaz reutilizable en muchos contextos. Esto se logra declarando la interfaz con parámetros de tipo genéricos y definiendo el método abstracto usando esos parámetros, de forma similar a `Function<T,R>` en la API estándar de Java.
+
+A continuación se muestra la definición genérica y un ejemplo práctico donde se crea un `Transformador<Double, Integer>` que redondea un `Double` al `Integer` más cercano mediante `Math.round`.
+
+```java
+@FunctionalInterface
+public interface Transformador<T, R> {
+	R transformar(T t);
+}
+
+// Ejemplo de uso: transformar Double a Integer redondeando
+public class DemoTransformadorGenerico {
+	public static void main(String[] args) {
+		Transformador<Double, Integer> redondear = d -> (int) Math.round(d);
+
+		Double valor = 3.7;
+		Integer resultado = redondear.transformar(valor);
+		System.out.println(resultado); // 4
+	}
+}
+```
+
+La ventaja de la versión genérica es que la misma interfaz sirve para cualquier par de tipos, manteniendo la seguridad de tipos en tiempo de compilación y mejorando la reutilización sin declarar interfaces específicas para cada caso.
 
 ## 13. `Transformador`, en su versión genérica, parece muy útil y reutilizable, hasta el punto de que es igual a una interfaz funcional que ya hay, que es `Function<T, R>`. Muestra las interfaces funcionales predefinidas que hay en Java.
 
