@@ -413,10 +413,24 @@ public class ForEachDemo {
 ```
 
 Para casos más complejos puede combinarse `forEach` con streams (`filter`, `map`, etc.) para componer el flujo de transformación y filtrado antes de la acción final.
+
 ## 15. Repasando el tema de genericidad, fíjate en la firma de `forEach`, ¿por qué se usa `Consumer<? super T>` y no `Consumer<T>`? Explica qué significa **PECS**, y explícalo para el caso de mejorar el ejemplo del método `transformar` la hora de definir el tipo de la función transformadora.
 
 ### Respuesta
 
+La firma `forEach(Consumer<? super T> action)` usa `? super T` porque el `Consumer` es un consumidor de elementos: `forEach` proporciona elementos del tipo `T` al `Consumer`, de modo que es seguro aceptar consumidores que trabajen con supertipos de `T`. Por ejemplo, si se tiene una `List<Integer>`, un `Consumer<Number>` o `Consumer<Object>` puede procesar esos `Integer` sin problemas; restringir la firma a `Consumer<T>` haría la API menos flexible.
+
+PECS es una mnemotecnia que resume una regla de uso de wildcards en Java: "Producer Extends, Consumer Super". Si una estructura produce valores de tipo `T` (por ejemplo, un `Supplier` o un `Iterable` que se lee), se usa `? extends T` para permitir que se devuelvan subtipos; si una estructura consume valores `T` (por ejemplo, un `Consumer` que recibe argumentos), se usa `? super T` para aceptar manejadores de supertypos. Esto evita problemas de incompatibilidad por autoboxing y permite mayor generalidad en APIs genéricas.
+
+En el caso del método `transformar`, la función transformadora tanto consume un `T` como produce un `R`. Aplicando PECS la firma más flexible sería `Function<? super T, ? extends R>`: el parámetro de entrada puede ser un supertipo de `T` (por ejemplo `Number`) y el resultado puede ser un subtipo de `R`. Una posible firma genérica mejorada es:
+
+```java
+public static <T, R> R transformar(T input, Function<? super T, ? extends R> transformador) {
+	return transformador.apply(input);
+}
+```
+
+Ejemplo de uso: se puede pasar un `Function<Number,String>` como transformador al invocar `transformar(5, numberToString)`, donde `5` es un `Integer` (subtipo de `Number`) y la función acepta `Number`. Gracias a `? super T` y `? extends R` la llamada es segura y más reutilizable en distintos contextos.
 ## 16. Referencias a métodos. Podemos obtener una referencia a métodos de objetos o clases. Pon un ejemplo en JavaScript y en Java, de una clase `Persona` con un método `saludar`. En el código principal, crea una `Persona` con un nombre, y obtén una referencia a su método `saludar` en una variable local. Invoca `saludar` con esa referencia a su método `saludar`.
 
 ### Respuesta
