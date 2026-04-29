@@ -144,6 +144,41 @@ Las referencias a métodos (`Clase::metodo`) ofrecen una forma más compacta cua
 
 ### Respuesta
 
+Un método `transformar` es un ejemplo de función de orden superior: recibe un valor (la cadena) y otra función que indica cómo transformar ese valor, y luego invoca la función recibida desde su cuerpo. Este patrón favorece la separación de la lógica de control (cuándo se transforma) y la lógica de transformación (cómo se transforma), facilitando la reutilización y la composición de comportamientos.
+
+Ejemplo en JavaScript: se define `transformar` que acepta el texto y un transformador (función) y devuelve el resultado de invocar dicho transformador. Se muestra el uso pasando la variable `aMayusculas` previamente definida.
+
+```javascript
+// JavaScript
+const aMayusculas = s => s.toUpperCase();
+
+function transformar(texto, transformador) {
+	return transformador(texto);
+}
+
+const entrada = 'Hola Mundo';
+console.log(transformar(entrada, aMayusculas)); // HOLA MUNDO
+```
+
+Ejemplo en Java: se define `transformar` como un método que recibe un `String` y una `Function<String,String>`; dentro se llama a `apply` sobre la función recibida. En `main` se pasa la variable `aMayusculas` (lambda) como argumento.
+
+```java
+import java.util.function.Function;
+
+public class TransformadorEjemplo {
+	public static String transformar(String texto, Function<String, String> transformador) {
+		return transformador.apply(texto);
+	}
+
+	public static void main(String[] args) {
+		Function<String, String> aMayusculas = s -> s.toUpperCase();
+		String entrada = "Hola Mundo";
+		System.out.println(transformar(entrada, aMayusculas)); // HOLA MUNDO
+	}
+}
+```
+
+En ambos casos `transformar` no conoce los detalles de la transformación; simplemente aplica la función que se le pasa, lo que permite reutilizar `transformar` con distintas funciones (mayúsculas, recorte, inversión, etc.) sin modificar su implementación.
 
 ## 6. Ahora, invoca `transformar`, con una nueva función lambda directamente en la llamada a `transformar`, por ejemplo, una función lambda que invierta la cadena. Define la función de inversión justo cuando la estás pasando como parámetro.
 
