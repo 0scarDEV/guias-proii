@@ -8,9 +8,22 @@
 
 - **Expresión lambda** ~= expresa un valor de tipo función y no tiene nombre, solo cabecera y cuerpo (expresión anónima).
 
-- **Cierre (closure)**
+- **Cierre (closure):** Una expresión lambda captura valores del contexto donde <u>ES DECLARADA,</u> no desde donde se invoca.
+```java
+public static Function<Double, Double> crearDescuento(double descuento) {
+	return cantidad -> cantidad * (1.0 - descuento / 100.0);
+}
+public static void main(String[] args) {
+	Function<Double, Double> desc25 = crearDescuento(25);
+	Function<Double, Double> desc30 = crearDescuento(30);
+	...
+	double reducido1 = desc25.apply(500);
+	...
+	double reducido2 = desc30.apply(800);
+}
+```
 
-- En lenguajes con comprobación estática de tipos (como en Java, C#, etc). ¿Qué tipo tienen las funciones? 
+- En lenguajes con comprobación estática de tipos (como en Java, C#, etc). ¿Qué tipo tienen las funciones? Pues un valor específico que se llama **interfaz funcional**. Es una interfaz con un único método abstracto, que es el que define la firma de la función.
 
 ## 1. ¿Qué es un puntero a una función? 
 
@@ -64,14 +77,14 @@ Esta propiedad habilita patrones funcionales como callbacks, composición y crea
 
 ## 4. Explica la sintaxis básica de una función lambda en Java.
 
-La sintaxis básica de una función lambda en Java se escribe con parámetros, la flecha `->` y el cuerpo de la función. Para expresiones simples se puede usar una forma concisa `param -> expresion`, y para cuerpos más largos se emplea un bloque `{ ... }` con declaraciones y `return` si hace falta. Los tipos de los parámetros suelen inferirse a partir del contexto (la interfaz funcional objetivo), por lo que no es necesario declararlos explícitamente.
+La sintaxis básica de una función lambda en Java se escribe con parámetros, la flecha `->` y el cuerpo de la función. 
+> Para expresiones simples se puede usar una forma concisa `param -> expresion`, y para cuerpos más largos se emplea un bloque `{ ... }` con declaraciones y `return` si hace falta. 
+Los tipos de los parámetros suelen inferirse a partir del contexto (la interfaz funcional objetivo), por lo que no es necesario declararlos explícitamente.
 
-Por ejemplo, asignando una lambda a una variable de tipo `Function<String, String>` se puede escribir `s -> s.toUpperCase()`. Para múltiples parámetros se usan paréntesis: `(a, b) -> a + b`. Para una lambda sin parámetros se usan paréntesis vacíos: `() -> 42`. Cuando el cuerpo es un bloque que contiene varias instrucciones, debe envolverse entre llaves y usar `return` para devolver valor.
 
 Reglas importantes: la lambda debe ser compatible con una interfaz funcional (una interfaz con un único método abstracto), puede capturar variables locales siempre que sean *effectively final*, y la referencia `this` dentro de una lambda se refiere al objeto que la contiene, no a una instancia creada por la lambda.
 
 Ejemplo completo de sintaxis:
-
 ```java
 import java.util.function.Function;
 import java.util.function.BiFunction;
@@ -171,11 +184,13 @@ public class Main {
 
 Definir la lambda en la llamada mejora la legibilidad cuando la transformación es simple y local, evitando declarar variables auxiliares innecesarias.
 
-## 7. ¿Qué se entiende por cierre o "closure" en el contexto de las funciones lambda? Pon un ejemplo en Java de cómo una función lambda es capaz de acceder a una variable local en el contexto donde fue definida. Modifica el ejemplo anterior, creando otra función lambda para transformar una cadena, pero que lo que haga es concatenar a la cadena de entrada otra cadena que está en una variable local definida fuera de la función lambda.
+## 7. ¿Qué se entiende por cierre o "closure" en el contexto de las funciones lambda? 
 
 Un cierre (closure) es una función junto con el entorno léxico en el que fue creada: la lambda puede acceder a variables locales del ámbito donde se definió, aun cuando se invoque fuera de ese ámbito. Esto permite encapsular comportamiento que depende de datos del contexto sin necesidad de pasarlos explícitamente en cada llamada.
 
-En Java las lambdas pueden capturar variables locales siempre que sean *effectively final* (no se reasignen después de su inicialización). La lambda retiene acceso al valor de la variable del entorno, lo que posibilita construir funciones parametrizadas en el momento de su creación.
+En Java las lambdas pueden capturar variables locales (almacenandolas como atributos de un objeto) siempre que sean **effectively final** (no se reasignen después de su inicialización). La lambda retiene acceso al valor de la variable del entorno, lo que posibilita construir funciones parametrizadas en el momento de su creación.
+
+#### Pon un ejemplo en Java de cómo una función lambda es capaz de acceder a una variable local en el contexto donde fue definida. Modifica el ejemplo anterior, creando otra función lambda para transformar una cadena, pero que lo que haga es concatenar a la cadena de entrada otra cadena que está en una variable local definida fuera de la función lambda.
 
 Ejemplo en Java: se reutiliza el método `transformar` y se crea una variable local `sufijo` fuera de la lambda; la lambda concatenará ese `sufijo` a la cadena de entrada.
 
