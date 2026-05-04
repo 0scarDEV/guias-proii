@@ -30,12 +30,12 @@ int main(void) {
 ```
 
 ## 2. ¿Qué es una **función lambda** en un lenguaje de programación? 
+Una función lambda es una función anónima y concisa que se puede definir en línea donde se necesita comportamiento funcional. Se utiliza para crear bloques de código reutilizables sin declarar un método con nombre, facilitando el paso de comportamiento (funciones) como valores, la programación basada en callbacks y estilos funcionales en lenguajes imperativos.
 
 #### Pon un ejemplo similar al anterior en Javascript y otro en Java con funciones lambda. 
 
 ### Usa una variable local `aMayusculas` para apuntar a la función lambda. Por simplicidad, en Java, emplea `Function<String, String>` para el tipo de la referencia a la función lambda.
 
-Una función lambda es una función anónima y concisa que se puede definir en línea donde se necesita comportamiento funcional. Se utiliza para crear bloques de código reutilizables sin declarar un método con nombre, facilitando el paso de comportamiento (funciones) como valores, la programación basada en callbacks y estilos funcionales en lenguajes imperativos.
 
 Ejemplo en JavaScript: se define una función flecha que toma una cadena y devuelve la misma en mayúsculas; se asigna a la variable local `aMayusculas` y se invoca como cualquier otra función. Este estilo es familiar para quien haya usado funciones como punteros, pero con sintaxis más directa y sin manejar direcciones de memoria.
 
