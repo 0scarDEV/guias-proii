@@ -251,12 +251,31 @@ public class Punto3D implements Punto<Punto3D> {
 ```
 
 
-## 12. Dado que `String` es subtipo de `Object`, ¿significa eso que `List<String>` es subtipo de `List<Object>`? ¿Y que `String[]` es subtipo de `Object[]`? Razona por qué la respuesta es diferente en cada caso y qué problema en tiempo de ejecución puede aparecer con los arrays. A partir de estos ejemplos, define qué significa que un tipo genérico sea **covariante**, **contravariante** o **invariante** respecto a su parámetro de tipo.
+## 12. Dado que `String` es subtipo de `Object`, ¿significa eso que `List<String>` es subtipo de `List<Object>`?   
 
-No, `List<String>` no es subtipo de `List<Object>` en Java: los genéricos son invariantes por defecto. Si se permitiese esa conversión, podría insertarse un `Integer` en una lista que realmente es de `String`, rompiendo la seguridad del contenedor. Por eso el compilador la prohíbe.
+No, `List<String>` no es subtipo de `List<Object>`. En Java los genéricos son **invariantes** por defecto.
 
-En cambio, `String[]` sí es subtipo de `Object[]` porque los arrays en Java son covariantes. Esta decisión histórica permite cierta flexibilidad, pero abre una comprobación en runtime: si en un `Object[]` que realmente referencia un `String[]` se intenta guardar un `Integer`, aparece `ArrayStoreException`. En resumen: covariante significa que al variar `S <: T` también se cumple `F<S> <: F<T>`; contravariante invierte la relación (`F<T> <: F<S>`); invariante implica que no hay subtipo entre `F<S>` y `F<T>` aunque `S <: T`.
+#### ¿Y que `String[]` es subtipo de `Object[]`?
 
+En arrays primitivos, si que existe la **covarianza**; `String[]` es subtipo de `Object[]`, lo que permite asignar un array de un tipo más específico a una referencia de un tipo más general:
+```java
+String[] strings = {"hola", "adios"};
+Object[] objetos = strings; // esto es válido
+```
+
+#### Razona por qué la respuesta es diferente en cada caso y qué problema en tiempo de ejecución puede aparecer con los arrays.
+
+Porque a partir de la covarianza en arrays, se puede asignar un `String[]` a una variable de tipo `Object[]`. Sin embargo, esto puede llevar a un problema en tiempo de ejecución si se intenta insertar un objeto que no es un `String` en ese array a través de la referencia de `Object[]`, lo que resultaría en una `ArrayStoreException`. Por ejemplo:
+```java
+String[] strings = {"hola", "adios"};
+Object[] objetos = strings; // esto es válido
+objetos[0] = new Empleado(); // esto compila, pero lanza ArrayStoreException en tiempo de ejecución
+```
+
+#### A partir de estos ejemplos, define qué significa que un tipo genérico sea **covariante**, **contravariante** o **invariante** respecto a su parámetro de tipo.
+- Covariante: Si `S` es subtipo de `T`, entonces `F<S>` es subtipo de `F<T>`. Esto permite que estructuras de datos con tipos relacionados mantengan la relación de subtipado. Ejemplo: `String[]` es un subtipo de `Object[]`.
+- Contravariante: Si `S` es subtipo de `T`, entonces `F<T>` es subtipo de `F<S>`. Esto se usa para modelar consumidores de datos, donde el tipo más general puede aceptar tipos más específicos. Ejemplo: `List<? super Integer>` puede aceptar `Integer` y sus subtipos.
+- Invariante: No existe relación de subtipado entre `F<S>` y `F<T>` aunque `S` sea subtipo de `T`. Esto es común en genéricos de Java, donde `List<String>` no es subtipo de `List<Object>`, lo que refuerza la seguridad de tipos.
 
 ## 13. Java permite recuperar covarianza y contravarianza en tipos genéricos de forma controlada mediante **wildcards**. ¿Qué es un wildcard (`?`)? Muestra la diferencia entre `List<? extends T>` y `List<? super T>`, indicando en qué casos se usa cada uno. Pon dos ejemplos: (i) un método que reciba una lista de números y calcule su suma, usando `? extends`; (ii) un método que reciba una lista y le añada varios números enteros, usando `? super`.
 
