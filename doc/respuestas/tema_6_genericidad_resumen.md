@@ -280,11 +280,24 @@ objetos[0] = new Empleado(); // esto compila, pero lanza ArrayStoreException en 
 - Contravariante: Si `S` es subtipo de `T`, entonces `F<T>` es subtipo de `F<S>`. Esto se usa para modelar consumidores de datos, donde el tipo más general puede aceptar tipos más específicos. Ejemplo: `List<? super Integer>` puede aceptar `Integer` y sus subtipos.
 - Invariante: No existe relación de subtipado entre `F<S>` y `F<T>` aunque `S` sea subtipo de `T`. Esto es común en genéricos de Java, donde `List<String>` no es subtipo de `List<Object>`, lo que refuerza la seguridad de tipos.
 
-## 13. Java permite recuperar covarianza y contravarianza en tipos genéricos de forma controlada mediante **wildcards**. ¿Qué es un wildcard (`?`)? Muestra la diferencia entre `List<? extends T>` y `List<? super T>`, indicando en qué casos se usa cada uno. Pon dos ejemplos: (i) un método que reciba una lista de números y calcule su suma, usando `? extends`; (ii) un método que reciba una lista y le añada varios números enteros, usando `? super`.
+## 13. Java permite recuperar covarianza y contravarianza en tipos genéricos de forma controlada mediante **wildcards**. 
+#### ¿Qué es un wildcard (`?`)? 
 
-Un wildcard `?` representa un tipo desconocido, útil cuando interesa expresar relaciones de subtipado sin fijar un tipo exacto. Con `? extends T` se obtiene una vista de solo lectura efectiva para productores de `T`: se puede leer como `T`, pero no añadir nuevos elementos (salvo `null`) porque se desconoce el subtipo concreto. Con `? super T` se modelan consumidores de `T`: se pueden insertar objetos `T` (o subtipos), pero al leer solo se garantiza `Object`.
+Un wildcard `?` representa un tipo desconocido, útil cuando interesa expresar relaciones de subtipado sin fijar un tipo exacto. 
+- Con `? super T` se modelan consumidores de `T`: 
+  - Al hacer un get se devuelve un `Object`, que es lo único seguro.
+  - Al insertar un elemento, se puede insertar cualquier subtipo de `T`, incluyendo `T` mismo. **Es para lo que está pensado el super**.
+- Con `? extends T` se obtiene una vista de solo lectura efectiva para productores de `T`: 
+  - Al hacer un get se recibe un `T`. **Es para lo que está pensado el extends**. 
+  - Al intertar un elemento, no se puede insertar nada (excepto `null`), porque no se sabe el tipo concreto que se espera. Error de <u>compilación</u>.  
 
-La regla práctica es PECS (Producer Extends, Consumer Super): si la estructura produce datos para el algoritmo, usar `extends`; si consume datos que el algoritmo inserta, usar `super`. En suma de números interesa leer elementos, por eso `? extends Number`; para añadir enteros a una lista compatible, interesa `? super Integer`.
+#### Muestra la diferencia entre `List<? extends T>` y `List<? super T>`, indicando en qué casos se usa cada uno. 
+
+La regla práctica es PECS (Producer Extends, Consumer Super): 
+- si la estructura produce datos para el algoritmo, usar `extends`. En suma de números interesa leer elementos, por eso `? extends Number`;
+- si consume datos que el algoritmo inserta, usar `super`. Para añadir enteros a una lista compatible, interesa `? super Integer`.
+
+#### Pon dos ejemplos: (i) un método que reciba una lista de números y calcule su suma, usando `? extends`; (ii) un método que reciba una lista y le añada varios números enteros, usando `? super`.
 
 ```java
 import java.util.*;
