@@ -250,10 +250,13 @@ public class Punto3D implements Punto<Punto3D> {
 }
 ```
 
-
 ## 12. Dado que `String` es subtipo de `Object`, ¿significa eso que `List<String>` es subtipo de `List<Object>`?   
 
 No, `List<String>` no es subtipo de `List<Object>`. En Java los genéricos son **invariantes** por defecto.
+```java
+List<String> listaString = List.of("A", "B");
+List<Object> listaObject = listaString; // esto no compila
+```
 
 #### ¿Y que `String[]` es subtipo de `Object[]`?
 
