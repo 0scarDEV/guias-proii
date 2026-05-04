@@ -23,14 +23,27 @@ public static void main(String[] args) {
 }
 ```
 
-- En lenguajes con comprobación estática de tipos (como en Java, C#, etc). ¿Qué tipo tienen las funciones? Pues un valor específico que se llama **interfaz funcional**. Es una interfaz con un único método abstracto, que es el que define la firma de la función.
+- En lenguajes con comprobación estática de tipos (como en Java, C#, etc). ¿Qué tipo tienen las funciones? Pues, en Java, un valor específico que se llama **interfaz funcional**: 
+	1. Es una interfaz
+	2. Con un único método abstracto, que es el que define la firma de la función.
+```java
+@FunctionalInterface // Opcional
+public interface Transformador {
+	String transformar(String s);
+}
+
+class Main {
+	public static void main(String[] args) {
+		Transformador aMayusculas = s -> s.toUpperCase();
+		System.out.println(aMayusculas.transformar("Hola Mundo")); // HOLA MUNDO
+	}
+}
+```
 
 ## 1. ¿Qué es un puntero a una función? 
-
 Un puntero a función es una variable que almacena la dirección de una función, permitiendo invocar la función a través de esa variable. Se emplea para elegir dinámicamente la función a ejecutar, pasar funciones como parámetros a otros procedimientos o almacenar referencias a funciones con la misma firma (mismos tipos de parámetros y valor de retorno).
 
 #### Pon un ejemplo de código en C, donde se define una función y que reciba una cadena de caracteres como parámetro y devuelva la cadena en mayúsculas. Crea un puntero en una variable local a dicha función llamado `aMayusculas` e invócala con el puntero.
-
 En C esto se traduce en declarar una variable cuyo tipo indica la firma de la función apuntada. A continuación se muestra un ejemplo:
 ```c
 int sumar(int, int) {...}
@@ -76,13 +89,14 @@ Decir que las funciones son "ciudadanos de primera clase" significa que las func
 Esta propiedad habilita patrones funcionales como callbacks, composición y creación dinámica de comportamientos.
 
 ## 4. Explica la sintaxis básica de una función lambda en Java.
-
 La sintaxis básica de una función lambda en Java se escribe con parámetros, la flecha `->` y el cuerpo de la función. 
-> Para expresiones simples se puede usar una forma concisa `param -> expresion`, y para cuerpos más largos se emplea un bloque `{ ... }` con declaraciones y `return` si hace falta. 
-Los tipos de los parámetros suelen inferirse a partir del contexto (la interfaz funcional objetivo), por lo que no es necesario declararlos explícitamente.
+> ¬ Para expresiones simples se puede usar una forma concisa `param -> expresion`, y para cuerpos más largos se emplea un bloque `{ ... }` con declaraciones y `return` si hace falta. 
+> ¬ Los tipos de los parámetros suelen inferirse a partir del contexto (la interfaz funcional objetivo), por lo que no es necesario declararlos explícitamente.
 
-
-Reglas importantes: la lambda debe ser compatible con una interfaz funcional (una interfaz con un único método abstracto), puede capturar variables locales siempre que sean *effectively final*, y la referencia `this` dentro de una lambda se refiere al objeto que la contiene, no a una instancia creada por la lambda.
+Reglas importantes: 
+-  La lambda debe ser compatible con una interfaz funcional (una interfaz con un único método abstracto), 
+- Puede capturar variables locales siempre que sean *effectively final*, (no se reasignen después de su inicialización).
+- La referencia `this` dentro de una lambda se refiere al objeto que la contiene, no a una instancia creada por la lambda.
 
 Ejemplo completo de sintaxis:
 ```java
