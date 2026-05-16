@@ -1,19 +1,4 @@
-<!--
-Posible prompt:
-<prompt>
-Tengo un cuestionario con preguntas sobre "Composición". Debes tener en cuenta que los conocimientos previos que tengo (y por tanto tus respuestas deben ser adaptadas), son:
-- C/C++ sin orientación a objetos.
-- Temas de Java previos: Clases y Objetos, Encapsulación y Excepciones.
-
-Cada respuesta debe tener entre 2 - 4 párrafos de longitud (sin contar los trozos de código).
-
-Por favor, escribe en impersonal las respuestas.
-
-</prompt>
-----
--->
 # Tema 4.1. Composición
-
 
 ## 1. En C, podemos crear estructuras mayores **componiendo** unas con otras, que suelen describirse como "A tiene-un/tiene-varios B". Pon un ejemplo, empleando `struct`, de una línea de puntos, donde puntos tienen dos coordenadas (`x` e `y`), y la línea esta hecha de dos puntos. Incluye una función para calcular la distancia entre puntos y otra para hallar la longitud de una línea.
 
